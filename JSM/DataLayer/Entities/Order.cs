@@ -17,6 +17,16 @@ namespace DataLayer.Entities
         public Guid PromotionCode { get; set; }   
         public int AccumulatedPoint { get; set; }
         public int CounterId { get; set; }
+        public int PaymentId { get; set; }
+        
+        public OrderStatuses OrderStatus { get; set; }
+
+        public enum OrderStatuses
+        {
+            Created,
+            Paying,
+            Completed
+        }
 
         public enum Types
         {
@@ -30,6 +40,8 @@ namespace DataLayer.Entities
         public virtual Employee Employee { get; set; }
         public virtual BuyBack BuyBack { get; set; }
         public virtual Counter Counter { get; set; }
+        
+        public virtual PaymentMethod PaymentMethod { get; set; }
 
     }
 }

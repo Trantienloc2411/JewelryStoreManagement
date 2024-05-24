@@ -23,6 +23,7 @@ namespace DataLayer
 		public virtual DbSet<Role> Roles { get; set; }
 		public virtual DbSet<TypePrice> TypePrices { get; set; }
 		public virtual DbSet<Warranty> Warranties { get; set; }
+		public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +55,8 @@ namespace DataLayer
 			modelBuilder.Entity<Order>().HasOne(cu => cu.Customer).WithMany(o => o.Orders).HasForeignKey(cu => cu.CustomerId).HasPrincipalKey(cu => cu.CustomerId);
 			modelBuilder.Entity<Order>().HasOne(co => co.Counter).WithMany(o => o.Orders).HasForeignKey(co => co.CounterId).HasPrincipalKey(co => co.CounterId);
 			modelBuilder.Entity<Order>().HasOne(pr => pr.Promotion).WithMany(o => o.Orders).HasForeignKey(o => o.PromotionCode).HasPrincipalKey(po => po.PromotionCode);
+			modelBuilder.Entity<Order>().HasOne(pm => pm.PaymentMethod).WithMany(o => o.Orders)
+				.HasForeignKey(o => o.PaymentId).HasPrincipalKey(o => o.PaymentId);
 
 			modelBuilder.Entity<OrderDetail>().HasKey(od => od.OrderDetailId);
 			modelBuilder.Entity<OrderDetail>().HasOne(p => p.Product).WithMany(od => od.OrderDetails).HasForeignKey(od => od.ProductId);
@@ -75,11 +78,12 @@ namespace DataLayer
 				.WithOne(od => od.Warranty)              // Navigation property in OrderDetail
 				.HasForeignKey<Warranty>(w => w.OrderDetailId);
 
+            modelBuilder.Entity<PaymentMethod>().HasKey(p => p.PaymentId);
 
 
 
 
-            
+
 
 
 
