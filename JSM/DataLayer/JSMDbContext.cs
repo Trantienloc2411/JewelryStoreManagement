@@ -83,7 +83,63 @@ namespace DataLayer
             modelBuilder.Entity<RefreshToken>().HasKey(rt => rt.EmployeeId);
 
 
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+	            RoleId = 1,
+	            RoleName = "Staff"
+            });
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+	            RoleId = 2,
+	            RoleName = "Manager"
+            });
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+	            RoleId = 3,
+	            RoleName = "Administrator"
+            });
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+	            RoleId = 4,
+	            RoleName = "Super Admin"
+            });
 
+            modelBuilder.Entity<Counter>().HasData(new Counter
+            {
+	            CounterId = 1,
+	            Location = "Counter 01"
+            });
+            modelBuilder.Entity<Counter>().HasData(new Counter
+            {
+	            CounterId = 2,
+	            Location = "Counter 02"
+            });
+            modelBuilder.Entity<Employee>().HasData(new Employee
+            {
+	            EmployeeId = Guid.NewGuid(),
+	            Name = "Nguyen Van A",
+	            CounterId = 1,
+	            Email = "a@gmail.com",
+	            Password = "1",
+	            Phone = "0354410931",
+	            Gender = Employee.Genders.Male,
+	            Status = Employee.Statuses.Inactive,
+	            isLogin = false,
+	            RoleId = 1
+            });
+            modelBuilder.Entity<Employee>().HasData(new Employee
+            {
+	            EmployeeId = Guid.NewGuid(),
+	            Name = "Le Van B",
+	            CounterId = 2,
+	            Email = "b@gmail.com",
+	            Password = "1",
+	            Phone = "0934425563",
+	            Gender = Employee.Genders.Female,
+	            Status = Employee.Statuses.Active,
+	            isLogin = false,
+	            RoleId = 2
+            });
 
 
 
