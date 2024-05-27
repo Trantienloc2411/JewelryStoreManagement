@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+
 #pragma warning disable
 namespace DataLayer.Entities
 {
@@ -20,6 +16,8 @@ namespace DataLayer.Entities
         public Statuses Status { get; set; }
         public string? Password { get; set; }
         public Genders Gender { get; set; }
+        public bool isLogin { get; set; }
+        
         public int CounterId { get; set; }
         
         //Relationship

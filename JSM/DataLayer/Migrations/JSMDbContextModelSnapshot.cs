@@ -31,8 +31,9 @@ namespace DataLayer.Migrations
                     b.Property<bool>("HaveInvoice")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Price")
                         .HasColumnType("integer");
@@ -162,6 +163,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("isLogin")
+                        .HasColumnType("boolean");
+
                     b.HasKey("EmployeeId");
 
                     b.HasIndex("CounterId");
@@ -216,9 +220,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Order", b =>
                 {
-                    b.Property<Guid>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("OrderId")
+                        .HasColumnType("text");
 
                     b.Property<int>("AccumulatedPoint")
                         .HasColumnType("integer");
@@ -267,12 +270,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.OrderDetail", b =>
                 {
-                    b.Property<Guid>("OrderDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("OrderDetailId")
+                        .HasColumnType("text");
 
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
@@ -301,6 +304,7 @@ namespace DataLayer.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PaymentId"));
 
                     b.Property<string>("PaymentType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("PaymentId");
@@ -385,6 +389,32 @@ namespace DataLayer.Migrations
                     b.ToTable("Promotions");
                 });
 
+            modelBuilder.Entity("DataLayer.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RefreshTokenString")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Statuses")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TokenId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("EmployeeId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -435,8 +465,9 @@ namespace DataLayer.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("OrderDetailId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("OrderDetailId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");

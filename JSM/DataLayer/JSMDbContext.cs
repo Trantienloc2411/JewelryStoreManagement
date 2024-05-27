@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using DataLayer.Entities;
 #pragma warning disable
 namespace DataLayer
@@ -24,6 +23,7 @@ namespace DataLayer
 		public virtual DbSet<TypePrice> TypePrices { get; set; }
 		public virtual DbSet<Warranty> Warranties { get; set; }
 		public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+		public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +80,8 @@ namespace DataLayer
 
             modelBuilder.Entity<PaymentMethod>().HasKey(p => p.PaymentId);
 
+            modelBuilder.Entity<RefreshToken>().HasKey(rt => rt.EmployeeId);
+
 
 
 
@@ -95,7 +97,7 @@ namespace DataLayer
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;");
+				optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;Include Error Detail=True");
 			}
 		}
 

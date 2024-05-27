@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-#pragma warning disable
+﻿#pragma warning disable
 namespace DataLayer.Entities
 {
     public class Order
     {
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public Guid EmployeeId { get; set; }  
         public DateTime OrderDate { get; set; }
