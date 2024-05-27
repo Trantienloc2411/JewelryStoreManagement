@@ -1,5 +1,4 @@
-﻿using System;
-namespace DataLayer.Entities
+﻿namespace DataLayer.Entities
 {
 	public class Gift
 	{
