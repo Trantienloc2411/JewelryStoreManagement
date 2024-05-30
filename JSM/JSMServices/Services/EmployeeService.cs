@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;

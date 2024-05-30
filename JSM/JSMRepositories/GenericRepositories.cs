@@ -47,6 +47,7 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
+            SaveChanges();
         }
         
         public void ClearTrackers()
@@ -78,23 +79,14 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
             await _context.SaveChangesAsync();
         }
 
-        public virtual async Task SaveChangesAsync()
-        {
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                // Handle or log the exception
-                throw new Exception(ex.Message);
-            }
-        }
+        
 
         public void Dispose()
         {
             _context.Dispose();
         }
+
+
 
         public async Task<ICollection<T>> GetAllWithAsync()
         {
@@ -105,7 +97,6 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
         {
             return await _dbSet.Where(expression).ToListAsync();
         }
-
 
         public async Task<T> GetSingleWithAsync(Expression<Func<T, bool>> expression)
         {
@@ -126,6 +117,19 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
         {
             return _context.Set<T>().AsNoTracking().ToList();
         }
-        
-        
-    }
+
+        public virtual async Task SaveChangesAsync()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle or log the exception
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+}

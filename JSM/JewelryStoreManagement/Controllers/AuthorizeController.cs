@@ -177,22 +177,35 @@ namespace JewelryStoreManagement.Controllers
         {
             var employee = _employeeServices.GetEmployeeByEmail(email);
 
-                
-            if (password == employee.Password)
-            {
-                _refreshHandler.ResetRefreshToken();
-                var token = GenerateToken(employee, null);
-                return Ok(token);
-            }
-            else
+            if (employee == null)
             {
                 return BadRequest(new APIResponse
                 {
                     Success = false,
-                    Message = "Status Code:401 Unauthorized | Invalid email or password",
+                    Message = "Invalid email or password",
                     data = null
                 });
             }
+            else
+            {
+                if (password == employee.Password)
+                {
+                    _refreshHandler.ResetRefreshToken();
+                    var token = GenerateToken(employee, null);
+                    return Ok(token);
+                }
+                else
+                {
+                    return BadRequest(new APIResponse
+                    {
+                        Success = false,
+                        Message = "Status Code:401 Unauthorized | Invalid email or password",
+                        data = null
+                    });
+                }
+            }
+                
+            
             
         }
         #endregion
