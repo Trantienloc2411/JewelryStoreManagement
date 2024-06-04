@@ -10,6 +10,7 @@ namespace DataLayer.Entities
         public int Quantity { get; set; }
         
         public bool HaveInvoice { get; set; }
+        public double ManufactureCost { get; set; }
 
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
