@@ -38,7 +38,7 @@ public class EmployeeService : IEmployeeService
             {
                 _mapper.Map(registerEmployeeViewModel, employee);
                 employee.EmployeeId = new Guid();
-                employee.isLogin = false;
+                employee.IsLogin = false;
                 employee.Password = GenerateRandomString(8);
                 var entityEntry = await _employeeRepository.AddSingleWithAsync(employee);
 

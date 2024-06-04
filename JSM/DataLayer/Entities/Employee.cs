@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -7,20 +9,26 @@ namespace DataLayer.Entities
     {
         public Guid EmployeeId { get; set; }
         [NotNull]
+        [MaxLength(100)]
         public string? Name { get; set; }
         [NotNull]
+        [MaxLength(150)]
         public string? Email {  get; set; }
         [NotNull]
+        [MaxLength(10)]
         public string? Phone { get; set; }
         [NotNull]
         public Statuses Status { get; set; }
+        [MaxLength(256)]
+        [NotNull]
         public string? Password { get; set; }
         public Genders Gender { get; set; }
-        public bool isLogin { get; set; }
+        [DefaultValue(false)]
+        public bool IsLogin { get; set; }
         
         public int CounterId { get; set; }
         
-        //Relationship
+        
         public int RoleId { get; set; }
         
         public enum Genders

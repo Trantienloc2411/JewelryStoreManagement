@@ -24,6 +24,7 @@ namespace DataLayer
 		public virtual DbSet<Warranty> Warranties { get; set; }
 		public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 		public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+		public virtual DbSet<Transactions> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,6 +83,9 @@ namespace DataLayer
 
             modelBuilder.Entity<RefreshToken>().HasKey(rt => rt.EmployeeId);
 
+            modelBuilder.Entity<Transactions>().HasKey(t => t.TransactionId);
+            modelBuilder.Entity<Transactions>().HasOne<Customer>(c => c.Customer).WithMany(t => t.Transactions);
+            modelBuilder.Entity<Transactions>().HasOne<Gift>(g => g.Gift).WithMany(t => t.Transactions);
 
             modelBuilder.Entity<Role>().HasData(new Role
             {
@@ -124,7 +128,7 @@ namespace DataLayer
 	            Phone = "0354410931",
 	            Gender = Employee.Genders.Male,
 	            Status = Employee.Statuses.Inactive,
-	            isLogin = false,
+	            IsLogin = false,
 	            RoleId = 1
             });
             modelBuilder.Entity<Employee>().HasData(new Employee
@@ -137,7 +141,7 @@ namespace DataLayer
 	            Phone = "0934425563",
 	            Gender = Employee.Genders.Female,
 	            Status = Employee.Statuses.Active,
-	            isLogin = false,
+	            IsLogin = false,
 	            RoleId = 2
             });
 
