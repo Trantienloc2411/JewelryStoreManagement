@@ -13,7 +13,7 @@ namespace DataLayer.Entities
         public string? Name { get; set; }
         [NotNull]
         [MaxLength(150)]
-        public string? Email {  get; set; }
+        public string? Email { get; set; }
         [NotNull]
         [MaxLength(10)]
         public string? Phone { get; set; }
@@ -25,12 +25,12 @@ namespace DataLayer.Entities
         public Genders Gender { get; set; }
         [DefaultValue(false)]
         public bool IsLogin { get; set; }
-        
+
         public int CounterId { get; set; }
-        
-        
+
+
         public int RoleId { get; set; }
-        
+
         public enum Genders
         {
             Male,
@@ -39,7 +39,7 @@ namespace DataLayer.Entities
 
         public enum Statuses
         {
-            Active, 
+            Active,
             Inactive,
             Deleted,
         }
