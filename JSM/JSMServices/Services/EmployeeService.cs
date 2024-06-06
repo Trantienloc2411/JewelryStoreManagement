@@ -1,4 +1,3 @@
-using System.ComponentModel.Design;
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
@@ -18,12 +17,12 @@ public class EmployeeService : IEmployeeService
         _employeeRepository = employeeRepository;
         _mapper = mapper;
     }
-    
+
     public async Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel)
     {
         try
         {
-            var existedEmployeeList =  _employeeRepository.GetAll();
+            var existedEmployeeList = _employeeRepository.GetAll();
             var employee = new Employee();
 
             if (existedEmployeeList.FirstOrDefault(e => e.Email.Equals(registerEmployeeViewModel.Email)) != null)
@@ -58,51 +57,51 @@ public class EmployeeService : IEmployeeService
         // If we reach this point, something went wrong during the add operation
         throw new Exception("An error occurred while adding the employee.");
     }
-    
 
 
-        private static Random random = new Random();
 
-        public static string GenerateRandomString(int length)
-        {
-            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
-            var chars = new char[length];
-            for (int i = 0; i < length; i++)
-            {
-                chars[i] = allowedChars[random.Next(0, allowedChars.Length)];
-            }
-            return new string(chars);
-        }
-     /*   
-    public async Task<Employee> LoginAccountEmployee(LoginEmployeeViewModel loginEmployeeViewModel)
+    private static Random random = new Random();
+
+    public static string GenerateRandomString(int length)
     {
-        try
+        const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
+        var chars = new char[length];
+        for (int i = 0; i < length; i++)
         {
-            var existedEmployee = await _employeeRepository.GetSingleWithAsync(e => e.Email.Equals(loginEmployeeViewModel.Email));
-    
-            if (existedEmployee == null)
-            {
-                throw new Exception("This account is not existed in the system.");
-            }
-            else
-            {
-                // Verify the password
-                if (loginEmployeeViewModel.Password != existedEmployee.Password)
-                {
-                    throw new Exception("Invalid email or password.");
-                }
-    
-                return existedEmployee;
-            }
+            chars[i] = allowedChars[random.Next(0, allowedChars.Length)];
         }
-        catch (Exception ex)
-        {
-            
-            throw new Exception($"An error occurred during the login process: {ex.Message}");
-        }
+        return new string(chars);
     }
-    */
-    
+    /*   
+   public async Task<Employee> LoginAccountEmployee(LoginEmployeeViewModel loginEmployeeViewModel)
+   {
+       try
+       {
+           var existedEmployee = await _employeeRepository.GetSingleWithAsync(e => e.Email.Equals(loginEmployeeViewModel.Email));
+
+           if (existedEmployee == null)
+           {
+               throw new Exception("This account is not existed in the system.");
+           }
+           else
+           {
+               // Verify the password
+               if (loginEmployeeViewModel.Password != existedEmployee.Password)
+               {
+                   throw new Exception("Invalid email or password.");
+               }
+
+               return existedEmployee;
+           }
+       }
+       catch (Exception ex)
+       {
+
+           throw new Exception($"An error occurred during the login process: {ex.Message}");
+       }
+   }
+   */
+
     public async Task<ICollection<Employee>> GetAllEmployee()
     {
         try
@@ -115,7 +114,7 @@ public class EmployeeService : IEmployeeService
             Console.WriteLine(e);
             throw new Exception(e.Message);
         }
-        
+
     }
 
     public Employee GetEmployeeById(Guid employeeId)

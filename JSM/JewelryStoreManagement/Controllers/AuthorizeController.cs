@@ -1,13 +1,12 @@
-using System.Globalization;
 using DataLayer.Entities;
+using JSMServices.IServices;
+using JSMServices.ViewModels.AuthorizeViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using JSMServices.IServices;
-using JSMServices.ViewModels.AuthorizeViewModel;
 
 namespace JewelryStoreManagement.Controllers
 {
@@ -23,6 +22,7 @@ namespace JewelryStoreManagement.Controllers
 
         public AuthorizeController(IEmployeeService employeeServices, IRefreshHandlerService refreshHandler)
         {
+
             _employeeServices = employeeServices;
             _refreshHandler = refreshHandler;
         }
@@ -204,9 +204,9 @@ namespace JewelryStoreManagement.Controllers
                     });
                 }
             }
-                
-            
-            
+
+
+
         }
         #endregion
 

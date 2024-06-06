@@ -12,3 +12,4 @@ public class RegisterEmployeeViewModel
     public Employee.Genders Gender { get; set; }
     public Employee.Statuses Status { get; set; }
 }
+

@@ -38,8 +38,8 @@ public class EmployeeController : Controller
     {
         var listUser = await _employeeService.GetAllEmployee();
         var result = _mapper.Map<ICollection<RegisterEmployeeViewModel>>(listUser);
-        
+
         return Ok(result);
     }
-    
+
 }

@@ -11,6 +11,6 @@ public interface IEmployeeService
     public Task<ICollection<Employee>> GetAllEmployee();
     public Employee GetEmployeeById(Guid employeeId);
     public Employee GetEmployeeByEmail(string email);
-    
-    
+
+
 }
