@@ -16,7 +16,13 @@ namespace DataLayer.Entities
         public Statuses Status { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
-
+        public Units WeightUnit { get; set; }
+        public double StonePrice { get; set; }
+        public enum Units
+        {
+            g,
+            ct,
+        }
         public enum Statuses
         {
             Active,
