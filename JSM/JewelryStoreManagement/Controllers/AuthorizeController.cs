@@ -188,7 +188,11 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                if (password == employee.Password)
+                if (employee.IsLogin == false)
+                {
+                    return BadRequest("This account have not changed password yet");
+                }
+                else if (password == employee.Password)
                 {
                     _refreshHandler.ResetRefreshToken();
                     var token = GenerateToken(employee, null);
