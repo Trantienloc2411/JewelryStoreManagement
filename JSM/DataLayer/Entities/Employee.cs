@@ -26,6 +26,10 @@ namespace DataLayer.Entities
         [DefaultValue(false)]
         public bool IsLogin { get; set; }
 
+        [AllowNull]
+        public Guid ManagedBy { get; set; }
+        [AllowNull]
+
         public int CounterId { get; set; }
 
 
@@ -41,6 +45,7 @@ namespace DataLayer.Entities
         {
             Active,
             Inactive,
+            Unassign,
             Deleted,
         }
 
