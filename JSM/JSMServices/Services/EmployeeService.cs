@@ -177,6 +177,7 @@ public class EmployeeService : IEmployeeService
                     throw new Exception("This account is not existed or was deleted!");
                 }
             }
+            await _employeeRepository.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -227,12 +228,12 @@ public class EmployeeService : IEmployeeService
                 {
                     var userUpdate = _mapper.Map(updateInformationEmployeeViewModel, employee);
                     var existedUserByEmail =
-                        _employeeRepository.GetAll().FirstOrDefault(c => c.Email == userUpdate.Email);
+                        _employeeRepository.GetAll().FirstOrDefault(c => c.Email == userUpdate.Email && c.EmployeeId != userUpdate.EmployeeId);
                     if (existedUserByEmail != null)
                     {
                         throw new Exception("Email was used or being used by another account");
                     }
-                    else if (_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == userUpdate.Phone) != null)
+                    else if (_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == userUpdate.Phone && c.EmployeeId != userUpdate.EmployeeId) != null)
                     {
                         throw new Exception("Phone was being used by another account");
                     }
