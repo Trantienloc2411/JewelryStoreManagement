@@ -62,50 +62,6 @@ public class EmployeeService : IEmployeeService
 
 
 
-
-    private static Random random = new Random();
-
-    public static string GenerateRandomString(int length)
-    {
-        const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
-        var chars = new char[length];
-        for (int i = 0; i < length; i++)
-        {
-            chars[i] = allowedChars[random.Next(0, allowedChars.Length)];
-        }
-        return new string(chars);
-    }
-    /*   
-   public async Task<Employee> LoginAccountEmployee(LoginEmployeeViewModel loginEmployeeViewModel)
-   {
-       try
-       {
-           var existedEmployee = await _employeeRepository.GetSingleWithAsync(e => e.Email.Equals(loginEmployeeViewModel.Email));
-
-           if (existedEmployee == null)
-           {
-               throw new Exception("This account is not existed in the system.");
-           }
-           else
-           {
-               // Verify the password
-               if (loginEmployeeViewModel.Password != existedEmployee.Password)
-               {
-                   throw new Exception("Invalid email or password.");
-               }
-
-               return existedEmployee;
-           }
-       }
-       catch (Exception ex)
-       {
-
-           throw new Exception($"An error occurred during the login process: {ex.Message}");
-       }
-   }
-   */
-
-
     private static Random _random = new Random();
 
     private static string GenerateRandomString(int length)
@@ -118,7 +74,6 @@ public class EmployeeService : IEmployeeService
         }
         return new string(chars);
     }
-
 
 
     public async Task<ICollection<Employee>> GetAllEmployee()
