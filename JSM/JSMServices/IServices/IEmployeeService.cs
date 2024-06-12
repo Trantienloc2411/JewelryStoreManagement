@@ -12,5 +12,9 @@ public interface IEmployeeService
     public Employee GetEmployeeById(Guid employeeId);
     public Employee GetEmployeeByEmail(string email);
 
+    public Task UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword);
+    public Task UpdateStatusEmployeeAccount(Guid uid);
+    public Task DeleteEmployeeAccount(Guid uid);
+    public Task UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel);
 
 }
