@@ -29,6 +29,19 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
-
+        [HttpPost]
+        [Route("AddNewProduct")]
+        public async Task<IActionResult> AddNewProduct(AddProductViewModel addProductViewModelmodel)
+        {
+            if (_productService == null)
+            {
+                return BadRequest("The Product Service is not initialized!");
+            }
+            else
+            {
+                await _productService.AddNewProductAsync(addProductViewModelmodel);
+                return Ok("Create successfully");
+            }
+        }
     }
 }

@@ -242,8 +242,6 @@ public class EmployeeService : IEmployeeService
                     {
                         await _employeeRepository.UpdateWithAsync(userUpdate);
                     }
-
-
                 }
 
             }

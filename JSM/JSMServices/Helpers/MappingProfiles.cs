@@ -13,6 +13,7 @@ public class MappingProfiles : Profile
         CreateMap<LoginEmployeeViewModel, Employee>().ReverseMap();
 
         CreateMap<ProductViewModel, Product>().ReverseMap();
+        CreateMap<AddProductViewModel, Product>().ReverseMap();
 
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap();
