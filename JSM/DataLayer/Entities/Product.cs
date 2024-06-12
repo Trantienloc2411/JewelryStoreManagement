@@ -13,7 +13,7 @@ namespace DataLayer.Entities
         public int CounterId { get; set; }
         public int TypeId { get; set; }
         public string? Img { get; set; }
-        public ProductStatuses Status { get; set; }
+        public ProductStatuses ProductStatus { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
         public Units WeightUnit { get; set; }

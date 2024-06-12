@@ -18,7 +18,7 @@ namespace DataLayer.Entities
         [MaxLength(10)]
         public string? Phone { get; set; }
         [NotNull]
-        public Statuses Status { get; set; }
+        public EmployeeStatuses EmployeeStatus { get; set; }
         [MaxLength(256)]
         [NotNull]
         public string? Password { get; set; }
@@ -41,7 +41,7 @@ namespace DataLayer.Entities
             Female
         }
 
-        public enum Statuses
+        public enum EmployeeStatuses
         {
             Active,
             Inactive,
