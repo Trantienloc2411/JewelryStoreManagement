@@ -81,7 +81,7 @@ public class EmployeeService : IEmployeeService
         try
         {
             var listUser = await _employeeRepository.GetAllWithAsync();
-            listUser = listUser.Where(c => c.Status != Employee.Statuses.Deleted).ToList();
+            listUser = listUser.Where(c => c.EmployeeStatus != Employee.EmployeeStatuses.Deleted).ToList();
             return listUser;
         }
         catch (Exception e)
@@ -164,18 +164,14 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                if (account.Status == Employee.Statuses.Active)
+                account.EmployeeStatus = account.EmployeeStatus switch
                 {
-                    account.Status = Employee.Statuses.Inactive;
-                }
-                else if (account.Status == Employee.Statuses.Inactive)
-                {
-                    account.Status = Employee.Statuses.Active;
-                }
-                else
-                {
-                    throw new Exception("This account is not existed or was deleted!");
-                }
+                    Employee.EmployeeStatuses.Active => Employee.EmployeeStatuses.Inactive,
+                    Employee.EmployeeStatuses.Inactive => Employee.EmployeeStatuses.Active,
+                    _ => throw new Exception("This account is not existed or was deleted!")
+                };
+
+                await _employeeRepository.SaveChangesAsync();
             }
         }
         catch (Exception e)
@@ -196,7 +192,7 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                account.Status = Employee.Statuses.Deleted;
+                account.EmployeeStatus = Employee.EmployeeStatuses.Deleted;
                 await _employeeRepository.SaveChangesAsync();
             }
         }
@@ -219,26 +215,27 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                if (employee.Status == Employee.Statuses.Deleted)
+                if (employee.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
                 {
                     throw new Exception("This account does not existed or was deleted!");
                 }
                 else
                 {
-                    var userUpdate = _mapper.Map(updateInformationEmployeeViewModel, employee);
+                    
                     var existedUserByEmail =
-                        _employeeRepository.GetAll().FirstOrDefault(c => c.Email == userUpdate.Email);
+                        _employeeRepository.GetAll().FirstOrDefault(c => c.Email == updateInformationEmployeeViewModel.Email);
                     if (existedUserByEmail != null)
                     {
                         throw new Exception("Email was used or being used by another account");
                     }
-                    else if(_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == userUpdate.Phone)!= null)
+                    else if(_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == updateInformationEmployeeViewModel.Phone)!= null)
                     {
                         throw new Exception("Phone was being used by another account");
                     }
 
                     else
                     {
+                        var userUpdate = _mapper.Map(updateInformationEmployeeViewModel, employee);
                         await _employeeRepository.UpdateWithAsync(userUpdate);
                     }
                     
