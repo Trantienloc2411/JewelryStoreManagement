@@ -37,17 +37,10 @@ public class EmployeeController : Controller
     public async Task<IActionResult> GetAllEmployee()
     {
         var listUser = await _employeeService.GetAllEmployee();
-
-        var result = _mapper.Map<ICollection<RegisterEmployeeViewModel>>(listUser);
+        var result = _mapper.Map<ICollection<ViewEmployeeListViewModel>>(listUser);
 
         return Ok(result);
     }
-
-
-    var result = _mapper.Map<ICollection<ViewEmployeeListViewModel>>(listUser);
-        
-        return Ok(result);
-
 
     [HttpPut]
     [Route("UpdatePassword")]
