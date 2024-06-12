@@ -43,5 +43,30 @@ namespace JewelryStoreManagement.Controllers
                 return Ok("Create successfully");
             }
         }
+
+        [HttpDelete]
+        [Route("DeleteProduct")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            await _productService.DeleteProduct(id);
+            return Ok("Remove successfully");
+        }
+
+        [HttpPut]
+        [Route("UpdateStatus")]
+        public async Task<IActionResult> UpdateStatusProduct(Guid uid)
+        {
+            await _productService.UpdateStatusProduct(uid);
+            return Ok("Update successfully");
+        }
+
+        [HttpPut]
+        [Route("UpdateProduct")]
+        public async Task<IActionResult> UpdateInformationProduct(
+        [FromBody] UpdateProductViewModel updateProductViewModel)
+        {
+            await _productService.UpdateInformationProduct(updateProductViewModel);
+            return Ok("Update Successfully");
+        }
     }
 }

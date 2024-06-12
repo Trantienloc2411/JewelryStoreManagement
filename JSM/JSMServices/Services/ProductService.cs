@@ -23,6 +23,7 @@ public class ProductService : IProductService
         try
         {
             var listProduct = await _productRepository.GetAllWithAsync();
+            listProduct = listProduct.Where(p => p.ProductStatus != Product.ProductStatuses.Deactive).ToList();
             return listProduct;
         }
         catch (Exception e)
@@ -36,9 +37,12 @@ public class ProductService : IProductService
     {
         try
         {
-            var existedEmployeeList = _productRepository.GetAll();
+            var existedProductList = _productRepository.GetAll();
             var product = new Product();
-
+            if (existedProductList.FirstOrDefault(e => e.Barcode.Equals(addProductViewModel.Barcode)) != null)
+            {
+                throw new Exception($"Barcode '{addProductViewModel.Barcode}' is already existed. Please use another Barcode.");
+            }
             _mapper.Map(addProductViewModel, product);
             product.ProductId = new Guid();
             var entityEntry = await _productRepository.AddSingleWithAsync(product);
@@ -58,5 +62,98 @@ public class ProductService : IProductService
 
         // If we reach this point, something went wrong during the add operation
         throw new Exception("An error occurred while adding the product.");
+    }
+
+    public async Task DeleteProduct(Guid uid)
+    {
+        try
+        {
+            var account = _productRepository.GetAll().FirstOrDefault(c => c.ProductId == uid);
+            if (account == null)
+            {
+                throw new Exception("The product is not exist or was deleted");
+            }
+            else
+            {
+                account.ProductStatus = Product.ProductStatuses.Deactive;
+                await _productRepository.SaveChangesAsync();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task UpdateStatusProduct(Guid uid)
+    {
+        try
+        {
+            var product = _productRepository.Get(c => c.ProductId.Equals(uid));
+            if (product.Name == null || product.Name.Length == 0)
+            {
+                throw new Exception("Something went wrong! Everything changes will not saving!");
+            }
+            else
+            {
+                product.ProductStatus = product.ProductStatus switch
+                {
+                    Product.ProductStatuses.Active => Product.ProductStatuses.Deactive,
+                    Product.ProductStatuses.Deactive => Product.ProductStatuses.Active,
+                    _ => throw new Exception("The product is not existed or was deleted!")
+                };
+
+                await _productRepository.SaveChangesAsync();
+            }
+            await _productRepository.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel)
+    {
+        try
+        {
+            var product = _productRepository.GetAll()
+                .FirstOrDefault(c => c.ProductId == updateProductViewModel.ProductId);
+            if (product == null)
+            {
+                throw new Exception("Update not successfully! Reload Page again!");
+            }
+            else
+            {
+                if (product.ProductStatus == Product.ProductStatuses.Deactive)
+                {
+                    throw new Exception("The product does not existed or was deleted!");
+                }
+                else
+                {
+
+                    var existedBarcode =
+                        _productRepository.GetAll().FirstOrDefault(c => c.Barcode == updateProductViewModel.Barcode);
+
+                    if (existedBarcode != null)
+                    {
+                        throw new Exception("Barcode was used or being used by another product");
+                    }
+                    else
+                    {
+                        var productUpdate = _mapper.Map(updateProductViewModel, product);
+                        await _productRepository.UpdateWithAsync(productUpdate);
+                    }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
