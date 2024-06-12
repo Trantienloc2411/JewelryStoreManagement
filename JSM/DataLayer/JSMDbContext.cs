@@ -127,7 +127,7 @@ namespace DataLayer
 	            Password = "1",
 	            Phone = "0354410931",
 	            Gender = Employee.Genders.Male,
-	            Status = Employee.Statuses.Inactive,
+	            EmployeeStatus = Employee.EmployeeStatuses.Inactive,
 	            IsLogin = false,
 	            RoleId = 1
             });
@@ -140,7 +140,7 @@ namespace DataLayer
 	            Password = "1",
 	            Phone = "0934425563",
 	            Gender = Employee.Genders.Female,
-	            Status = Employee.Statuses.Active,
+	            EmployeeStatus = Employee.EmployeeStatuses.Active,
 	            IsLogin = false,
 	            RoleId = 2
             });

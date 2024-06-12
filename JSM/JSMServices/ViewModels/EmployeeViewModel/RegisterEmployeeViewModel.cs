@@ -10,5 +10,5 @@ public class RegisterEmployeeViewModel
     public int CounterId { get; set; }
     public int RoleId { get; set; }
     public Employee.Genders Gender { get; set; }
-    public Employee.Statuses Status { get; set; }
+    public Employee.EmployeeStatuses EmployeeStatus { get; set; }
 }
