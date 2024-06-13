@@ -29,6 +29,16 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetProductByBarcode")]
+        public async Task<IActionResult> GetProductByBarCode(string Barcode)
+        {
+            var listProduct = await _productService.GetProductByBarcode(Barcode);
+            var result = _mapper.Map<ProductByBarcodeViewModel>(listProduct);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("AddNewProduct")]
         public async Task<IActionResult> AddNewProduct(AddProductViewModel addProductViewModelmodel)

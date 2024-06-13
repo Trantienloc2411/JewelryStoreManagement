@@ -15,6 +15,7 @@ public class MappingProfiles : Profile
         CreateMap<ProductViewModel, Product>().ReverseMap();
         CreateMap<AddProductViewModel, Product>().ReverseMap();
         CreateMap<UpdateProductViewModel, Product>().ReverseMap();
+        CreateMap<ProductByBarcodeViewModel, Product>().ReverseMap();
 
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap();

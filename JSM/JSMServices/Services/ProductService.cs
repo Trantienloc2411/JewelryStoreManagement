@@ -68,14 +68,14 @@ public class ProductService : IProductService
     {
         try
         {
-            var account = _productRepository.GetAll().FirstOrDefault(c => c.ProductId == uid);
-            if (account == null)
+            var product = _productRepository.GetAll().FirstOrDefault(c => c.ProductId == uid);
+            if (product == null)
             {
                 throw new Exception("The product is not exist or was deleted");
             }
             else
             {
-                account.ProductStatus = Product.ProductStatuses.Deactive;
+                product.ProductStatus = Product.ProductStatuses.Deactive;
                 await _productRepository.SaveChangesAsync();
             }
         }
@@ -156,4 +156,23 @@ public class ProductService : IProductService
             throw;
         }
     }
+
+    public async Task<Product> GetProductByBarcode(string Barcode)
+    {
+        try
+        {
+            var listProduct = await _productRepository.GetSingleWithAsync(b => b.Barcode.Equals(Barcode));
+            if (listProduct == null || listProduct.ProductStatus == Product.ProductStatuses.Deactive)
+            {
+                throw new Exception("The product does not exist or was deleted");
+            }
+            return listProduct;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
 }

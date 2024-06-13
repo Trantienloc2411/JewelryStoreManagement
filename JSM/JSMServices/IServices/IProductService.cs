@@ -10,4 +10,5 @@ public interface IProductService
     public Task DeleteProduct(Guid uid);
     public Task UpdateStatusProduct(Guid uid);
     public Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel);
+    public Task<Product> GetProductByBarcode(string Barcode);
 }
