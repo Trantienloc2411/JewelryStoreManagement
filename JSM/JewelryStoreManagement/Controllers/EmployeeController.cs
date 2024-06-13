@@ -1,6 +1,8 @@
 using AutoMapper;
 using JewelryStoreManagement.ViewModels;
 using JSMServices.IServices;
+using JSMServices.ViewModels.APIResponseViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
@@ -21,14 +23,35 @@ public class EmployeeController : Controller
     [Route("AddNewEmployee")]
     public async Task<IActionResult> AddEmployee(RegisterEmployeeViewModel registerEmployeeViewModel)
     {
+        var user = HttpContext.User;
         if (_employeeService == null)
         {
             return BadRequest("The Employee Service is not initialized!");
         }
         else
         {
-            await _employeeService.AddAccountEmployee(registerEmployeeViewModel);
+            
+            var employee = await _employeeService.AddAccountEmployee(registerEmployeeViewModel,user);
+            if (employee.EmployeeId == null && employee.Email != null)
+            {
+                return BadRequest(new ApiResponse()
+                {
+                    IsSuccess = false,
+                    Message = @"Email is already registered. Please use another email.",
+                    Data = null
+                });
+            }
+            else if (employee.EmployeeId == null && employee.Phone != null)
+            {
+                return BadRequest(new ApiResponse()
+                {
+                    IsSuccess = false,
+                    Message = @"Phone number is already registered. Please use another phone number.",
+                    Data = null
+                });
+            }
             return Ok("Create successfully");
+            
         }
     }
 
