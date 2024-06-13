@@ -194,6 +194,11 @@ namespace JewelryStoreManagement.Controllers
                 }
                 else if (password == employee.Password)
                 {
+                    // var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
+                    // if (rfTkexisted != null)
+                    // {
+                    //     _refreshHandler.RemoveAllRefreshToken();
+                    // }
                     _refreshHandler.ResetRefreshToken();
                     var token = GenerateToken(employee, null);
                     return Ok(token);

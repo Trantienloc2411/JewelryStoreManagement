@@ -59,6 +59,21 @@ public class RefreshHandlerService : IRefreshHandlerService
             }
         }
 
+        public void RemoveRefreshTokenByEmployeeId(Guid uid)
+        {
+            try
+            {
+                var rfTk = _refreshTokenRepository.Get(c => c.EmployeeId == uid);
+                _refreshTokenRepository.Remove(rfTk);
+                _refreshTokenRepository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public void ResetRefreshToken()
         {
             try
