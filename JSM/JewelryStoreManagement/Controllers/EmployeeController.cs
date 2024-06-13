@@ -61,10 +61,10 @@ public class EmployeeController : Controller
     {
         var listUser = await _employeeService.GetAllEmployee();
         var result = _mapper.Map<ICollection<ViewEmployeeListViewModel>>(listUser);
-        
+
         return Ok(result);
     }
-    
+
     [HttpPut]
     [Route("UpdatePassword")]
     public async Task<IActionResult> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
@@ -75,7 +75,7 @@ public class EmployeeController : Controller
 
     [HttpPut]
     [Route("UpdateStatus")]
-    public async Task<IActionResult> UpdateStatusEmployeeAccount( Guid uid)
+    public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
         await _employeeService.UpdateStatusEmployeeAccount(uid);
         return Ok("Update successfully");
@@ -97,6 +97,4 @@ public class EmployeeController : Controller
         await _employeeService.UpdateInformationEmployee(updateInformationViewModel);
         return Ok("Update Successfully");
     }
-        
-    
 }

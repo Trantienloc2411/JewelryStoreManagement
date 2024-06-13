@@ -1,7 +1,8 @@
-﻿#pragma warning disable
-namespace DataLayer.Entities
+﻿using static DataLayer.Entities.Product;
+
+namespace JSMServices.ViewModels.ProductViewModel
 {
-    public class Product
+    public class UpdateProductViewModel
     {
         public Guid ProductId { get; set; }
         public string? Name { get; set; }
@@ -13,25 +14,10 @@ namespace DataLayer.Entities
         public int CounterId { get; set; }
         public int TypeId { get; set; }
         public string? Img { get; set; }
-        public ProductStatuses ProductStatus { get; set; }
+        public ProductStatuses Status { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
         public Units WeightUnit { get; set; }
         public double StonePrice { get; set; }
-        public enum Units
-        {
-            g,
-            ct,
-        }
-        public enum ProductStatuses
-        {
-            Active,
-            Deactive
-        }
-
-        public virtual TypePrice TypePrice { get; set; }
-        public virtual Counter Counter { get; set; }
-        public ICollection<BuyBack> BuyBacks { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

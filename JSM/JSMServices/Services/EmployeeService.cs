@@ -22,12 +22,13 @@ public class EmployeeService : IEmployeeService
         _employeeRepository = employeeRepository;
         _mapper = mapper;
     }
+
     
     public async Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel,ClaimsPrincipal user)
     {
         try
         {
-            var existedEmployeeList =  _employeeRepository.GetAll();
+            var existedEmployeeList = _employeeRepository.GetAll();
             var employee = new Employee();
 
             if (existedEmployeeList.FirstOrDefault(e => e.Email.Equals(registerEmployeeViewModel.Email)) != null)
@@ -81,23 +82,23 @@ public class EmployeeService : IEmployeeService
         // If we reach this point, something went wrong during the add operation
         throw new Exception("An error occurred while adding the employee.");
     }
-    
 
 
-        private static Random _random = new Random();
 
-        private static string GenerateRandomString(int length)
+    private static Random _random = new Random();
+
+    private static string GenerateRandomString(int length)
+    {
+        const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
+        var chars = new char[length];
+        for (int i = 0; i < length; i++)
         {
-            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
-            var chars = new char[length];
-            for (int i = 0; i < length; i++)
-            {
-                chars[i] = allowedChars[_random.Next(0, allowedChars.Length)];
-            }
-            return new string(chars);
+            chars[i] = allowedChars[_random.Next(0, allowedChars.Length)];
         }
-     
-    
+        return new string(chars);
+    }
+
+
     public async Task<ICollection<Employee>> GetAllEmployee()
     {
         try
@@ -111,7 +112,7 @@ public class EmployeeService : IEmployeeService
             Console.WriteLine(e);
             throw new Exception(e.Message);
         }
-        
+
     }
 
     public Employee GetEmployeeById(Guid employeeId)
@@ -172,7 +173,7 @@ public class EmployeeService : IEmployeeService
             Console.WriteLine(e);
             throw;
         }
-               
+
     }
 
     public async Task UpdateStatusEmployeeAccount(Guid uid)
@@ -195,6 +196,7 @@ public class EmployeeService : IEmployeeService
 
                 await _employeeRepository.SaveChangesAsync();
             }
+            await _employeeRepository.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -243,14 +245,15 @@ public class EmployeeService : IEmployeeService
                 }
                 else
                 {
-                    
+
                     var existedUserByEmail =
                         _employeeRepository.GetAll().FirstOrDefault(c => c.Email == updateInformationEmployeeViewModel.Email);
+
                     if (existedUserByEmail != null)
                     {
                         throw new Exception("Email was used or being used by another account");
                     }
-                    else if(_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == updateInformationEmployeeViewModel.Phone)!= null)
+                    else if (_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == updateInformationEmployeeViewModel.Phone) != null)
                     {
                         throw new Exception("Phone was being used by another account");
                     }
@@ -260,10 +263,8 @@ public class EmployeeService : IEmployeeService
                         var userUpdate = _mapper.Map(updateInformationEmployeeViewModel, employee);
                         await _employeeRepository.UpdateWithAsync(userUpdate);
                     }
-                    
-                    
                 }
-                
+
             }
         }
         catch (Exception e)
