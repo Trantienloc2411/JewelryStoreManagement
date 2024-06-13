@@ -1,8 +1,11 @@
+using System.Security.Claims;
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
 using JSMRepositories;
 using JSMServices.IServices;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -20,7 +23,7 @@ public class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
     
-    public async Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel)
+    public async Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel,ClaimsPrincipal user)
     {
         try
         {
@@ -29,10 +32,14 @@ public class EmployeeService : IEmployeeService
 
             if (existedEmployeeList.FirstOrDefault(e => e.Email.Equals(registerEmployeeViewModel.Email)) != null)
             {
+                // employee.Email = registerEmployeeViewModel.Email;
+                // return employee;
                 throw new Exception($"Email '{registerEmployeeViewModel.Email}' is already registered. Please use another email.");
             }
             else if (existedEmployeeList.FirstOrDefault(e => e.Phone.Equals(registerEmployeeViewModel.Phone)) != null)
             {
+                // employee.Phone = registerEmployeeViewModel.Phone;
+                // return employee;
                 throw new Exception($"Phone number '{registerEmployeeViewModel.Phone}' is already registered. Please use another phone number.");
             }
             else
@@ -41,6 +48,21 @@ public class EmployeeService : IEmployeeService
                 employee.EmployeeId = new Guid();
                 employee.IsLogin = false;
                 employee.Password = GenerateRandomString(8);
+                employee.ManagedBy = Guid.NewGuid();
+                // int roleWhoCreated = Convert.ToInt32(user.FindFirst("RoleId").ToString());
+                // if (roleWhoCreated == 1)
+                // {
+                //     throw new Exception("You dont have permission to do this action");
+                // }
+                // else if (roleWhoCreated == 2)
+                // {
+                //     employee.RoleId = 1;
+                // }
+                // else if (roleWhoCreated == 3)
+                // {
+                //     employee.RoleId = 2;
+                // }
+                //employee.ManagedBy = Guid.Parse(user.FindFirst("UserId").ToString());
                 var entityEntry = await _employeeRepository.AddSingleWithAsync(employee);
 
                 if (entityEntry.State == EntityState.Added)

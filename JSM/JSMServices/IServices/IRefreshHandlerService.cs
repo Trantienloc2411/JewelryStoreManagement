@@ -10,4 +10,5 @@ public interface IRefreshHandlerService
     public RefreshToken GetRefreshTokenByEmployeeId(string employeeId);
     public void UpdateRefreshToken(RefreshToken refreshToken);
     public void RemoveAllRefreshToken();
+    public void RemoveRefreshTokenByEmployeeId(Guid uid);
 }
