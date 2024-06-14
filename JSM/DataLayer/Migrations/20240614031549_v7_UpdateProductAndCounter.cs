@@ -1,0 +1,86 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace DataLayer.Migrations
+{
+    public partial class v7_UpdateProductAndCounter : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DeleteData(
+                table: "Employees",
+                keyColumn: "EmployeeId",
+                keyValue: new Guid("b2757c7d-88de-4998-8fa3-42a75ed97ff1"));
+
+            migrationBuilder.DeleteData(
+                table: "Employees",
+                keyColumn: "EmployeeId",
+                keyValue: new Guid("c56febd5-e304-4ec8-b954-01ab9489d592"));
+
+            migrationBuilder.AddColumn<string>(
+                name: "CertificateUrl",
+                table: "Products",
+                type: "text",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "CounterName",
+                table: "Counters",
+                type: "character varying(100)",
+                maxLength: 100,
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "Counters",
+                type: "boolean",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "EmployeeId", "CounterId", "Email", "EmployeeStatus", "Gender", "IsLogin", "ManagedBy", "Name", "Password", "Phone", "RoleId" },
+                values: new object[,]
+                {
+                    { new Guid("612182a1-05ed-4f72-b5fc-0cc42997e484"), 1, "a@gmail.com", 1, 0, false, new Guid("00000000-0000-0000-0000-000000000000"), "Nguyen Van A", "1", "0354410931", 1 },
+                    { new Guid("81a5b8bd-2b8b-44e1-b59b-d85c4c5b9bd0"), 2, "b@gmail.com", 0, 1, false, new Guid("00000000-0000-0000-0000-000000000000"), "Le Van B", "1", "0934425563", 2 }
+                });
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DeleteData(
+                table: "Employees",
+                keyColumn: "EmployeeId",
+                keyValue: new Guid("612182a1-05ed-4f72-b5fc-0cc42997e484"));
+
+            migrationBuilder.DeleteData(
+                table: "Employees",
+                keyColumn: "EmployeeId",
+                keyValue: new Guid("81a5b8bd-2b8b-44e1-b59b-d85c4c5b9bd0"));
+
+            migrationBuilder.DropColumn(
+                name: "CertificateUrl",
+                table: "Products");
+
+            migrationBuilder.DropColumn(
+                name: "CounterName",
+                table: "Counters");
+
+            migrationBuilder.DropColumn(
+                name: "IsActive",
+                table: "Counters");
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "EmployeeId", "CounterId", "Email", "EmployeeStatus", "Gender", "IsLogin", "ManagedBy", "Name", "Password", "Phone", "RoleId" },
+                values: new object[,]
+                {
+                    { new Guid("b2757c7d-88de-4998-8fa3-42a75ed97ff1"), 1, "a@gmail.com", 1, 0, false, new Guid("00000000-0000-0000-0000-000000000000"), "Nguyen Van A", "1", "0354410931", 1 },
+                    { new Guid("c56febd5-e304-4ec8-b954-01ab9489d592"), 2, "b@gmail.com", 0, 1, false, new Guid("00000000-0000-0000-0000-000000000000"), "Le Van B", "1", "0934425563", 2 }
+                });
+        }
+    }
+}
