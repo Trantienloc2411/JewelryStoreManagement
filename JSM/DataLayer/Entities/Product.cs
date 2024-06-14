@@ -1,4 +1,6 @@
-﻿#pragma warning disable
+﻿using System.Diagnostics.CodeAnalysis;
+
+#pragma warning disable
 namespace DataLayer.Entities
 {
     public class Product
@@ -13,6 +15,8 @@ namespace DataLayer.Entities
         public int CounterId { get; set; }
         public int TypeId { get; set; }
         public string? Img { get; set; }
+        [AllowNull] 
+        public string? CertificateUrl { get; set; }
         public ProductStatuses ProductStatus { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
