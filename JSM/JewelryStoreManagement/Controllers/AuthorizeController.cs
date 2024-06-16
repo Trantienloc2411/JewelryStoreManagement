@@ -45,11 +45,11 @@ namespace JewelryStoreManagement.Controllers
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c2VydmVwZXJmZWN0bHljaGVlc2VxdWlja2NvYWNoY29sbGVjdHNsb3Bld2lzZWNhbWU="));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            var claimPrincipal = new ClaimsIdentity(claims);
             var token = new JwtSecurityToken(
                 issuer: "YourIssuer",
                 audience: "YourAudience",
-                claims: claims,
+                claims: claimPrincipal.Claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);
 

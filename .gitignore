@@ -989,3 +989,4 @@ xcuserdata/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,visualstudio,visualstudiocode,react,reactnative,csharp,dotnetcore
+/JSM/JewelryStoreManagement/appsettings.json
