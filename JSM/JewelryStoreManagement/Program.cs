@@ -172,6 +172,8 @@ namespace JewelryStoreManagement
 
                 var app = builder.Build();
 
+                app.UseAuthentication();
+
                 // Configure the HTTP request pipeline.
                 using (var scope = app.Services.CreateScope())
                 {
@@ -205,7 +207,6 @@ namespace JewelryStoreManagement
                     app.UseSwaggerUI();
                 }
 
-                app.UseAuthorization();
                 app.UseCors(CORS_CONFIG);
                 app.MapControllers();
                 app.MapControllerRoute(

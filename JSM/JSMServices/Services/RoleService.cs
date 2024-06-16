@@ -17,9 +17,9 @@ public class RoleService : IRoleService
     {
         try
         {
-            var allRole =  _roleRepository.GetAll().Where(c => c.RoleId != 4);
+            var allRole = _roleRepository.GetAll().Where(c => c.RoleId != 4).ToList();
 
-            return (ICollection<Role>)allRole;
+            return allRole;
         }
         catch (Exception e)
         {

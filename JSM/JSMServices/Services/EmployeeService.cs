@@ -49,21 +49,21 @@ public class EmployeeService : IEmployeeService
                 employee.EmployeeId = new Guid();
                 employee.IsLogin = false;
                 employee.Password = GenerateRandomString(8);
-                employee.ManagedBy = Guid.NewGuid();
-                // int roleWhoCreated = Convert.ToInt32(user.FindFirst("RoleId").ToString());
-                // if (roleWhoCreated == 1)
-                // {
-                //     throw new Exception("You dont have permission to do this action");
-                // }
-                // else if (roleWhoCreated == 2)
-                // {
-                //     employee.RoleId = 1;
-                // }
-                // else if (roleWhoCreated == 3)
-                // {
-                //     employee.RoleId = 2;
-                // }
-                //employee.ManagedBy = Guid.Parse(user.FindFirst("UserId").ToString());
+                string roleCurrent = user.FindFirst("Role").Value;
+                int roleWhoCreated = Int32.Parse(roleCurrent);
+                if (roleWhoCreated == 1)
+                {
+                    throw new Exception("You dont have permission to do this action");
+                }
+                else if (roleWhoCreated == 2)
+                {
+                    employee.RoleId = 1;
+                }
+                else if (roleWhoCreated == 3)
+                {
+                    employee.RoleId = 2;
+                }
+                employee.ManagedBy = Guid.Parse(user.FindFirst("UserId").ToString());
                 var entityEntry = await _employeeRepository.AddSingleWithAsync(employee);
 
                 if (entityEntry.State == EntityState.Added)
