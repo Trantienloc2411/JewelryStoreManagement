@@ -8,8 +8,7 @@ namespace JSMServices.ViewModels.PromotionViewModel
 {
     public class CreatePromotionViewModel
     {   
-        public string? PromotionCode { get; set; }   
-
+        public string PromotionCode { get; set; }   
         public double DiscountPercentage { get; set; }
         public double FixedDiscountAmount { get; set; } 
         public DateTime StartDate { get; set; }
