@@ -1,0 +1,17 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "Local": "Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=12345;Integrated Security=true;"
+  },
+  "JWT": {
+    "ValidAudience": "http://localhost:4200",
+    "ValidIssuer": "http://localhost:5000",
+    "Secret": "xb4Xt0;~]gwYnV$jH=}JTN7AY;CI\"[:lbR8a<ey.FOUO3ipmcxyZGVTn$2sR]A~"
+  },
+  "AllowedHosts": "*"
+}
