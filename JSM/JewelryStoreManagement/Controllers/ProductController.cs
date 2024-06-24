@@ -39,6 +39,16 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("ViewProductDetail")]
+        public async Task<IActionResult> GetProductById(Guid productId)
+        {
+            var listProduct = await _productService.GetProductById(productId);
+            var result = _mapper.Map<ProductByBarcodeViewModel>(listProduct);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("AddNewProduct")]
         public async Task<IActionResult> AddNewProduct(AddProductViewModel addProductViewModelmodel)
@@ -73,9 +83,9 @@ namespace JewelryStoreManagement.Controllers
         [HttpPut]
         [Route("UpdateProduct")]
         public async Task<IActionResult> UpdateInformationProduct(
-        [FromBody] UpdateProductViewModel updateProductViewModel)
+        [FromBody] UpdateProductViewModel updateProductViewModel, Guid productId)
         {
-            await _productService.UpdateInformationProduct(updateProductViewModel);
+            await _productService.UpdateInformationProduct(updateProductViewModel, productId);
             return Ok("Update Successfully");
         }
     }

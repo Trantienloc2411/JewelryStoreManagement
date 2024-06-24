@@ -95,126 +95,132 @@ namespace JewelryStoreManagement
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
                 };
-            });    
-                builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-                builder.Services.AddDbContext<JSMDbContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("Local")));
+            });
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsetting.json", true, true)
+                .Build();
+            var connectionstring = config["ConnectionStrings:Local"];
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddDbContext<JSMDbContext>(options =>
+            //options.UseNpgsql(@"Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=12345;Integrated Security=true;"));
+            //options.UseNpgsql(builder.Configuration.GetConnectionString("Local")));
+            options.UseNpgsql(connectionstring));
+            //Add Scope 
+            //Repositories
 
-                //Add Scope 
-                //Repositories
-                
-                builder.Services.AddScoped<BuybackRepository>();
-                builder.Services.AddScoped<CounterRepository>();
-                builder.Services.AddScoped<CustomerPolicyRepository>();
-                builder.Services.AddScoped<CustomerRepository>();
-                builder.Services.AddScoped<EmployeeRepository>();
-                builder.Services.AddScoped<GiftRepository>();
-                builder.Services.AddScoped<GoldRepository>();
-                builder.Services.AddScoped<OrderDetailRepository>();
-                builder.Services.AddScoped<OrderRepository>();
-                builder.Services.AddScoped<ProductRepository>();
-                builder.Services.AddScoped<PromotionRepository>();
-                builder.Services.AddScoped<TypePriceRepository>();
-                builder.Services.AddScoped<WarrantyRepository>();
-                builder.Services.AddScoped<RoleRepository>();
-                builder.Services.AddScoped<RefreshHandlerRepository>();
-                builder.Services.AddScoped<IGenericRepository<BuyBack>, BuybackRepository>();
-                builder.Services.AddScoped<IGenericRepository<Role>, RoleRepository>();
-                builder.Services.AddScoped<IGenericRepository<Counter>, CounterRepository>();
-                builder.Services.AddScoped<IGenericRepository<CustomerPolicy>, CustomerPolicyRepository>();
-                builder.Services.AddScoped<IGenericRepository<Customer>, CustomerRepository>();
-                builder.Services.AddScoped<IGenericRepository<Employee>, EmployeeRepository>();
-                builder.Services.AddScoped<IGenericRepository<Gift>, GiftRepository>();
-                builder.Services.AddScoped<IGenericRepository<Gold>, GoldRepository>();
-                builder.Services.AddScoped<IGenericRepository<OrderDetail>, OrderDetailRepository>();
-                builder.Services.AddScoped<IGenericRepository<Order>, OrderRepository>();
-                builder.Services.AddScoped<IGenericRepository<Product>, ProductRepository>();
-                builder.Services.AddScoped<IGenericRepository<Promotion>, PromotionRepository>();
-                builder.Services.AddScoped<IGenericRepository<TypePrice>, TypePriceRepository>();
-                builder.Services.AddScoped<IGenericRepository<Warranty>, WarrantyRepository>();
-                builder.Services.AddScoped<IGenericRepository<RefreshToken>, RefreshHandlerRepository>();
+            builder.Services.AddScoped<BuybackRepository>();
+            builder.Services.AddScoped<CounterRepository>();
+            builder.Services.AddScoped<CustomerPolicyRepository>();
+            builder.Services.AddScoped<CustomerRepository>();
+            builder.Services.AddScoped<EmployeeRepository>();
+            builder.Services.AddScoped<GiftRepository>();
+            builder.Services.AddScoped<GoldRepository>();
+            builder.Services.AddScoped<OrderDetailRepository>();
+            builder.Services.AddScoped<OrderRepository>();
+            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<PromotionRepository>();
+            builder.Services.AddScoped<TypePriceRepository>();
+            builder.Services.AddScoped<WarrantyRepository>();
+            builder.Services.AddScoped<RoleRepository>();
+            builder.Services.AddScoped<RefreshHandlerRepository>();
+            builder.Services.AddScoped<IGenericRepository<BuyBack>, BuybackRepository>();
+            builder.Services.AddScoped<IGenericRepository<Role>, RoleRepository>();
+            builder.Services.AddScoped<IGenericRepository<Counter>, CounterRepository>();
+            builder.Services.AddScoped<IGenericRepository<CustomerPolicy>, CustomerPolicyRepository>();
+            builder.Services.AddScoped<IGenericRepository<Customer>, CustomerRepository>();
+            builder.Services.AddScoped<IGenericRepository<Employee>, EmployeeRepository>();
+            builder.Services.AddScoped<IGenericRepository<Gift>, GiftRepository>();
+            builder.Services.AddScoped<IGenericRepository<Gold>, GoldRepository>();
+            builder.Services.AddScoped<IGenericRepository<OrderDetail>, OrderDetailRepository>();
+            builder.Services.AddScoped<IGenericRepository<Order>, OrderRepository>();
+            builder.Services.AddScoped<IGenericRepository<Product>, ProductRepository>();
+            builder.Services.AddScoped<IGenericRepository<Promotion>, PromotionRepository>();
+            builder.Services.AddScoped<IGenericRepository<TypePrice>, TypePriceRepository>();
+            builder.Services.AddScoped<IGenericRepository<Warranty>, WarrantyRepository>();
+            builder.Services.AddScoped<IGenericRepository<RefreshToken>, RefreshHandlerRepository>();
 
-                //IService + Service
-                builder.Services.AddScoped<IRefreshHandlerService, RefreshHandlerService>();
-                builder.Services.AddScoped<IBuyBackService, BuyBackService>();
-                builder.Services.AddScoped<ICounterService, CounterService>();
-                builder.Services.AddScoped<ICustomerPolicyService, CustomerPolicyService>();
-                builder.Services.AddScoped<ICustomerService, CustomerService>();
-                builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-                builder.Services.AddScoped<IGiftService, GiftService>();
-                builder.Services.AddScoped<IGoldService, GoldService>();
-                builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
-                builder.Services.AddScoped<IOrderService, OrderService>();
-                builder.Services.AddScoped<IProductService, ProductService>();
-                builder.Services.AddScoped<IPromotionService, PromotionService>();
-                builder.Services.AddScoped<ITypePriceService, TypePriceService>();
-                builder.Services.AddScoped<IWarrantyService, WarrantyService>();
-                builder.Services.AddScoped<IRoleService, RoleService>();
+            //IService + Service
+            builder.Services.AddScoped<IRefreshHandlerService, RefreshHandlerService>();
+            builder.Services.AddScoped<IBuyBackService, BuyBackService>();
+            builder.Services.AddScoped<ICounterService, CounterService>();
+            builder.Services.AddScoped<ICustomerPolicyService, CustomerPolicyService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IGiftService, GiftService>();
+            builder.Services.AddScoped<IGoldService, GoldService>();
+            builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IPromotionService, PromotionService>();
+            builder.Services.AddScoped<ITypePriceService, TypePriceService>();
+            builder.Services.AddScoped<IWarrantyService, WarrantyService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
-                var CORS_CONFIG = "_CORS_CONFIG";
-                builder.Services.AddCors(options =>
-                {
-                    options.AddPolicy(name: CORS_CONFIG,
-                        builder => builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
-                });
-                
-                builder.Services.AddLogging();
+            var CORS_CONFIG = "_CORS_CONFIG";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: CORS_CONFIG,
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
-                
+            builder.Services.AddLogging();
 
-                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 
 
 
 
-                var app = builder.Build();
+            var app = builder.Build();
 
-                app.UseAuthentication();
+            app.UseAuthentication();
 
-                // Configure the HTTP request pipeline.
-                using (var scope = app.Services.CreateScope())
-                {
-                    var serviceProvider = scope.ServiceProvider;
+            // Configure the HTTP request pipeline.
+            using (var scope = app.Services.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
 
-                    var refreshHandler = serviceProvider.GetRequiredService<IRefreshHandlerService>();
+                var refreshHandler = serviceProvider.GetRequiredService<IRefreshHandlerService>();
 
-                    refreshHandler.RemoveAllRefreshToken();
-                }
-
-                app.Use(async (context, next) =>
-                {
-                    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-                    var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-                    if (string.IsNullOrEmpty(authHeader))
-                    {
-                        logger.LogWarning("Authorization header is missing");
-                    }
-                    else
-                    {
-                        logger.LogInformation($"Authorization header: {authHeader}");
-                    }
-                    await next();
-                });
-                app.UseAuthorization();
-
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseCors(CORS_CONFIG);
-                app.MapControllers();
-                app.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                app.Run();
-
+                refreshHandler.RemoveAllRefreshToken();
             }
+
+            app.Use(async (context, next) =>
+            {
+                var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+                var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+                if (string.IsNullOrEmpty(authHeader))
+                {
+                    logger.LogWarning("Authorization header is missing");
+                }
+                else
+                {
+                    logger.LogInformation($"Authorization header: {authHeader}");
+                }
+                await next();
+            });
+            app.UseAuthorization();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseCors(CORS_CONFIG);
+            app.MapControllers();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+
         }
     }
+}

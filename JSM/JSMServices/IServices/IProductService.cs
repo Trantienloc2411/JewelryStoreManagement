@@ -9,6 +9,8 @@ public interface IProductService
     Task<Product> AddNewProductAsync(AddProductViewModel addProductViewModel);
     public Task DeleteProduct(Guid uid);
     public Task UpdateStatusProduct(Guid uid);
-    public Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel);
+    public Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId);
     public Task<Product> GetProductByBarcode(string Barcode);
+    public Task<Product> GetProductById(Guid productId);
+
 }
