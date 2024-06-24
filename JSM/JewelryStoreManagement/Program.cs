@@ -96,10 +96,16 @@ namespace JewelryStoreManagement
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsetting.json", true, true)
+                .Build();
+            var connectionstring = config["ConnectionStrings:Local"];
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddDbContext<JSMDbContext>(options =>
             //options.UseNpgsql(@"Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=12345;Integrated Security=true;"));
-            options.UseNpgsql(builder.Configuration.GetConnectionString("Local")));
+            //options.UseNpgsql(builder.Configuration.GetConnectionString("Local")));
+            options.UseNpgsql(connectionstring));
             //Add Scope 
             //Repositories
 
