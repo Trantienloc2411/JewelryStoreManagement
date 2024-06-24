@@ -22,7 +22,7 @@ public class PromotionController : Controller
     public Task<IActionResult> AddNewPromotion(CreatePromotionViewModel viewModel)
     {
         var p = _promotionService.AddNewPromotion(viewModel);
-    
+
         if (p.Exception is { Message: not null })
         {
             var errorResponse = new ApiResponse
@@ -94,8 +94,8 @@ public class PromotionController : Controller
         return Ok(promotion);
     }
 
-    
-    
+
+
 
 
 }
