@@ -22,7 +22,7 @@ namespace DataLayer.Entities
         [MaxLength(256)]
         [NotNull]
         public string? Password { get; set; }
-        public Genders Gender { get; set; }
+        public EmployeeGenders EmployeeGender { get; set; }
         [DefaultValue(false)]
         public bool IsLogin { get; set; }
 
@@ -35,7 +35,7 @@ namespace DataLayer.Entities
 
         public int RoleId { get; set; }
 
-        public enum Genders
+        public enum EmployeeGenders
         {
             Male,
             Female

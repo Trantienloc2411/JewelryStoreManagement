@@ -1,3 +1,4 @@
+using DataLayer.Entities;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
@@ -16,19 +17,110 @@ public class PromotionController : Controller
         _promotionService = promotionService;
     }
 
+    #region Add Promotion Controller
+
     [HttpPost]
     [Route("AddPromotion")]
     [Authorize]
     public Task<IActionResult> AddNewPromotion(CreatePromotionViewModel viewModel)
     {
-        var p = _promotionService.AddNewPromotion(viewModel);
+        string errorMessage;
+        
+        if(viewModel.DiscountPercentage.Equals(0) && viewModel.FixedDiscountAmount.Equals(0))
+        {
+            errorMessage = "The discount percentage and fix discount is empty";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = null
+            };
 
-        if (p.Exception is { Message: not null })
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        } else if (viewModel.EndDate  < DateTime.Today)
+        {
+            errorMessage = "The end of discount must not in the past";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        } else if (viewModel.StartDate < DateTime.Today)
+        {
+            errorMessage = "The start of discount must not in the past";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        }
+        else if (viewModel.StartDate > viewModel.EndDate)
+        {
+            errorMessage = "The start of discount must not larger than end date";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        }
+        else 
+        {
+            var promotion =  _promotionService.AddNewPromotion(viewModel).Result;
+            if (promotion is null)
+            {
+                errorMessage = "This code is already used!";
+                var errorResponse = new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = errorMessage,
+                    Data = null
+                };
+
+                return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+            }
+            else
+            {
+                var successResponse = new ApiResponse
+                {
+                    IsSuccess = true,
+                    Message = "Create Successfully",
+                    Data = null
+                };
+
+                return Task.FromResult<IActionResult>(Ok(successResponse));
+            }
+            
+        }
+    }
+
+    #endregion
+
+
+    #region Delete Promotion Controller 
+
+    
+    
+    [HttpDelete]
+    [Authorize]
+    [Route("DeletePromotion/{promotionCode}")]
+    public Task<IActionResult> DeletePromotion(string promotionCode)
+    {
+        var p = _promotionService.DeletePromotion(promotionCode);
+        if (p == null)
         {
             var errorResponse = new ApiResponse
             {
                 IsSuccess = false,
-                Message = p.Exception.Message,
+                Message = "This Promotion is not available or was deleted",
                 Data = null
             };
 
@@ -39,7 +131,7 @@ public class PromotionController : Controller
             var successResponse = new ApiResponse
             {
                 IsSuccess = true,
-                Message = "Create Successfully",
+                Message = "Delete Successfully",
                 Data = null
             };
 
@@ -47,24 +139,10 @@ public class PromotionController : Controller
         }
     }
 
-    [HttpDelete]
-    [Route("DeletePromotion/{promotionCode}")]
-    public Task<IActionResult> DeletePromotion(string promotionCode)
-    {
-        var p = _promotionService.DeletePromotion(promotionCode);
-        {
-            var errorResponse = new ApiResponse
-            {
-                IsSuccess = false,
-                Message = p.Exception?.Message,
-                Data = null
-            };
-
-            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
-        }
-    }
+    #endregion
 
     [HttpGet]
+    [Authorize]
     [Route("GetAllPromotion")]
     public async Task<IActionResult> GetAllPromotions()
     {
@@ -87,10 +165,22 @@ public class PromotionController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     [Route("GetPromotion/{promotionCode}")]
-    public IActionResult GetPromotion(string promotionCode)
+    public async Task<IActionResult> GetPromotion(string promotionCode)
     {
         var promotion = _promotionService.GetSinglePromotion(promotionCode);
+        if (promotion == null)
+        {
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = "This Promotion is not available or was deleted",
+                Data = null
+            };
+
+            return BadRequest(errorResponse);
+        }
         return Ok(promotion);
     }
 

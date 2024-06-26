@@ -120,29 +120,29 @@ namespace DataLayer
             });
             modelBuilder.Entity<Employee>().HasData(new Employee
             {
-                EmployeeId = Guid.NewGuid(),
-                Name = "Nguyen Van A",
-                CounterId = 1,
-                Email = "a@gmail.com",
-                Password = "1",
-                Phone = "0354410931",
-                Gender = Employee.Genders.Male,
-                EmployeeStatus = Employee.EmployeeStatuses.Inactive,
-                IsLogin = false,
-                RoleId = 1
+	            EmployeeId = Guid.NewGuid(),
+	            Name = "Nguyen Van A",
+	            CounterId = 1,
+	            Email = "a@gmail.com",
+	            Password = "1",
+	            Phone = "0354410931",
+	            EmployeeGender = Employee.EmployeeGenders.Male,
+	            EmployeeStatus = Employee.EmployeeStatuses.Inactive,
+	            IsLogin = false,
+	            RoleId = 1
             });
             modelBuilder.Entity<Employee>().HasData(new Employee
             {
-                EmployeeId = Guid.NewGuid(),
-                Name = "Le Van B",
-                CounterId = 2,
-                Email = "b@gmail.com",
-                Password = "1",
-                Phone = "0934425563",
-                Gender = Employee.Genders.Female,
-                EmployeeStatus = Employee.EmployeeStatuses.Active,
-                IsLogin = false,
-                RoleId = 2
+	            EmployeeId = Guid.NewGuid(),
+	            Name = "Le Van B",
+	            CounterId = 2,
+	            Email = "b@gmail.com",
+	            Password = "1",
+	            Phone = "0934425563",
+	            EmployeeGender = Employee.EmployeeGenders.Female,
+	            EmployeeStatus = Employee.EmployeeStatuses.Active,
+	            IsLogin = false,
+	            RoleId = 2
             });
 
 

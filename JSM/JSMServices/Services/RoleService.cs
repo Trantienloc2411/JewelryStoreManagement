@@ -1,7 +1,7 @@
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
-
+#pragma warning disable
 namespace JSMServices.Services;
 
 public class RoleService : IRoleService
@@ -18,7 +18,7 @@ public class RoleService : IRoleService
         try
         {
             var allRole = _roleRepository.GetAll().Where(c => c.RoleId != 4).ToList();
-
+            
             return allRole;
         }
         catch (Exception e)

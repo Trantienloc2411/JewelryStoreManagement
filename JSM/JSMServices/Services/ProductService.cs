@@ -4,7 +4,7 @@ using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.ProductViewModel;
 using Microsoft.EntityFrameworkCore;
-
+#pragma warning disable
 namespace JSMServices.Services;
 
 public class ProductService : IProductService

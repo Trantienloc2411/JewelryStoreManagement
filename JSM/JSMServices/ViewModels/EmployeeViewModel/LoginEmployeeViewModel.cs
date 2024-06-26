@@ -1,5 +1,5 @@
 namespace JewelryStoreManagement.ViewModels;
-
+#pragma warning disable
 public class LoginEmployeeViewModel
 {
     public string Email { get; set; }

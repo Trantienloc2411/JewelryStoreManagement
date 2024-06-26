@@ -3,6 +3,7 @@ using System;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(JSMDbContext))]
-    partial class JSMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622062930_v801_CustomerEmail")]
+    partial class v801_CustomerEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,12 +110,12 @@ namespace DataLayer.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<int>("CustomerGender")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
@@ -179,10 +181,10 @@ namespace DataLayer.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-                    b.Property<int>("EmployeeGender")
+                    b.Property<int>("EmployeeStatus")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EmployeeStatus")
+                    b.Property<int>("Gender")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsLogin")
@@ -217,11 +219,11 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("8646475a-a1f8-4376-8ab2-f62e4570be5e"),
+                            EmployeeId = new Guid("7680ddda-865f-4a91-9d4f-5ce70d7e4b37"),
                             CounterId = 1,
                             Email = "a@gmail.com",
-                            EmployeeGender = 0,
                             EmployeeStatus = 1,
+                            Gender = 0,
                             IsLogin = false,
                             ManagedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Nguyen Van A",
@@ -231,11 +233,11 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("8be7cbd0-dd4d-4e6a-80cc-0d22d7da9632"),
+                            EmployeeId = new Guid("dfec2b28-2b40-42eb-8a51-0a74f8e257ad"),
                             CounterId = 2,
                             Email = "b@gmail.com",
-                            EmployeeGender = 1,
                             EmployeeStatus = 0,
+                            Gender = 1,
                             IsLogin = false,
                             ManagedBy = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Le Van B",

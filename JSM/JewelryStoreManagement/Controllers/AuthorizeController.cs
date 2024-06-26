@@ -190,15 +190,20 @@ namespace JewelryStoreManagement.Controllers
             {
                 if (employee.IsLogin == false)
                 {
-                    return BadRequest("This account have not changed password yet");
+                    return Ok(new APIResponse
+                    {
+                        Success = false,
+                        Message = "The password has not changed yet!",
+                        data = null
+                    });
                 }
                 else if (password == employee.Password)
                 {
-                    // var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
-                    // if (rfTkexisted != null)
-                    // {
-                    //     _refreshHandler.RemoveAllRefreshToken();
-                    // }
+                    var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
+                    if (rfTkexisted != null)
+                    {
+                        _refreshHandler.RemoveAllRefreshToken();
+                    }
                     _refreshHandler.ResetRefreshToken();
                     var token = GenerateToken(employee, null);
                     return Ok(token);
