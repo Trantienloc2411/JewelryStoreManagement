@@ -3,38 +3,28 @@ using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.CustomerViewModel;
-
+#pragma warning disable
 namespace JSMServices.Services;
 
 public class CustomerService : ICustomerService
 {
     private readonly CustomerRepository _customerRepository;
     private readonly IMapper _mapper;
-    
+
     public CustomerService(CustomerRepository customerRepository, IMapper mapper)
     {
         _customerRepository = customerRepository;
         _mapper = mapper;
     }
+
     public async Task<ICollection<Customer>> GetAllCustomers()
     {
-        try
-        {
-            var getCustomerList = await _customerRepository.GetAllWithAsync();
-            if (getCustomerList.Count == 0)
-            {
-                throw new Exception("Empty");
-            }
-            else
-            {
-                return getCustomerList;
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+
+        var getCustomerList = await _customerRepository.GetAllWithAsync();
+
+        return getCustomerList.ToList();
+
+
     }
 
     public async Task<Customer> GetCustomer(Guid customerId)
@@ -59,22 +49,24 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task UpdateCustomer(Guid customerId, AddCustomerViewModel customerViewModel)
+    public async Task<Customer> UpdateCustomer(Guid customerId, AddCustomerViewModel customerViewModel)
     {
         try
         {
             var customer = new Customer();
-            var getListCustomer = await _customerRepository.GetAllWithAsync();
+            var getListCustomer = _customerRepository.GetAll();
             var customerUpdate = getListCustomer.FirstOrDefault(c => c.CustomerId.Equals(customerId));
-            if (customerUpdate is null)
+            if (customerUpdate == null)
             {
-                throw new Exception("This user not found");
+                return null;
             }
             else
             {
-                var updateUser = _mapper.Map(customerViewModel, customer);
+                //Processing when enter existed information
+                var updateUser = _mapper.Map(customerViewModel, customerUpdate);
                 _customerRepository.Update(updateUser);
-                _customerRepository.SaveChanges();
+                await _customerRepository.SaveChangesAsync();
+                return updateUser;
             }
         }
         catch (Exception e)
@@ -84,39 +76,33 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task AddCustomer(AddCustomerViewModel customerViewModel)
+    public async Task<Customer> AddCustomer(AddCustomerViewModel customerViewModel)
     {
         try
         {
-            
             var customer = new Customer();
-            if (customerViewModel == null)
+            var checkEmailExisted =
+                await _customerRepository.GetSingleWithAsync(c => c.Email.ToLower().Equals(customerViewModel.Email));
+            var checkPhoneExisted =
+                await _customerRepository.GetSingleWithAsync(c => c.Phone.ToLower().Equals(customerViewModel.Phone));
+            if (checkEmailExisted != null)
             {
-                throw new Exception("The data is null");
-
+                customer.Email = "Email is already existed";
+                return customer;
+            }
+            else if (checkPhoneExisted != null)
+            {
+                customer.Phone = "Phone is already existed";
+                return customer;
             }
             else
             {
-                var checkEmailExisted = await _customerRepository.GetSingleWithAsync(c => c.Email.ToLower().Equals(customerViewModel.Email));
-                var checkPhoneExisted = await _customerRepository.GetSingleWithAsync(c => c.Phone.ToLower().Equals(customerViewModel.Phone));
-                if (checkEmailExisted != null)
-                {
-                    throw new Exception("Email is already existed");
-                }
-                else if (checkPhoneExisted != null)
-                {
-                    throw new Exception("Phone is already existed");
-                }
-                else
-                {
-                    var newCustomer = _mapper.Map(customerViewModel, customer);
-                    _customerRepository.Add(newCustomer);
-                    _customerRepository.SaveChanges();
-                }
+                var newCustomer = _mapper.Map(customerViewModel, customer);
+                _customerRepository.Add(newCustomer);
+                _customerRepository.SaveChanges();
+                return newCustomer;
             }
-            
-            
-            
+
         }
         catch (Exception e)
         {
@@ -124,4 +110,5 @@ public class CustomerService : ICustomerService
             throw;
         }
     }
+
 }

@@ -27,7 +27,7 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
-    [Route("GetCustomerById")]
+    [Route("GetCustomerById/{customerId}")]
     public async Task<IActionResult> GetCustomerById(Guid customerId)
     {
         var customer = await _customerService.GetCustomer(customerId);
@@ -38,25 +38,98 @@ public class CustomerController : Controller
     [Route("AddCustomer")]
     public async Task<IActionResult> AddCustomer(AddCustomerViewModel viewModel)
     {
-        var addCustomer = _customerService.AddCustomer(viewModel);
-        if (addCustomer.Exception.Message == null)
-        {
-            return Ok(new ApiResponse
-            {
-                IsSuccess = true,
-                Data = null,
-                Message = "Add successfully"
-            });
-        }
-        else
+        if (viewModel.Name == null)
         {
             return BadRequest(new ApiResponse
             {
                 IsSuccess = false,
                 Data = null,
-                Message = "Add failed!" + addCustomer.Exception.Message
+                Message = "Add failed! Name is null"
             });
         }
+        else if (viewModel.Email == null)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = "Add failed! Email is null" 
+            });
+            
+        }
+        else if(viewModel.Phone == null)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = "Add failed! Phone is null" 
+            });
+        }
+        else if (viewModel.Address == null)
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = "Add failed! Address is null"
+            });
+        }
+        else
+        {
+            var addCustomer = await _customerService.AddCustomer(viewModel);
+            if (addCustomer.CustomerId == Guid.Empty)
+            {
+                if (addCustomer.Email != null)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Data = null,
+                        Message = "Add failed" + addCustomer.Email
+                    });
+                }
+                else if (addCustomer.Phone != null)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Data = null,
+                        Message = "Add failed" + addCustomer.Phone
+                    });
+                }
+                else if (addCustomer.Address != null)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Data = null,
+                        Message = "Add failed" + addCustomer.Address
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Data = null,
+                        Message = "Add failed"
+                    });
+                }
+
+
+            }
+            else
+            {
+                return Ok(new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = "Add successfully"
+                });
+            }
+        }
+        
     }
     
     [HttpPut]

@@ -1,5 +1,5 @@
 namespace JSMServices.ViewModels.AuthorizeViewModel;
-
+#pragma warning disable
 public class APIResponse
 {
     public bool Success { get; set; }

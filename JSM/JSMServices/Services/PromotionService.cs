@@ -49,20 +49,21 @@ public class PromotionService : IPromotionService
         
     }
 
-    public Task DeletePromotion(string promotionCode)
+    public Task<Promotion> DeletePromotion(string promotionCode)
     {
         try
         {
             var deletePromotion = _promotionRepository.GetAll().FirstOrDefault(c => c.PromotionCode.ToLower() == promotionCode);
-            if (deletePromotion is { PromotionStatus: Promotion.PromotionStatuses.Deleted })
+            if (deletePromotion == null || deletePromotion.PromotionStatus == Promotion.PromotionStatuses.Deleted)
             {
+                return null;
                 throw new Exception("This Promotion is not available or was deleted");
             }
             else
             {
                 deletePromotion.PromotionStatus = Promotion.PromotionStatuses.Deleted;
                 _promotionRepository.SaveChanges();
-                return Task.CompletedTask;
+                return Task.FromResult(deletePromotion);
             }
         }
         catch (Exception e)
@@ -94,24 +95,23 @@ public class PromotionService : IPromotionService
     }
 
 
-    public async Task<Promotion> GetSinglePromotion(string promotionCode)
+    public Task<Promotion> GetSinglePromotion(string promotionCode)
     {
         try
         {
-            var promotions = await _promotionRepository.GetAllWithAsync();
-
+            // Materialize the query results immediately
+            var promotions = _promotionRepository.GetAll();
             var singlePromotion = promotions
-                .FirstOrDefault(c => c.PromotionStatus != Promotion.PromotionStatuses.Deleted);
-                 // Convert to List<Promotion> which implements ICollection<Promotion>
-                 if (singlePromotion == null)
-                 {
-                     throw new Exception("This promotion is not existed");
-                 }
-                 else if (singlePromotion.PromotionStatus == Promotion.PromotionStatuses.Deleted)
-                 {
-                     throw new Exception("This promotion was deleted");
-                 }
-                 return singlePromotion;
+                .FirstOrDefault(c => c.PromotionCode == promotionCode && c.PromotionStatus != Promotion.PromotionStatuses.Deleted);
+
+            if (singlePromotion == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Task.FromResult(singlePromotion);
+            }
         }
         catch (Exception e)
         {

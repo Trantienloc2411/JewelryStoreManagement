@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+#pragma warning disable
 namespace JSMServices.ViewModels.PromotionViewModel
 {
     public class CreatePromotionViewModel

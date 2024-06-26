@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
+using JSMServices.ViewModels.CustomerViewModel;
 using JSMServices.ViewModels.ProductViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
 
@@ -21,6 +22,7 @@ public class MappingProfiles : Profile
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap();
         CreateMap<CreatePromotionViewModel, Promotion>().ReverseMap();
+        CreateMap<AddCustomerViewModel, Customer>().ReverseMap();
 
     }
 }

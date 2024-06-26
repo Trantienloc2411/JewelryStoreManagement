@@ -17,6 +17,8 @@ public class PromotionController : Controller
         _promotionService = promotionService;
     }
 
+    #region Add Promotion Controller
+
     [HttpPost]
     [Route("AddPromotion")]
     [Authorize]
@@ -100,24 +102,47 @@ public class PromotionController : Controller
         }
     }
 
+    #endregion
+
+
+    #region Delete Promotion Controller 
+
+    
+    
     [HttpDelete]
+    [Authorize]
     [Route("DeletePromotion/{promotionCode}")]
     public Task<IActionResult> DeletePromotion(string promotionCode)
     {
         var p = _promotionService.DeletePromotion(promotionCode);
+        if (p == null)
         {
             var errorResponse = new ApiResponse
             {
                 IsSuccess = false,
-                Message = p.Exception?.Message,
+                Message = "This Promotion is not available or was deleted",
                 Data = null
             };
 
             return Task.FromResult<IActionResult>(BadRequest(errorResponse));
         }
+        else
+        {
+            var successResponse = new ApiResponse
+            {
+                IsSuccess = true,
+                Message = "Delete Successfully",
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(Ok(successResponse));
+        }
     }
 
+    #endregion
+
     [HttpGet]
+    [Authorize]
     [Route("GetAllPromotion")]
     public async Task<IActionResult> GetAllPromotions()
     {
@@ -140,10 +165,22 @@ public class PromotionController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     [Route("GetPromotion/{promotionCode}")]
-    public IActionResult GetPromotion(string promotionCode)
+    public async Task<IActionResult> GetPromotion(string promotionCode)
     {
         var promotion = _promotionService.GetSinglePromotion(promotionCode);
+        if (promotion == null)
+        {
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = "This Promotion is not available or was deleted",
+                Data = null
+            };
+
+            return BadRequest(errorResponse);
+        }
         return Ok(promotion);
     }
 

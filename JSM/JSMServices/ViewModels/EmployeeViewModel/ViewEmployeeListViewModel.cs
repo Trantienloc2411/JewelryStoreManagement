@@ -1,5 +1,5 @@
 using DataLayer.Entities;
-
+#pragma warning disable
 namespace JewelryStoreManagement.ViewModels;
 
 public class ViewEmployeeListViewModel
