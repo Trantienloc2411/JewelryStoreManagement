@@ -115,12 +115,12 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel)
+    public async Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId)
     {
         try
         {
             var product = _productRepository.GetAll()
-                .FirstOrDefault(c => c.ProductId == updateProductViewModel.ProductId);
+                .FirstOrDefault(c => c.ProductId == productId);
             if (product == null)
             {
                 throw new Exception("Update not successfully! Reload Page again!");
@@ -133,21 +133,9 @@ public class ProductService : IProductService
                 }
                 else
                 {
-
-                    var existedBarcode =
-                        _productRepository.GetAll().FirstOrDefault(c => c.Barcode == updateProductViewModel.Barcode);
-
-                    if (existedBarcode != null)
-                    {
-                        throw new Exception("Barcode was used or being used by another product");
-                    }
-                    else
-                    {
-                        var productUpdate = _mapper.Map(updateProductViewModel, product);
-                        await _productRepository.UpdateWithAsync(productUpdate);
-                    }
+                    var productUpdate = _mapper.Map(updateProductViewModel, product);
+                    await _productRepository.UpdateWithAsync(productUpdate);
                 }
-
             }
         }
         catch (Exception e)
@@ -175,4 +163,21 @@ public class ProductService : IProductService
         }
     }
 
+    public async Task<Product> GetProductById(Guid productId)
+    {
+        try
+        {
+            var listProduct = await _productRepository.GetSingleWithAsync(b => b.ProductId.Equals(productId));
+            if (listProduct == null || listProduct.ProductStatus == Product.ProductStatuses.Deactive)
+            {
+                throw new Exception("The product does not exist or was deleted");
+            }
+            return listProduct;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
