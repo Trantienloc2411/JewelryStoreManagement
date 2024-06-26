@@ -53,21 +53,43 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            var customer = new Customer();
             var getListCustomer = _customerRepository.GetAll();
-            var customerUpdate = getListCustomer.FirstOrDefault(c => c.CustomerId.Equals(customerId));
-            if (customerUpdate == null)
+            var customerToUpdate = getListCustomer.FirstOrDefault(c => c.CustomerId.Equals(customerId));
+        
+            if (customerToUpdate == null)
             {
                 return null;
             }
-            else
+        
+            // Check for existing email only if it has changed
+            if (!string.Equals(customerToUpdate.Email, customerViewModel.Email, StringComparison.OrdinalIgnoreCase))
             {
-                //Processing when enter existed information
-                var updateUser = _mapper.Map(customerViewModel, customerUpdate);
-                _customerRepository.Update(updateUser);
-                await _customerRepository.SaveChangesAsync();
-                return updateUser;
+                var existingEmailCustomer = getListCustomer.FirstOrDefault(c => 
+                    c.Email.Equals(customerViewModel.Email, StringComparison.OrdinalIgnoreCase) && c.CustomerId != customerId);
+
+                if (existingEmailCustomer != null)
+                {
+                    return new Customer { Email = "This email is already used" };
+                }
             }
+        
+            // Check for existing phone only if it has changed
+            if (customerToUpdate.Phone != customerViewModel.Phone)
+            {
+                var existingPhoneCustomer = getListCustomer.FirstOrDefault(c => 
+                    c.Phone == customerViewModel.Phone && c.CustomerId != customerId);
+
+                if (existingPhoneCustomer != null)
+                {
+                    return new Customer { Phone = "This phone is already used" };
+                }
+            }
+
+            // Update the customer
+            _mapper.Map(customerViewModel, customerToUpdate);
+            _customerRepository.Update(customerToUpdate);
+            await _customerRepository.SaveChangesAsync();
+            return customerToUpdate;
         }
         catch (Exception e)
         {

@@ -137,15 +137,38 @@ public class CustomerController : Controller
     public async Task<IActionResult> UpdateCustomer (Guid customerId,AddCustomerViewModel viewModel)
     {
         var updateCustomer = _customerService.UpdateCustomer(customerId,viewModel);
-        if (updateCustomer.Exception.Message != null)
+        var customer = updateCustomer.Result;
+        if (customer.CustomerId.Equals(Guid.Empty))
         {
-            return BadRequest(new ApiResponse
+            if (customer.Email != null)
             {
-                IsSuccess = false,
-                Data = null,
-                Message = "Update failed! Due to: " + updateCustomer.Exception.InnerExceptions
-            });
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "Update failed! Due to: " + customer.Email.ToString()
+                });
+            }
+            else if (customer.Phone != null)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "Update failed! Due to: " + customer.Phone.ToString()
+                });
+            }
+            else
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "Update failed! Due to: " + updateCustomer.Exception.InnerExceptions.ToString()
+                }); 
+            }
         }
+        
         else
         {
             return Ok(new ApiResponse
