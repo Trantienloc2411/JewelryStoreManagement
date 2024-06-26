@@ -126,7 +126,7 @@ namespace DataLayer
 	            Email = "a@gmail.com",
 	            Password = "1",
 	            Phone = "0354410931",
-	            Gender = Employee.Genders.Male,
+	            EmployeeGender = Employee.EmployeeGenders.Male,
 	            EmployeeStatus = Employee.EmployeeStatuses.Inactive,
 	            IsLogin = false,
 	            RoleId = 1
@@ -139,7 +139,7 @@ namespace DataLayer
 	            Email = "b@gmail.com",
 	            Password = "1",
 	            Phone = "0934425563",
-	            Gender = Employee.Genders.Female,
+	            EmployeeGender = Employee.EmployeeGenders.Female,
 	            EmployeeStatus = Employee.EmployeeStatuses.Active,
 	            IsLogin = false,
 	            RoleId = 2

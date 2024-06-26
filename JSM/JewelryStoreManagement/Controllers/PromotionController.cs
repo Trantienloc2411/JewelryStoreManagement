@@ -1,3 +1,4 @@
+using DataLayer.Entities;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
@@ -21,29 +22,81 @@ public class PromotionController : Controller
     [Authorize]
     public Task<IActionResult> AddNewPromotion(CreatePromotionViewModel viewModel)
     {
-        var p = _promotionService.AddNewPromotion(viewModel);
-    
-        if (p.Exception is { Message: not null })
+        string errorMessage;
+        
+        if(viewModel.DiscountPercentage.Equals(0) && viewModel.FixedDiscountAmount.Equals(0))
         {
+            errorMessage = "The discount percentage and fix discount is empty";
             var errorResponse = new ApiResponse
             {
                 IsSuccess = false,
-                Message = p.Exception.Message,
+                Message = errorMessage,
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        } else if (viewModel.EndDate  < DateTime.Today)
+        {
+            errorMessage = "The end of discount must not in the past";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
+                Data = null
+            };
+
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        } else if (viewModel.StartDate < DateTime.Today)
+        {
+            errorMessage = "The start of discount must not in the past";
+            var errorResponse = new ApiResponse
+            {
+                IsSuccess = false,
+                Message = errorMessage,
                 Data = null
             };
 
             return Task.FromResult<IActionResult>(BadRequest(errorResponse));
         }
-        else
+        else if (viewModel.StartDate > viewModel.EndDate)
         {
-            var successResponse = new ApiResponse
+            errorMessage = "The start of discount must not larger than end date";
+            var errorResponse = new ApiResponse
             {
-                IsSuccess = true,
-                Message = "Create Successfully",
+                IsSuccess = false,
+                Message = errorMessage,
                 Data = null
             };
 
-            return Task.FromResult<IActionResult>(Ok(successResponse));
+            return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+        }
+        else 
+        {
+            var promotion =  _promotionService.AddNewPromotion(viewModel).Result;
+            if (promotion is null)
+            {
+                errorMessage = "This code is already used!";
+                var errorResponse = new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = errorMessage,
+                    Data = null
+                };
+
+                return Task.FromResult<IActionResult>(BadRequest(errorResponse));
+            }
+            else
+            {
+                var successResponse = new ApiResponse
+                {
+                    IsSuccess = true,
+                    Message = "Create Successfully",
+                    Data = null
+                };
+
+                return Task.FromResult<IActionResult>(Ok(successResponse));
+            }
+            
         }
     }
 

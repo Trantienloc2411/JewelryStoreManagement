@@ -98,7 +98,7 @@ namespace JewelryStoreManagement
             });    
                 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
                 builder.Services.AddDbContext<JSMDbContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("Local")));
+                    options.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;"));
 
                 //Add Scope 
                 //Repositories

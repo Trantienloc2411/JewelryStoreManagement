@@ -17,36 +17,27 @@ public class PromotionService : IPromotionService
         _promotionRepository = promotionRepository;
         _mapper = mapper;
     }
-    public async Task<Promotion> AddNewPromotion(CreatePromotionViewModel viewModel)
+    public async Task<Promotion?> AddNewPromotion(CreatePromotionViewModel viewModel)
     {
         try
         {
-            var listPromotionCurrent = await _promotionRepository.GetAllWithAsync();
-            if (listPromotionCurrent.FirstOrDefault(c =>
-                    string.Equals(c.PromotionCode, viewModel.PromotionCode, StringComparison.CurrentCultureIgnoreCase)) != null)
+            var listPromotionCurrent = _promotionRepository.GetAll();
+            var existedPromotion =
+                listPromotionCurrent.FirstOrDefault(c => c.PromotionCode.Equals(viewModel.PromotionCode));
+            if (existedPromotion != null)
             {
-                throw new Exception("This code is existed! Please use other code");
+                return null;
 
-            }
-            
-            else if(viewModel.DiscountPercentage.Equals(0) && viewModel.FixedDiscountAmount.Equals(0))
-            {
-                throw new Exception("The discount percentage and fix discount is empty");
-            } else if (viewModel.EndDate < DateTime.Today)
-            {
-                throw new Exception("The end of discount must not in the past");
-            } else if (viewModel.StartDate < DateTime.Today)
-            {
-                throw new Exception("The start of discount must not in the past");
             }
             else
             {
                 var p = new Promotion();
                 var newPromotion = _mapper.Map(viewModel, p);
                 newPromotion.PromotionStatus = Promotion.PromotionStatuses.Active;
-                await _promotionRepository.AddSingleWithAsync(newPromotion); 
-                _promotionRepository.SaveChanges();
-                return newPromotion;
+                newPromotion.PromotionCode = newPromotion.PromotionCode.ToLower();
+                 _promotionRepository.Add(newPromotion); 
+                 await _promotionRepository.SaveChangesAsync();
+                return (newPromotion);
             }
         }
         catch (Exception e)

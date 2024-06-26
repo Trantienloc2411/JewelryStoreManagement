@@ -9,7 +9,7 @@ public class RegisterEmployeeViewModel
     public string Phone { get; set; }
     public int CounterId { get; set; }
     public int RoleId { get; set; }
-    public Employee.Genders Gender { get; set; }
+    public Employee.EmployeeGenders EmployeeGender { get; set; }
     public Employee.EmployeeStatuses EmployeeStatus { get; set; }
 }
 

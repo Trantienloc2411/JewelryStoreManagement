@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -14,11 +15,15 @@ namespace DataLayer.Entities
         [MaxLength(10)]
         public string? Phone { get; set; }
         [DefaultValue(0)]
-        public int AccumulatedPoint { get; set; }  
+        public int AccumulatedPoint { get; set; } 
+        [AllowNull]
+        [MaxLength(255)]
+        public string? Email { get; set; }
+        
         //public string? Password { get; set; }
         
-        public Genders Gender { get; set; } 
-        public enum Genders 
+        public CustomerGenders CustomerGender { get; set; } 
+        public enum CustomerGenders 
         {
             Male,
             Female,
