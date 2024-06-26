@@ -228,49 +228,56 @@ public class EmployeeService : IEmployeeService
     }
 
     public async Task UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel)
+{
+    try
     {
-        try
+        var employee = _employeeRepository.GetAll()
+            .FirstOrDefault(c => c.EmployeeId == updateInformationEmployeeViewModel.EmployeeId);
+        
+        if (employee == null)
         {
-            var employee = _employeeRepository.GetAll()
-                .FirstOrDefault(c => c.EmployeeId == updateInformationEmployeeViewModel.EmployeeId);
-            if (employee == null)
+            throw new Exception("Update not successful! Employee not found. Please reload the page.");
+        }
+
+        if (employee.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
+        {
+            throw new Exception("This account does not exist or has been deleted!");
+        }
+
+        // Check for existing email only if it has changed
+        if (!string.Equals(employee.Email, updateInformationEmployeeViewModel.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            var existingEmailEmployee = _employeeRepository.GetAll()
+                .FirstOrDefault(c => c.Email.Equals(updateInformationEmployeeViewModel.Email, StringComparison.OrdinalIgnoreCase) 
+                                     && c.EmployeeId != employee.EmployeeId);
+
+            if (existingEmailEmployee != null)
             {
-                throw new Exception("Update not successfully! Reload Page again!");
-            }
-            else
-            {
-                if (employee.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
-                {
-                    throw new Exception("This account does not existed or was deleted!");
-                }
-                else
-                {
-
-                    var existedUserByEmail =
-                        _employeeRepository.GetAll().FirstOrDefault(c => c.Email == updateInformationEmployeeViewModel.Email);
-
-                    if (existedUserByEmail != null)
-                    {
-                        throw new Exception("Email was used or being used by another account");
-                    }
-                    else if (_employeeRepository.GetAll().FirstOrDefault(c => c.Phone == updateInformationEmployeeViewModel.Phone) != null)
-                    {
-                        throw new Exception("Phone was being used by another account");
-                    }
-
-                    else
-                    {
-                        var userUpdate = _mapper.Map(updateInformationEmployeeViewModel, employee);
-                        await _employeeRepository.UpdateWithAsync(userUpdate);
-                    }
-                }
-
+                throw new Exception("Email is already in use by another account");
             }
         }
-        catch (Exception e)
+
+        // Check for existing phone only if it has changed
+        if (employee.Phone != updateInformationEmployeeViewModel.Phone)
         {
-            Console.WriteLine(e);
-            throw;
+            var existingPhoneEmployee = _employeeRepository.GetAll()
+                .FirstOrDefault(c => c.Phone == updateInformationEmployeeViewModel.Phone 
+                                     && c.EmployeeId != employee.EmployeeId);
+
+            if (existingPhoneEmployee != null)
+            {
+                throw new Exception("Phone number is already in use by another account");
+            }
         }
+
+        // Update the employee
+        var updatedEmployee = _mapper.Map(updateInformationEmployeeViewModel, employee);
+        await _employeeRepository.UpdateWithAsync(updatedEmployee);
     }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        throw;
+    }
+}
 }
