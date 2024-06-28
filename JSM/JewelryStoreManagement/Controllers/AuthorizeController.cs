@@ -41,6 +41,7 @@ namespace JewelryStoreManagement.Controllers
                 new Claim("EmployeeName", employee.Name),
                 new Claim("Email", employee.Email),
                 new Claim("Role", employee.RoleId.ToString()),
+                new Claim("IsLogin", employee.IsLogin.ToString())
             };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c2VydmVwZXJmZWN0bHljaGVlc2VxdWlja2NvYWNoY29sbGVjdHNsb3Bld2lzZWNhbWU="));
@@ -188,16 +189,7 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                if (employee.IsLogin == false)
-                {
-                    return Ok(new APIResponse
-                    {
-                        Success = false,
-                        Message = "The password has not changed yet!",
-                        data = null
-                    });
-                }
-                else if (password == employee.Password)
+                if (password == employee.Password)
                 {
                     var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
                     if (rfTkexisted != null)
