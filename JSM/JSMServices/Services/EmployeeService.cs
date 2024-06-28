@@ -63,7 +63,8 @@ public class EmployeeService : IEmployeeService
                 {
                     employee.RoleId = 2;
                 }
-                employee.ManagedBy = Guid.Parse(user.FindFirst("UserId").ToString());
+                var guidCreated = 
+                employee.ManagedBy = Guid.Parse(user.FindFirst("EmployeeId").Value.ToString());
                 var entityEntry = await _employeeRepository.AddSingleWithAsync(employee);
 
                 if (entityEntry.State == EntityState.Added)
