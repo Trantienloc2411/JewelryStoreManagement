@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers
 {
+    [ApiController]
+    [Route("CustomerPolicy")]
     public class CustomerPolicyController : Controller
     {
         private readonly ICustomerPolicyService _customerPolicyService;

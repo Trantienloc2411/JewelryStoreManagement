@@ -56,11 +56,9 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            // Log the exception or handle it in some other way
             throw new Exception($"An error occurred while adding the product: {ex.Message}");
         }
 
-        // If we reach this point, something went wrong during the add operation
         throw new Exception("An error occurred while adding the product.");
     }
 
@@ -119,22 +117,23 @@ public class ProductService : IProductService
     {
         try
         {
-            var product = _productRepository.GetAll()
-                .FirstOrDefault(c => c.ProductId == productId);
-            if (product == null)
+            var getListProducts = _productRepository.GetAll();
+            var productUpdate = getListProducts.FirstOrDefault(c => c.ProductId == productId);
+            if (productUpdate == null)
             {
                 throw new Exception("Update not successfully! Reload Page again!");
             }
+
             else
             {
-                if (product.ProductStatus == Product.ProductStatuses.Deactive)
+                if (productUpdate.ProductStatus == Product.ProductStatuses.Deactive)
                 {
                     throw new Exception("The product does not existed or was deleted!");
                 }
                 else
                 {
-                    var productUpdate = _mapper.Map(updateProductViewModel, product);
-                    await _productRepository.UpdateWithAsync(productUpdate);
+                    var productUpdated = _mapper.Map(updateProductViewModel, productUpdate);
+                    await _productRepository.UpdateWithAsync(productUpdated);
                 }
             }
         }
