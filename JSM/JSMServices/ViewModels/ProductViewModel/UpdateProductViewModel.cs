@@ -4,7 +4,6 @@ namespace JSMServices.ViewModels.ProductViewModel
 {
     public class UpdateProductViewModel
     {
-        public string? Name { get; set; }
         public double ManufactureCost { get; set; }
         public double Weight { get; set; }
         public int Quantity { get; set; }
@@ -13,7 +12,6 @@ namespace JSMServices.ViewModels.ProductViewModel
         public int TypeId { get; set; }
         public string? Img { get; set; }
         public string? CertificateUrl { get; set; }
-        public ProductStatuses Status { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
         public Units WeightUnit { get; set; }
