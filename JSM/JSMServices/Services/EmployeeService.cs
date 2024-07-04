@@ -146,7 +146,7 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public async Task UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
+    public async Task<Employee> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
         try
         {
@@ -159,13 +159,15 @@ public class EmployeeService : IEmployeeService
             {
                 if (account.Password != oldPassword)
                 {
-                    throw new Exception("Old password is wrong! Please re-enter again!");
+                    account.Password = "";
+                    return account;
                 }
                 else
                 {
                     account.Password = newPassword;
                     account.IsLogin = true;
                     await _employeeRepository.UpdateWithAsync(account);
+                    return account;
                 }
             }
         }
@@ -177,14 +179,14 @@ public class EmployeeService : IEmployeeService
 
     }
 
-    public async Task UpdateStatusEmployeeAccount(Guid uid)
+    public async Task<string> UpdateStatusEmployeeAccount(Guid uid)
     {
         try
         {
             var account = _employeeRepository.Get(c => c.EmployeeId.Equals(uid));
             if (account.Name == null || account.Name.Length == 0)
             {
-                throw new Exception("Something went wrong! Everything changes will not saving!");
+               return "Something went wrong! Everything changes will not saving!";
             }
             else
             {
@@ -194,10 +196,12 @@ public class EmployeeService : IEmployeeService
                     Employee.EmployeeStatuses.Inactive => Employee.EmployeeStatuses.Active,
                     _ => throw new Exception("This account is not existed or was deleted!")
                 };
+                
 
                 await _employeeRepository.SaveChangesAsync();
             }
             await _employeeRepository.SaveChangesAsync();
+            return null;
         }
         catch (Exception e)
         {
@@ -206,19 +210,20 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public async Task DeleteEmployeeAccount(Guid uid)
+    public async Task<string> DeleteEmployeeAccount(Guid uid)
     {
         try
         {
             var account = _employeeRepository.GetAll().FirstOrDefault(c => c.EmployeeId == uid);
             if (account == null)
             {
-                throw new Exception("This account is not exist or was deleted");
+                return "This account is not exist or was deleted";
             }
             else
             {
                 account.EmployeeStatus = Employee.EmployeeStatuses.Deleted;
                 await _employeeRepository.SaveChangesAsync();
+                return null;
             }
         }
         catch (Exception e)
@@ -228,7 +233,7 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public async Task UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel)
+    public async Task<string> UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel)
 {
     try
     {
@@ -237,12 +242,12 @@ public class EmployeeService : IEmployeeService
         
         if (employee == null)
         {
-            throw new Exception("Update not successful! Employee not found. Please reload the page.");
+            return "Update not successful! Employee not found. Please reload the page.";
         }
 
         if (employee.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
         {
-            throw new Exception("This account does not exist or has been deleted!");
+            return "This account does not exist or has been deleted!";
         }
 
         // Check for existing email only if it has changed
@@ -254,7 +259,7 @@ public class EmployeeService : IEmployeeService
 
             if (existingEmailEmployee != null)
             {
-                throw new Exception("Email is already in use by another account");
+                return "Email is already in use by another account";
             }
         }
 
@@ -267,13 +272,15 @@ public class EmployeeService : IEmployeeService
 
             if (existingPhoneEmployee != null)
             {
-                throw new Exception("Phone number is already in use by another account");
+                return "Phone number is already in use by another account";
             }
         }
 
         // Update the employee
         var updatedEmployee = _mapper.Map(updateInformationEmployeeViewModel, employee);
         await _employeeRepository.UpdateWithAsync(updatedEmployee);
+        return null;
+        
     }
     catch (Exception e)
     {

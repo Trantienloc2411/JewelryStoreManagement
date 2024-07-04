@@ -12,4 +12,5 @@ public class ViewEmployeeListViewModel
     public int RoleId { get; set; }
     public Employee.EmployeeStatuses Gender { get; set; }
     public Guid ManagedBy { get; set; }
+    public Employee.EmployeeStatuses EmployeeStatus { get; set; }
 }
