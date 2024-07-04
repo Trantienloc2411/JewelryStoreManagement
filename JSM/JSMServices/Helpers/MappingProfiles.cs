@@ -1,8 +1,10 @@
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
+using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
 using JSMServices.ViewModels.CustomerViewModel;
+using JSMServices.ViewModels.EmployeeViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using JSMServices.ViewModels.ProductViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
@@ -34,6 +36,8 @@ public class MappingProfiles : Profile
         CreateMap<CreateOrderViewModel, Order>().ReverseMap();
         CreateMap<CreateTypePriceViewModel, TypePrice>().ReverseMap();
         CreateMap<UpdateTypePriceViewModel, TypePrice>().ReverseMap();
+        CreateMap<AddNewCounterViewModel, Counter>().ReverseMap();
+        CreateMap<AssignCounterToViewModel, Employee>().ReverseMap();
 
     }
 }
