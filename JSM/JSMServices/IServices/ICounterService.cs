@@ -6,6 +6,7 @@ namespace JSMServices.IServices;
 
 public interface ICounterService
 {
+    public Task<ICollection<Counter>> GetAllCounters();
     Task<Counter> AddNewCounter(AddNewCounterViewModel addNewCounterViewModel);
     public Task<Counter> GetCounterById(int counterId);
 

@@ -18,6 +18,16 @@ namespace JewelryStoreManagement.Controllers
             _counterService = counterService;
             _mapper = mapper;
         }
+        [HttpGet]
+        [Route("GetAllCounters")]
+        public async Task<IActionResult> GetAllCounters()
+        {
+            var listCounter = await _counterService.GetAllCounters();
+            var result = _mapper.Map<ICollection<CounterViewModel>>(listCounter);
+
+            return Ok(result);
+        }
+
 
         [HttpGet]
         [Route("ViewCounterDetail")]

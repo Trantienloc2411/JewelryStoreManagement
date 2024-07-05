@@ -11,6 +11,7 @@ public interface IProductService
     public Task UpdateStatusProduct(Guid uid);
     public Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId);
     public Task<Product> GetProductByBarcode(string Barcode);
+    public Task<ICollection<Product>> GetProductByCounterId(int counterId);
     public Task<Product> GetProductById(Guid productId);
 
 }

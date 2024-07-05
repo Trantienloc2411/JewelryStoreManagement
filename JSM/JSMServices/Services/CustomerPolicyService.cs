@@ -21,7 +21,7 @@ public class CustomerPolicyService : ICustomerPolicyService
     {
         try
         {
-            var listProduct = await _customerPolicyRepository.GetAllWithAsync();
+            var listProduct = _customerPolicyRepository.GetAll();
             return listProduct;
         }
         catch (Exception e)

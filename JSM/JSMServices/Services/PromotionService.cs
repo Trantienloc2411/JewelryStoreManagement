@@ -10,7 +10,7 @@ public class PromotionService : IPromotionService
 {
     private readonly PromotionRepository _promotionRepository;
     private readonly IMapper _mapper;
-    
+
 
     public PromotionService(PromotionRepository promotionRepository, IMapper mapper)
     {
@@ -35,8 +35,8 @@ public class PromotionService : IPromotionService
                 var newPromotion = _mapper.Map(viewModel, p);
                 newPromotion.PromotionStatus = Promotion.PromotionStatuses.Active;
                 newPromotion.PromotionCode = newPromotion.PromotionCode.ToLower();
-                 _promotionRepository.Add(newPromotion); 
-                 await _promotionRepository.SaveChangesAsync();
+                _promotionRepository.Add(newPromotion);
+                await _promotionRepository.SaveChangesAsync();
                 return (newPromotion);
             }
         }
@@ -45,8 +45,8 @@ public class PromotionService : IPromotionService
             Console.WriteLine(e);
             throw;
         }
-        
-        
+
+
     }
 
     public Task<Promotion> DeletePromotion(string promotionCode)
@@ -71,19 +71,19 @@ public class PromotionService : IPromotionService
             Console.WriteLine(e);
             throw;
         }
-        
+
     }
 
     public async Task<ICollection<Promotion>> GetAllPromotion()
     {
-        
+
         try
         {
-            var promotions = await _promotionRepository.GetAllWithAsync();
+            var promotions = _promotionRepository.GetAll();
 
             var listPromotion = promotions
                 .Where(c => c.PromotionStatus != Promotion.PromotionStatuses.Deleted)
-                .ToList(); // Convert to List<Promotion> which implements ICollection<Promotion>
+                .ToList();
 
             return listPromotion;
         }

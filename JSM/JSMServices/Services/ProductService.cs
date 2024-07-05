@@ -22,7 +22,7 @@ public class ProductService : IProductService
     {
         try
         {
-            var listProduct = await _productRepository.GetAllWithAsync();
+            var listProduct = _productRepository.GetAll();
             listProduct = listProduct.Where(p => p.ProductStatus != Product.ProductStatuses.Deactive).ToList();
             return listProduct;
         }
@@ -154,6 +154,27 @@ public class ProductService : IProductService
                 throw new Exception("The product does not exist or was deleted");
             }
             return listProduct;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<ICollection<Product>> GetProductByCounterId(int counterId)
+    {
+        try
+        {
+            var listProduct = _productRepository.GetAll();
+            var filterProducts = listProduct
+                .Where(p => p.CounterId.Equals(counterId) && p.ProductStatus == Product.ProductStatuses.Active)
+                .ToList();
+            if (!filterProducts.Any())
+            {
+                throw new Exception("The product does not exist or was deleted");
+            }
+            return filterProducts;
         }
         catch (Exception e)
         {

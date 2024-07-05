@@ -23,6 +23,7 @@ public class MappingProfiles : Profile
         CreateMap<AddProductViewModel, Product>().ReverseMap();
         CreateMap<UpdateProductViewModel, Product>().ReverseMap();
         CreateMap<ProductByBarcodeViewModel, Product>().ReverseMap();
+        CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap();
 
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap();
@@ -37,6 +38,7 @@ public class MappingProfiles : Profile
         CreateMap<CreateTypePriceViewModel, TypePrice>().ReverseMap();
         CreateMap<UpdateTypePriceViewModel, TypePrice>().ReverseMap();
         CreateMap<AddNewCounterViewModel, Counter>().ReverseMap();
+        CreateMap<CounterViewModel, Counter>().ReverseMap();
         CreateMap<AssignCounterToViewModel, Employee>().ReverseMap();
 
     }

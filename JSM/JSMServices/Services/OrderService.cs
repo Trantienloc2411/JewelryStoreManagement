@@ -22,7 +22,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var listOrder = await _orderRepository.GetAllWithAsync();
+            var listOrder = _orderRepository.GetAll();
             return listOrder;
         }
         catch (Exception e)

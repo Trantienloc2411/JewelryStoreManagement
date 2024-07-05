@@ -79,6 +79,23 @@ public class CounterService : ICounterService
         }
     }
 
+    public async Task<ICollection<Counter>> GetAllCounters()
+    {
+        try
+        {
+            var listCounter = _counterRepository.GetAll();
+            var filterCounters = listCounter.Where(p => p.IsActive == true).ToList();
+            return filterCounters;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new Exception(e.Message);
+        }
+    }
+
+
+
     public async Task<Counter> GetCounterById(int counterId)
     {
         try
