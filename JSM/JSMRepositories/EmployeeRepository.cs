@@ -7,5 +7,6 @@ public class EmployeeRepository : GenericRepositories<Employee>
 {
     public EmployeeRepository(JSMDbContext context) : base(context)
     {
+       
     }
 }

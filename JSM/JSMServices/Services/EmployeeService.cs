@@ -104,7 +104,8 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
-            var listUser = await _employeeRepository.GetAllWithAsync();
+
+            var listUser =  await _employeeRepository.GetAllWithIncludeAsync(e => true, e => e.Counter);
             listUser = listUser.Where(c => c.EmployeeStatus != Employee.EmployeeStatuses.Deleted).ToList();
             return listUser;
         }
