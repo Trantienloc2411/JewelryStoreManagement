@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
@@ -59,5 +60,15 @@ public class CustomerPolicyService : ICustomerPolicyService
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public async Task CreateRequestCustomerPolicy(CreateRequestCustomerPolicyViewModel viewModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task ApproveCustomerPolicy(Guid customerPolicy, ClaimsIdentity user)
+    {
+        throw new NotImplementedException();
     }
 }

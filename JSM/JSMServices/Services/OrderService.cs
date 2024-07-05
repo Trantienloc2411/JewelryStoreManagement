@@ -70,6 +70,16 @@ public class OrderService : IOrderService
         throw new Exception("An error occurred while adding the Order.");
     }
 
+    public async Task<Order> GetOrderByOrderId(string orderCode)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Order> GetOrderByWarrantyId(Guid warrantyId)
+    {
+        throw new NotImplementedException();
+    }
+
     private static Random _random = new Random();
     private static string GenerateRandomString(int length)
     {
