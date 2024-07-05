@@ -27,4 +27,8 @@ public interface IGenericRepository<T> where T : class
     Task SaveChangesAsync();
 
 
+        //Employee
+        Task<ICollection<T>> GetAllWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+
+
 };

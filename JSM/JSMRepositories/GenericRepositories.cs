@@ -130,4 +130,18 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
             throw new Exception(ex.Message);
         }
     }
+    public async Task<ICollection<T>> GetAllWithAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+    public async Task<ICollection<T>> GetAllWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return await query.Where(predicate).ToListAsync();
+    }
 }
