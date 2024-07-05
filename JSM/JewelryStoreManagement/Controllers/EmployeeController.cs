@@ -69,7 +69,16 @@ public class EmployeeController : Controller
     [Route("UpdatePassword")]
     public async Task<IActionResult> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
-        await _employeeService.UpdatePasswordEmployeeAccount(email, oldPassword, newPassword);
+        var account = await _employeeService.UpdatePasswordEmployeeAccount(email, oldPassword, newPassword);
+        if (account.Password == "" || account.Password.Length == 0)
+        {
+            return BadRequest(new ApiResponse()
+            {
+                IsSuccess = false,
+                Message = @"Old password is wrong.",
+                Data = null
+            });
+        }
         return Ok("Update successfully");
     }
 
@@ -77,7 +86,16 @@ public class EmployeeController : Controller
     [Route("UpdateStatus")]
     public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
-        await _employeeService.UpdateStatusEmployeeAccount(uid);
+        string result  = await _employeeService.UpdateStatusEmployeeAccount(uid);
+        if (result != null || result.Length != 0)
+        {
+            return BadRequest(new ApiResponse()
+            {
+                IsSuccess = false,
+                Message = $"{result}",
+                Data = null
+            });
+        }
         return Ok("Update successfully");
     }
 
@@ -85,7 +103,16 @@ public class EmployeeController : Controller
     [Route("DeleteEmployee")]
     public async Task<IActionResult> DeleteEmployeeAccount(Guid id)
     {
-        await _employeeService.DeleteEmployeeAccount(id);
+        string result = await _employeeService.DeleteEmployeeAccount(id);
+        if (result != null || result.Length != 0)
+        {
+            return BadRequest(new ApiResponse()
+            {
+                IsSuccess = false,
+                Message = $"{result}",
+                Data = null
+            });
+        } 
         return Ok("Remove successfully");
     }
 
@@ -94,7 +121,16 @@ public class EmployeeController : Controller
     public async Task<IActionResult> UpdateInformationEmployee(
         [FromBody] UpdateInformationViewModel updateInformationViewModel)
     {
-        await _employeeService.UpdateInformationEmployee(updateInformationViewModel);
+        string result = await _employeeService.UpdateInformationEmployee(updateInformationViewModel);
+        if (result != null || result.Length != 0)
+        {
+            return BadRequest(new ApiResponse()
+            {
+                IsSuccess = false,
+                Message = $"{result}",
+                Data = null
+            });
+        } 
         return Ok("Update Successfully");
     }
 }
