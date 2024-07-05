@@ -28,7 +28,7 @@ public class MappingProfiles : Profile
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap()
         .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName));
-
+        CreateMap<ViewEmployeeByCounterId, Employee>().ReverseMap();
 
         CreateMap<CreatePromotionViewModel, Promotion>().ReverseMap();
         CreateMap<AddCustomerViewModel, Customer>().ReverseMap();

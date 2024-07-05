@@ -2,7 +2,7 @@ using AutoMapper;
 using JewelryStoreManagement.ViewModels;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
-using Microsoft.AspNetCore.Authorization;
+using JSMServices.ViewModels.EmployeeViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
@@ -30,8 +30,8 @@ public class EmployeeController : Controller
         }
         else
         {
-            
-            var employee = await _employeeService.AddAccountEmployee(registerEmployeeViewModel,user);
+
+            var employee = await _employeeService.AddAccountEmployee(registerEmployeeViewModel, user);
             if (employee.EmployeeId == null && employee.Email != null)
             {
                 return BadRequest(new ApiResponse()
@@ -51,7 +51,7 @@ public class EmployeeController : Controller
                 });
             }
             return Ok("Create successfully");
-            
+
         }
     }
 
@@ -62,6 +62,15 @@ public class EmployeeController : Controller
         var listUser = await _employeeService.GetAllEmployee();
         var result = _mapper.Map<ICollection<ViewEmployeeListViewModel>>(listUser);
 
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("GetEmployeeByCounterId")]
+    public async Task<IActionResult> GetEmployeeByCounterId(int counterId)
+    {
+        var listEmployee = await _employeeService.GetEmployeeByCounterId(counterId);
+        var result = _mapper.Map<ICollection<ViewEmployeeByCounterId>>(listEmployee);
         return Ok(result);
     }
 
@@ -86,7 +95,7 @@ public class EmployeeController : Controller
     [Route("UpdateStatus")]
     public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
-        string result  = await _employeeService.UpdateStatusEmployeeAccount(uid);
+        string result = await _employeeService.UpdateStatusEmployeeAccount(uid);
         if (result != null || result.Length != 0)
         {
             return BadRequest(new ApiResponse()
@@ -112,7 +121,7 @@ public class EmployeeController : Controller
                 Message = $"{result}",
                 Data = null
             });
-        } 
+        }
         return Ok("Remove successfully");
     }
 
@@ -130,7 +139,7 @@ public class EmployeeController : Controller
                 Message = $"{result}",
                 Data = null
             });
-        } 
+        }
         return Ok("Update Successfully");
     }
 }
