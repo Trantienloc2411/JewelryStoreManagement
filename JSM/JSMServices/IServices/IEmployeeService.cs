@@ -1,6 +1,6 @@
-using System.Security.Claims;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
+using System.Security.Claims;
 
 namespace JSMServices.IServices;
 
@@ -12,6 +12,7 @@ public interface IEmployeeService
     public Task<ICollection<Employee>> GetAllEmployee();
     public Employee GetEmployeeById(Guid employeeId);
     public Employee GetEmployeeByEmail(string email);
+    public Task<ICollection<Employee>> GetEmployeeByCounterId(int counterId);
 
     public Task<Employee> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword);
     public Task<string> UpdateStatusEmployeeAccount(Guid uid);
