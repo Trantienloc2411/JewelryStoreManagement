@@ -40,6 +40,16 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
+        [Route("GetProductByCounterId")]
+        public async Task<IActionResult> GetProductByCounterId(int counterId)
+        {
+            var listProduct = await _productService.GetProductByCounterId(counterId);
+            var result = _mapper.Map<ICollection<ProductByCounterIdViewModel>>(listProduct);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("ViewProductDetail")]
         public async Task<IActionResult> GetProductById(Guid productId)
         {

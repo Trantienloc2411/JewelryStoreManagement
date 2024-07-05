@@ -20,7 +20,7 @@ public class CustomerService : ICustomerService
     public async Task<ICollection<Customer>> GetAllCustomers()
     {
 
-        var getCustomerList = await _customerRepository.GetAllWithAsync();
+        var getCustomerList = _customerRepository.GetAll();
 
         return getCustomerList.ToList();
 
@@ -31,7 +31,7 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            var customerList = await _customerRepository.GetAllWithAsync();
+            var customerList = _customerRepository.GetAll();
             var customerFind = customerList.FirstOrDefault(c => c.CustomerId.Equals(customerId));
             if (customerFind is null)
             {
@@ -55,16 +55,16 @@ public class CustomerService : ICustomerService
         {
             var getListCustomer = _customerRepository.GetAll();
             var customerToUpdate = getListCustomer.FirstOrDefault(c => c.CustomerId.Equals(customerId));
-        
+
             if (customerToUpdate == null)
             {
                 return null;
             }
-        
+
             // Check for existing email only if it has changed
             if (!string.Equals(customerToUpdate.Email, customerViewModel.Email, StringComparison.OrdinalIgnoreCase))
             {
-                var existingEmailCustomer = getListCustomer.FirstOrDefault(c => 
+                var existingEmailCustomer = getListCustomer.FirstOrDefault(c =>
                     c.Email.Equals(customerViewModel.Email, StringComparison.OrdinalIgnoreCase) && c.CustomerId != customerId);
 
                 if (existingEmailCustomer != null)
@@ -72,11 +72,11 @@ public class CustomerService : ICustomerService
                     return new Customer { Email = "This email is already used" };
                 }
             }
-        
+
             // Check for existing phone only if it has changed
             if (customerToUpdate.Phone != customerViewModel.Phone)
             {
-                var existingPhoneCustomer = getListCustomer.FirstOrDefault(c => 
+                var existingPhoneCustomer = getListCustomer.FirstOrDefault(c =>
                     c.Phone == customerViewModel.Phone && c.CustomerId != customerId);
 
                 if (existingPhoneCustomer != null)
