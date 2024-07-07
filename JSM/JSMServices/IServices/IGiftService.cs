@@ -6,5 +6,6 @@ public interface IGiftService
 {
     Task<ICollection<Gift>> GetAllGifts();
     Task<Gift> GetGiftDetailsByGiftId(Guid giftId);
-    Task<string> ExchangeGiftUser(Guid customerId, Guid giftId);
+    
+    Task NotifyGiftUser(Guid customerId);
 }

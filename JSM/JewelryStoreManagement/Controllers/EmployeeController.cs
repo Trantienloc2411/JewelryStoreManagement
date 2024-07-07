@@ -104,7 +104,7 @@ public class EmployeeController : Controller
     public async Task<IActionResult> DeleteEmployeeAccount(Guid id)
     {
         string result = await _employeeService.DeleteEmployeeAccount(id);
-        if (result != null || result.Length != 0)
+        if (result != "" || result.Length != 0)
         {
             return BadRequest(new ApiResponse()
             {
@@ -112,8 +112,8 @@ public class EmployeeController : Controller
                 Message = $"{result}",
                 Data = null
             });
-        } 
-        return Ok("Remove successfully");
+        }
+        else return Ok("Remove successfully");
     }
 
     [HttpPut]

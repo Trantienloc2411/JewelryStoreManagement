@@ -8,7 +8,6 @@ public interface ICustomerService
     Task<ICollection<Customer>> GetAllCustomers();
     Task<Customer> GetCustomer(Guid customerId);
     Task<Customer> UpdateCustomer(Guid customerId, AddCustomerViewModel customerViewModel);
-
     Task<Customer> AddCustomer(AddCustomerViewModel customerViewModel);
 
 }

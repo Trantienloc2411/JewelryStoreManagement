@@ -2,6 +2,7 @@ using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
+using JSMServices.ViewModels.BuyBackViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -92,4 +93,8 @@ public class OrderService : IOrderService
         return new string(chars);
     }
 
+    public Task<Order> CreateNewBuyBack(CreateNewBuyBackViewModel viewModel)
+    {
+        throw new NotImplementedException();
+    }
 }
