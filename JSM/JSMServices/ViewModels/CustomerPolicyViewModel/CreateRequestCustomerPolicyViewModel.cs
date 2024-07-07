@@ -9,7 +9,5 @@ public class CreateRequestCustomerPolicyViewModel
     public DateTime ValidFrom { get; set; }
     public DateTime ValidTo { get; set; }
     public CustomerPolicy.PublishingStatuses PublishingStatus { get; set; } = CustomerPolicy.PublishingStatuses.Pending;
-
     public bool IsApprovalRequired { get; set; } = true;
-    
 }

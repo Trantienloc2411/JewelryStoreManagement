@@ -144,6 +144,32 @@ namespace DataLayer
 	            IsLogin = false,
 	            RoleId = 2
             });
+            modelBuilder.Entity<Employee>().HasData(new Employee
+            {
+                EmployeeId = Guid.NewGuid(),
+                Name = "Admin",
+                CounterId = 2,
+                Email = "admin@gmail.com",
+                Password = "1",
+                Phone = "0934425533",
+                EmployeeGender = Employee.EmployeeGenders.Female,
+                EmployeeStatus = Employee.EmployeeStatuses.Active,
+                IsLogin = true,
+                RoleId = 3
+            });
+            modelBuilder.Entity<Employee>().HasData(new Employee
+            {
+                EmployeeId = Guid.NewGuid(),
+                Name = "Super Admin",
+                CounterId = 2,
+                Email = "sa@gmail.com",
+                Password = "sa@1",
+                Phone = "0934425533",
+                EmployeeGender = Employee.EmployeeGenders.Male,
+                EmployeeStatus = Employee.EmployeeStatuses.Active,
+                IsLogin = true,
+                RoleId = 4
+            });
 
 
 
@@ -157,7 +183,7 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=12345;Integrated Security=true;Include Error Detail=True");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;Include Error Detail=True");
             }
         }
 

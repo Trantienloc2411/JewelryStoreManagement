@@ -61,14 +61,94 @@ public class CustomerPolicyService : ICustomerPolicyService
             throw;
         }
     }
-
-    public async Task CreateRequestCustomerPolicy(CreateRequestCustomerPolicyViewModel viewModel)
+    public async Task<string> CreateRequestCustomerPolicy(CreateRequestCustomerPolicyViewModel viewModel)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var cp = new CustomerPolicy();
+            if (viewModel.ValidFrom < DateTime.Today)
+            {
+                return "ValidFrom Date can not in the past";
+            }
+            else if (viewModel.ValidTo < viewModel.ValidFrom && viewModel.ValidTo < DateTime.Today)
+            {
+
+                return "End Date can not in the past";
+            }
+            else
+            {
+                cp = _mapper.Map(viewModel, cp);
+                _customerPolicyRepository.Add(cp);
+                await _customerPolicyRepository.SaveChangesAsync();
+                return "";
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
+        
+        
     }
 
-    public async Task ApproveCustomerPolicy(Guid customerPolicy, ClaimsIdentity user)
+    public async Task<string> ApproveCustomerPolicy(Guid customerPolicy, ClaimsPrincipal user)
     {
-        throw new NotImplementedException();
+        var existCp = await _customerPolicyRepository.GetSingleWithAsync(c => c.CPId == customerPolicy);
+        if (existCp.Equals(null))
+        {
+            return "This customerPolicy is not existed";
+        }
+        else if (user.FindFirst("EmployeeId").Value.ToString() == null)
+        {
+            return "Not Authorize";
+        }
+        else
+        {
+            existCp.PublishingStatus = CustomerPolicy.PublishingStatuses.Approved;
+            existCp.ApprovedBy = user.FindFirst("EmployeeName").Value.ToString();
+            existCp.ApprovedDate = DateTime.Now;
+            await _customerPolicyRepository.UpdateWithAsync(existCp);
+            _customerPolicyRepository.SaveChanges();
+            return "";
+        }
+    }
+
+    public async Task<string> DenyCustomerPolicy(Guid customerPolicy, ClaimsPrincipal user)
+    {
+        var existCp = await _customerPolicyRepository.GetSingleWithAsync(c => c.CPId == customerPolicy);
+        if (existCp.Equals(null))
+        {
+            return "This customerPolicy is not existed";
+        }
+        else if (user.FindFirst("EmployeeId").Value.ToString() == null)
+        {
+            return "Not Authorize";
+        }
+        else
+        {
+            existCp.PublishingStatus = CustomerPolicy.PublishingStatuses.Denied;
+            existCp.ApprovedBy = user.FindFirst("EmployeeName").Value.ToString();
+            existCp.ApprovedDate = DateTime.Now;
+            await _customerPolicyRepository.UpdateWithAsync(existCp);
+            _customerPolicyRepository.SaveChanges();
+            return "";
+        }
+    }
+
+    public async Task<ICollection<CustomerPolicy>> GetAllCustomerPolicyByCustomerId(Guid customerId)
+    {
+        try
+        {
+            var cp = await _customerPolicyRepository.GetAllWithAsync();
+            cp = cp.Where(c => c.CustomerId == customerId).ToList();
+            return cp;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

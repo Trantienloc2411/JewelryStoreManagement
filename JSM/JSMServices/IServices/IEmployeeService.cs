@@ -17,5 +17,7 @@ public interface IEmployeeService
     public Task<string> UpdateStatusEmployeeAccount(Guid uid);
     public Task<string> DeleteEmployeeAccount(Guid uid);
     public Task<string> UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel);
+    
+    
 
 }

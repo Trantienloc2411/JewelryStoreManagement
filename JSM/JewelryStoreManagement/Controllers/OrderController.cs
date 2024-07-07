@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JSMServices.IServices;
 using JSMServices.ViewModels.OrderViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace JewelryStoreManagement.Controllers
 {
@@ -18,7 +19,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllOrders")]
+        [Route("GetAllOrders")]        [Authorize]
         public async Task<IActionResult> GetAllOrders()
         {
             var listOrder = await _orderService.GetAllOrders();
@@ -27,7 +28,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPost]
-        [Route("AddNewOrder")]
+        [Route("AddNewOrder")]        [Authorize]
         public async Task<IActionResult> AddNewOrder(
             [FromBody] CreateOrderViewModel createOrderViewModel)
         {

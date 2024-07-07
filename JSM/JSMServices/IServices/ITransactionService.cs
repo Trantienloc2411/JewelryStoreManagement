@@ -8,6 +8,7 @@ namespace JSMServices.IServices
         Task<string> ExchangeGiftUser(Guid customerId, Guid giftId);
         Task<ICollection<Transactions>> GetAllTransactions();
         Task<Transactions> GetTransactionsByTransactionId(Guid transactionId);
+        Task<ICollection<Transactions>> GetTransactionsByCustomerId(Guid customerId);
     }
 }
 

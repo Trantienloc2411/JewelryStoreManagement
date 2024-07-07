@@ -2,6 +2,7 @@ using AutoMapper;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.CustomerViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
@@ -20,6 +21,7 @@ public class CustomerController : Controller
 
     [HttpGet]
     [Route("GetAllCustomers")]
+    [Authorize]
     public async Task<IActionResult> GetAllCustomers()
     {
         var listCustomer = await _customerService.GetAllCustomers();
@@ -27,6 +29,7 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     [Route("GetCustomerById/{customerId}")]
     public async Task<IActionResult> GetCustomerById(Guid customerId)
     {
@@ -36,6 +39,7 @@ public class CustomerController : Controller
 
     [HttpPost]
     [Route("AddCustomer")]
+    [Authorize]
     public async Task<IActionResult> AddCustomer(AddCustomerViewModel viewModel)
     {
         if (viewModel.Name == null)
@@ -134,10 +138,11 @@ public class CustomerController : Controller
     
     [HttpPut]
     [Route("UpdateCustomer")]
+    [Authorize]
     public async Task<IActionResult> UpdateCustomer (Guid customerId,AddCustomerViewModel viewModel)
     {
-        var updateCustomer = _customerService.UpdateCustomer(customerId,viewModel);
-        var customer = updateCustomer.Result;
+        var updateCustomer = await _customerService.UpdateCustomer(customerId,viewModel);
+        var customer = updateCustomer;
         if (customer.CustomerId.Equals(Guid.Empty))
         {
             if (customer.Email != null)
@@ -164,7 +169,7 @@ public class CustomerController : Controller
                 {
                     IsSuccess = false,
                     Data = null,
-                    Message = "Update failed! Due to: " + updateCustomer.Exception.InnerExceptions.ToString()
+                    Message = "Update failed! Due to: " + updateCustomer
                 }); 
             }
         }
@@ -177,6 +182,22 @@ public class CustomerController : Controller
                 Data = null,
                 Message = "Update successfully!"
             });
+        }
+    }
+
+    [HttpGet]
+    [Route("GetCustomerByPhone/{phoneNumber}")]
+    [Authorize]
+    public async Task<IActionResult> GetCustomerByPhone(string phoneNumber)
+    {
+        var result = await _customerService.GetCustomerByPhone(phoneNumber);
+        if (result.Equals(null))
+        {
+            return BadRequest("Customer not found");
+        }
+        else
+        {
+            return Ok(result);
         }
     }
     

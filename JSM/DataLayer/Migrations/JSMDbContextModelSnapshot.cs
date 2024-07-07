@@ -135,10 +135,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ApprovedBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ApprovedDate")
+                    b.Property<DateTime?>("ApprovedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CustomerId")
@@ -217,7 +216,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("8646475a-a1f8-4376-8ab2-f62e4570be5e"),
+                            EmployeeId = new Guid("50449d1d-1c16-4562-8722-fdeea24b1357"),
                             CounterId = 1,
                             Email = "a@gmail.com",
                             EmployeeGender = 0,
@@ -231,7 +230,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("8be7cbd0-dd4d-4e6a-80cc-0d22d7da9632"),
+                            EmployeeId = new Guid("3fe223eb-3757-47a3-869c-168c16f3dd97"),
                             CounterId = 2,
                             Email = "b@gmail.com",
                             EmployeeGender = 1,
@@ -242,6 +241,34 @@ namespace DataLayer.Migrations
                             Password = "1",
                             Phone = "0934425563",
                             RoleId = 2
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("f8a3563e-28b3-45e6-a889-073d56ee8a09"),
+                            CounterId = 2,
+                            Email = "admin@gmail.com",
+                            EmployeeGender = 1,
+                            EmployeeStatus = 0,
+                            IsLogin = true,
+                            ManagedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "Admin",
+                            Password = "1",
+                            Phone = "0934425533",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("2f2a6f7a-5d99-4bc7-8c09-397760d59b23"),
+                            CounterId = 2,
+                            Email = "sa@gmail.com",
+                            EmployeeGender = 0,
+                            EmployeeStatus = 0,
+                            IsLogin = true,
+                            ManagedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "Super Admin",
+                            Password = "sa@1",
+                            Phone = "0934425533",
+                            RoleId = 4
                         });
                 });
 
@@ -321,7 +348,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("PromotionCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Type")
@@ -694,9 +720,7 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DataLayer.Entities.Promotion", "Promotion")
                         .WithMany("Orders")
-                        .HasForeignKey("PromotionCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PromotionCode");
 
                     b.Navigation("Counter");
 

@@ -5,10 +5,12 @@ using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
 using JSMServices.ViewModels.CustomerViewModel;
 using JSMServices.ViewModels.EmployeeViewModel;
+using JSMServices.ViewModels.GiftViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using JSMServices.ViewModels.ProductViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
 using JSMServices.ViewModels.TypePriceViewModel;
+using JSMServices.ViewModels.WarrantyViewModel;
 
 namespace JewelryStoreManagement.Helpers;
 
@@ -42,6 +44,10 @@ public class MappingProfiles : Profile
         CreateMap<AddNewCounterViewModel, Counter>().ReverseMap();
         CreateMap<CounterViewModel, Counter>().ReverseMap();
         CreateMap<AssignCounterToViewModel, Employee>().ReverseMap();
+        CreateMap<CreateGiftViewModel, Gift>().ReverseMap();
+        CreateMap<CreateRequestCustomerPolicyViewModel, CustomerPolicy>().ReverseMap();
+        CreateMap<UpdateWarrantyViewModel, Warranty>().ReverseMap();
 
+        CreateMap<CreateWarrantyViewModel, Warranty>().ReverseMap();
     }
 }

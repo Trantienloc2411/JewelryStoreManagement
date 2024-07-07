@@ -1,6 +1,7 @@
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
+using JSMServices.ViewModels.GiftViewModel;
 
 namespace JSMServices.Services;
 
@@ -44,9 +45,10 @@ public class GiftService : IGiftService
         }
     }
 
-    public async Task<string> ExchangeGiftUser(Guid customerId, Guid giftId)
+    public async Task<Gift> CreateGift(CreateGiftViewModel giftViewModel)
     {
-        throw new NotImplementedException();
+        var gift = new Gift();
+        return gift;
     }
 
     //this function will automatically send email

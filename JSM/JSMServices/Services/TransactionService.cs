@@ -1,5 +1,4 @@
-﻿using System;
-using DataLayer.Entities;
+﻿using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
 
@@ -22,50 +21,82 @@ namespace JSMServices.Services
 
         public async Task<string> ExchangeGiftUser(Guid customerId, Guid giftId)
         {
-            var customerExchangeGift = new Customer();
-            var giftExchange = new Gift();
-            var transaction = new Transactions();
+	        try
+	        {
+		        var transaction = new Transactions();
 
-            customerExchangeGift = await _customerRepository.GetSingleWithAsync(c => c.CustomerId == customerId);
-            if (customerExchangeGift == null)
-            {
-                return "Customer not found";
-            }
-            giftExchange = await _giftRepository.GetSingleWithAsync(c => c.GiftId == giftId);
-            if (giftExchange == null)
-            {
-                return "Gift not found";
-            }
+		        var customerExchangeGift =
+			        await _customerRepository.GetSingleWithAsync(c => c.CustomerId == customerId);
+		        var giftExchange = await _giftRepository.GetSingleWithAsync(c => c.GiftId == giftId);
 
-            if (customerExchangeGift.AccumulatedPoint < giftExchange.PointRequired)
-            {
-                return "User does not meet requirment to received this gift.";
-            }
-            else
-            {
-                customerExchangeGift.AccumulatedPoint -= giftExchange.PointRequired;
-                _customerRepository.Update(customerExchangeGift);
+		        if (customerExchangeGift.AccumulatedPoint < giftExchange.PointRequired)
+		        {
+			        return "User does not meet requirement to received this gift.";
+		        }
+		        else
+		        {
+			        customerExchangeGift.AccumulatedPoint -= giftExchange.PointRequired;
+			        _customerRepository.Update(customerExchangeGift);
 
-                transaction.CustomerId = customerId;
-                transaction.GiftId = giftId;
-                transaction.TransactionDateTime = DateTime.Now;
-                transaction.PointMinus = giftExchange.PointRequired;
+			        transaction.CustomerId = customerId;
+			        transaction.GiftId = giftId;
+			        transaction.TransactionDateTime = DateTime.Now;
+			        transaction.PointMinus = giftExchange.PointRequired;
 
-                _transactionRepository.Add(transaction);
-                _transactionRepository.SaveChanges();
-            }
-            return "";
+			        _transactionRepository.Add(transaction);
+			        _transactionRepository.SaveChanges();
+		        }
+
+		        return "";
+	        }
+	        catch (Exception e)
+	        {
+		        Console.WriteLine(e);
+		        throw;
+	        }
         }
 
-        public Task<ICollection<Transactions>> GetAllTransactions()
+        public async Task<ICollection<Transactions>> GetAllTransactions()
         {
-            throw new NotImplementedException();
+	        try
+	        {
+		        return await _transactionRepository.GetAllWithAsync();
+	        }
+	        catch (Exception e)
+	        {
+		        Console.WriteLine(e);
+		        throw;
+	        }
         }
 
-        public Task<Transactions> GetTransactionsByTransactionId(Guid transactionId)
+        public async Task<Transactions> GetTransactionsByTransactionId(Guid transactionId)
         {
-            throw new NotImplementedException();
+	        try
+	        {
+		        var transaction =
+			        await _transactionRepository.GetSingleWithAsync(c => c.TransactionId == transactionId);
+		        return transaction;
+	        }
+	        catch (Exception e)
+	        {
+		        Console.WriteLine(e);
+		        throw;
+	        }
         }
-    }
+
+        public async Task<ICollection<Transactions>> GetTransactionsByCustomerId(Guid customerId)
+        {
+	        try
+	        {
+		        var warranties = await _transactionRepository.GetListWithAsync(c => c.CustomerId == customerId);
+		        return warranties;
+	        }
+	        catch (Exception e)
+	        {
+		        Console.WriteLine(e);
+		        throw;
+	        }
+        }
+	}
 }
 

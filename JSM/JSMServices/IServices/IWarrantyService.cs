@@ -7,5 +7,7 @@ public interface IWarrantyService
 {
     Task<ICollection<Warranty>> GetAllWarranty();
     Task<Warranty> GetWarrantyById(Guid warrantyId);
-    Task<string> UpdateWarrantyDate(UpdateWarrantyViewModel viewModel);   
+    Task<string> UpdateWarrantyDate(UpdateWarrantyViewModel viewModel);
+
+    Task<string> CreateWarranty(CreateWarrantyViewModel viewModel);
 }

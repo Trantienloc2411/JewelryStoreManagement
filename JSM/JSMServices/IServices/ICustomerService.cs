@@ -10,4 +10,6 @@ public interface ICustomerService
     Task<Customer> UpdateCustomer(Guid customerId, AddCustomerViewModel customerViewModel);
     Task<Customer> AddCustomer(AddCustomerViewModel customerViewModel);
 
+    Task<Customer> GetCustomerByPhone(string phone);
+
 }
