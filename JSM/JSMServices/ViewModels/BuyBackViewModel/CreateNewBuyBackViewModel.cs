@@ -15,7 +15,7 @@ namespace JSMServices.ViewModels.BuyBackViewModel
         public DataLayer.Entities.Order.OrderStatuses OrderStatus { get; set; } = DataLayer.Entities.Order.OrderStatuses.Created;
         public int PaymentId { get; set; }
 
-        public BuyBack BuyBack { get; set; }
+        public BuyBack? BuyBack { get; set; }
         
 
     }

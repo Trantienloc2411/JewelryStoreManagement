@@ -73,13 +73,20 @@ public class OrderService : IOrderService
 
     public async Task<Order> GetOrderByOrderId(string orderCode)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result =
+                await _orderRepository.GetSingleWithIncludeAsync(c => c.OrderId == orderCode, c => c.OrderDetails,
+                    c => c.Employee);
+            return result;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
-
-    public async Task<Order> GetOrderByWarrantyId(Guid warrantyId)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     private static Random _random = new Random();
     private static string GenerateRandomString(int length)
@@ -95,6 +102,6 @@ public class OrderService : IOrderService
 
     public Task<Order> CreateNewBuyBack(CreateNewBuyBackViewModel viewModel)
     {
-        throw new NotImplementedException();
+        throw new Exception();
     }
 }
