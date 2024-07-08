@@ -171,6 +171,21 @@ namespace DataLayer
                 RoleId = 4
             });
 
+            modelBuilder.Entity<PaymentMethod>().HasData(new PaymentMethod
+            {
+                PaymentId = 1,
+                PaymentType = "Cash"
+            });
+            
+            modelBuilder.Entity<PaymentMethod>().HasData(new PaymentMethod
+            {
+                PaymentId = 2,
+                PaymentType = "Mobile Banking"
+            });
+            
+            
+
+
 
 
 

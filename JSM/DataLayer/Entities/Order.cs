@@ -1,21 +1,24 @@
 ﻿#pragma warning disable
 
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DataLayer.Entities
 {
     public class Order
     {
+        [MaxLength(32)]
         public string OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public Guid EmployeeId { get; set; }  
         public DateTime OrderDate { get; set; }
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
         public Types Type { get; set; }
-        [AllowNull]
+        [ForeignKey("Promotion")]
         public string? PromotionCode { get; set; }   
-        public int AccumulatedPoint { get; set; }
+        public int? AccumulatedPoint { get; set; }
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
         
