@@ -109,6 +109,8 @@ namespace JewelryStoreManagement
             //Add Scope 
             //Repositories
 
+
+            builder.Services.AddScoped<TransactionRepository>();
             builder.Services.AddScoped<BuybackRepository>();
             builder.Services.AddScoped<CounterRepository>();
             builder.Services.AddScoped<CustomerPolicyRepository>();
@@ -139,6 +141,7 @@ namespace JewelryStoreManagement
             builder.Services.AddScoped<IGenericRepository<TypePrice>, TypePriceRepository>();
             builder.Services.AddScoped<IGenericRepository<Warranty>, WarrantyRepository>();
             builder.Services.AddScoped<IGenericRepository<RefreshToken>, RefreshHandlerRepository>();
+            builder.Services.AddScoped<IGenericRepository<Transactions>, TransactionRepository>();
 
             //IService + Service
             builder.Services.AddScoped<IRefreshHandlerService, RefreshHandlerService>();
@@ -156,6 +159,9 @@ namespace JewelryStoreManagement
             builder.Services.AddScoped<ITypePriceService, TypePriceService>();
             builder.Services.AddScoped<IWarrantyService, WarrantyService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+
 
             var CORS_CONFIG = "_CORS_CONFIG";
             builder.Services.AddCors(options =>

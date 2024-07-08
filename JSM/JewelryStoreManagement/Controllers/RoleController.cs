@@ -1,4 +1,5 @@
 using JSMServices.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
@@ -15,7 +16,8 @@ public class RoleController : Controller
     }
 
     [HttpGet]
-    [Route("GetAllRole")]
+    [Route("GetAllRole")]       
+    
     public async Task<IActionResult> GetAllRoutes()
     {
         var listRole = await _roleService.GetAllRoles();

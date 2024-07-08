@@ -20,7 +20,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    [Route("AddNewEmployee")]
+    [Route("AddNewEmployee")]        [Authorize]
     public async Task<IActionResult> AddEmployee(RegisterEmployeeViewModel registerEmployeeViewModel)
     {
         var user = HttpContext.User;
@@ -56,7 +56,7 @@ public class EmployeeController : Controller
     }
 
     [HttpGet]
-    [Route("GetAllEmployee")]
+    [Route("GetAllEmployee")]        [Authorize]
     public async Task<IActionResult> GetAllEmployee()
     {
         var listUser = await _employeeService.GetAllEmployee();
@@ -75,7 +75,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPut]
-    [Route("UpdatePassword")]
+    [Route("UpdatePassword")]        [Authorize]
     public async Task<IActionResult> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
         var account = await _employeeService.UpdatePasswordEmployeeAccount(email, oldPassword, newPassword);
@@ -92,7 +92,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPut]
-    [Route("UpdateStatus")]
+    [Route("UpdateStatus")]        [Authorize]
     public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
         string result = await _employeeService.UpdateStatusEmployeeAccount(uid);
@@ -109,11 +109,11 @@ public class EmployeeController : Controller
     }
 
     [HttpDelete]
-    [Route("DeleteEmployee")]
+    [Route("DeleteEmployee")]        [Authorize]
     public async Task<IActionResult> DeleteEmployeeAccount(Guid id)
     {
         string result = await _employeeService.DeleteEmployeeAccount(id);
-        if (result != null || result.Length != 0)
+        if (result != "" || result.Length != 0)
         {
             return BadRequest(new ApiResponse()
             {
@@ -122,11 +122,12 @@ public class EmployeeController : Controller
                 Data = null
             });
         }
-        return Ok("Remove successfully");
+        else return Ok("Remove successfully");
+
     }
 
     [HttpPut]
-    [Route("UpdateEmployee")]
+    [Route("UpdateEmployee")]        [Authorize]
     public async Task<IActionResult> UpdateInformationEmployee(
         [FromBody] UpdateInformationViewModel updateInformationViewModel)
     {

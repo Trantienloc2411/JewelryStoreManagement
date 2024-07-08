@@ -1,6 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Reflection;
+using System.Security.Claims;
+using AutoMapper;
 using JSMServices.IServices;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers
@@ -19,7 +22,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllCustomerPolicies")]
+        [Route("GetAllCustomerPolicies")]        [Authorize]
         public async Task<IActionResult> GetAllProducts()
         {
             var listProduct = await _customerPolicyService.GetAllCustomerPolicies();
@@ -29,12 +32,64 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateCustomerPolicy")]
+        [Route("UpdateCustomerPolicy")]        [Authorize]
         public async Task<IActionResult> UpdateInformationCustomerPolicy(
         [FromBody] UpdateCustomerPolicyViewModel updateCustomerPolicyViewModel, Guid CPId)
         {
             await _customerPolicyService.UpdateInformationCustomerPolicy(updateCustomerPolicyViewModel, CPId);
             return Ok("Update Successfully");
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [Route("CreateCustomerPolicy")]
+        public async Task<IActionResult> CreateCustomerPolicy([FromBody] CreateRequestCustomerPolicyViewModel viewModel)
+        {
+            var result = await _customerPolicyService.CreateRequestCustomerPolicy(viewModel);
+            if (result != "")
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok("Make request successfully");
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("ApproveCustomerPolicy")]
+        public async Task<IActionResult> ApproveCustomerPolicy(Guid Cpid)
+        {
+            var claims = HttpContext.User;
+            var result = await _customerPolicyService.ApproveCustomerPolicy(Cpid, claims);
+            if (result != "")
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok("Approve Successfully");
+            }
+        }
+        
+        
+        [HttpPut]
+        [Authorize]
+        [Route("DenyCustomerPolicy")]
+        public async Task<IActionResult> DenyCustomerPolicy(Guid Cpid)
+        {
+            var claims = HttpContext.User;
+            var result = await _customerPolicyService.DenyCustomerPolicy(Cpid, claims);
+            if (result != "")
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok("Denied Successfully");
+            }
         }
     }
 }
