@@ -172,7 +172,7 @@ public class ProductService : IProductService
                 .ToList();
             if (!filterProducts.Any())
             {
-                throw new Exception("The product does not exist or was deleted");
+                throw new Exception("The product does not existed or was deleted");
             }
             return filterProducts;
         }

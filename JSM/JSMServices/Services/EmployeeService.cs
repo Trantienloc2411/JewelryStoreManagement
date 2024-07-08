@@ -288,9 +288,31 @@ public class EmployeeService : IEmployeeService
         }
     }
 
+
     //this will setup config to send email
     private void SendEmail(string emailTo, string header, string content)
     {
+
+
+    public async Task<ICollection<Employee>> GetEmployeeByCounterId(int counterId)
+    {
+        try
+        {
+            var listEmployee = _employeeRepository.GetAll();
+            var filteredEmployee = listEmployee.
+                Where(c => c.CounterId.Equals(counterId) && c.EmployeeStatus == Employee.EmployeeStatuses.Active)
+                .ToList();
+            if (!filteredEmployee.Any())
+            {
+                throw new Exception("The Employee does not existed or was deleted");
+            }
+            return filteredEmployee;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
     }
 }

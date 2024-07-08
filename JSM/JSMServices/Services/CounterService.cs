@@ -84,8 +84,7 @@ public class CounterService : ICounterService
         try
         {
             var listCounter = _counterRepository.GetAll();
-            var filterCounters = listCounter.Where(p => p.IsActive == true).ToList();
-            return filterCounters;
+            return listCounter;
         }
         catch (Exception e)
         {
