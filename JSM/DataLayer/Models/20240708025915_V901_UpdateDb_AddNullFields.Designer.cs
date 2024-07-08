@@ -3,17 +3,19 @@ using System;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataLayer.Migrations
+namespace DataLayer.Models
 {
     [DbContext(typeof(JSMDbContext))]
-    partial class JSMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708025915_V901_UpdateDb_AddNullFields")]
+    partial class V901_UpdateDb_AddNullFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -144,6 +144,8 @@ public class EmployeeService : IEmployeeService
         }
     }
 
+
+
     public async Task<Employee> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
         try
@@ -221,7 +223,7 @@ public class EmployeeService : IEmployeeService
             {
                 account.EmployeeStatus = Employee.EmployeeStatuses.Deleted;
                 await _employeeRepository.SaveChangesAsync();
-                return null;
+                return "";
             }
         }
         catch (Exception e)
@@ -288,6 +290,13 @@ public class EmployeeService : IEmployeeService
         }
     }
 
+
+    //this will setup config to send email
+    private void SendEmail(string emailTo, string header, string content)
+    {
+
+    }
+
     public async Task<ICollection<Employee>> GetEmployeeByCounterId(int counterId)
     {
         try
@@ -307,5 +316,6 @@ public class EmployeeService : IEmployeeService
             Console.WriteLine(e);
             throw;
         }
+
     }
 }

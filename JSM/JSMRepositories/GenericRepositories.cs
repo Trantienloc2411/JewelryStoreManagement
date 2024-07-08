@@ -144,4 +144,18 @@ public class GenericRepositories<T> : IGenericRepository<T> where T : class
         }
         return await query.Where(predicate).ToListAsync();
     }
+    
+    public async Task<T> GetSingleWithIncludeAsync(
+        Expression<Func<T, bool>> predicate,
+        params Expression<Func<T, object>>[] includeProperties)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
+    }
 }

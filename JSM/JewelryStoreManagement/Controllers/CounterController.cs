@@ -2,6 +2,7 @@
 using JSMServices.IServices;
 using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.EmployeeViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers
@@ -20,6 +21,7 @@ namespace JewelryStoreManagement.Controllers
         }
         [HttpGet]
         [Route("GetAllCounters")]
+        [Authorize]
         public async Task<IActionResult> GetAllCounters()
         {
             var listCounter = await _counterService.GetAllCounters();
@@ -30,7 +32,7 @@ namespace JewelryStoreManagement.Controllers
 
 
         [HttpGet]
-        [Route("ViewCounterDetail")]
+        [Route("ViewCounterDetail")]        [Authorize]
         public async Task<IActionResult> ViewCounterDetail(int counterId)
         {
             var listCounter = await _counterService.GetCounterById(counterId);
@@ -39,7 +41,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPost]
-        [Route("AddNewCounter")]
+        [Route("AddNewCounter")]        [Authorize]
         public async Task<IActionResult> AddNewCounter(AddNewCounterViewModel addNewCounterViewModel)
         {
             if (_counterService == null)
@@ -54,7 +56,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPut]
-        [Route("AssignCounterToEmployee")]
+        [Route("AssignCounterToEmployee")]        [Authorize]
         public async Task<IActionResult> AssignCounterToEmployee(
             [FromBody] AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
         {

@@ -12,4 +12,6 @@ public interface ITypePriceService
     public Task<TypePrice> GetTypePriceById(int typeId);
 
     public Task DeleteTypePrice(int typeId);
+
+
 }
