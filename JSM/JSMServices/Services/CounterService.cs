@@ -47,7 +47,7 @@ public class CounterService : ICounterService
         throw new Exception("An error occurred while adding the counter.");
     }
 
-    public async Task AssignCounterToEmployee(AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
+    public async Task<string> AssignCounterToEmployee(AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
     {
         try
         {

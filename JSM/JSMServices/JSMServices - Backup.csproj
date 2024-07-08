@@ -28,7 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\OrderDetailViewModel\" />
+    <None Remove="ViewModels\BuyBackViewModel\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="ViewModels\BuyBackViewModel\" />
+  </ItemGroup>
 </Project>
