@@ -9,6 +9,13 @@ namespace DataLayer.Entities
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
         public double ManufactureCost { get; set; }
+        public OrderDetailStatuses OrderDetailStatus { get; set; }
+
+        public enum OrderDetailStatuses
+        {
+            Purchased,
+            BuyBack
+        }
 
         public virtual Order Order { get; set; }    
         public virtual Product Product { get; set; }

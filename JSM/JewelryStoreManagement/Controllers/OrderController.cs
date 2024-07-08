@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JSMServices.IServices;
+using JSMServices.ViewModels.BuyBackViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,23 @@ namespace JewelryStoreManagement.Controllers
             else
             {
                 await _orderService.CreateNewOrder(createOrderViewModel);
+                return Ok("Create successfully");
+            }
+        }
+
+        [HttpPost]
+        [Route("AddNewBuyBack")]
+        [Authorize]
+        public async Task<IActionResult> AddNewBuyBack(CreateNewBuyBackViewModel viewModel)
+        {
+            var user = HttpContext.User;
+            var order = await _orderService.CreateNewBuyBack(viewModel, user);
+            if(order.OrderId == null)
+            {
+                return BadRequest("Create not successfully! Due to existed key");
+            }
+            else
+            {
                 return Ok("Create successfully");
             }
         }
