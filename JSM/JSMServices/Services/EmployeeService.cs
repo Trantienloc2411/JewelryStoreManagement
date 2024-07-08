@@ -144,6 +144,8 @@ public class EmployeeService : IEmployeeService
         }
     }
 
+
+
     public async Task<Employee> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
         try
@@ -293,6 +295,7 @@ public class EmployeeService : IEmployeeService
     private void SendEmail(string emailTo, string header, string content)
     {
 
+    }
 
     public async Task<ICollection<Employee>> GetEmployeeByCounterId(int counterId)
     {

@@ -3,6 +3,7 @@ using JewelryStoreManagement.ViewModels;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.EmployeeViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
