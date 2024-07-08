@@ -15,5 +15,6 @@ namespace JSMServices.ViewModels.OrderViewModel
         public int PaymentId { get; set; }
 
         public OrderStatuses OrderStatus { get; set; }
+
     }
 }
