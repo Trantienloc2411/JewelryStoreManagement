@@ -32,7 +32,7 @@ namespace JewelryStoreManagement.Controllers
         [HttpPost]
         [Route("AddNewBuyBack")]
         [Authorize]
-        public async Task<IActionResult> AddNewBuyBack(CreateNewBuyBackViewModel viewModel)
+        public async Task<IActionResult> AddNewBuyBack([FromBody] CreateNewBuyBackViewModel viewModel)
         {
             var user = HttpContext.User;
             var order = await _orderService.CreateNewBuyBack(viewModel, user);
