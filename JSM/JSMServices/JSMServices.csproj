@@ -33,9 +33,4 @@
   <ItemGroup>
     <Folder Include="ViewModels\BuyBackViewModel\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Services\PaymentServices.cs">
-      <DependentUpon>GiftService.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

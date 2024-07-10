@@ -28,7 +28,7 @@ public class PaymentServices : IPaymentService
             }
 
             PaymentData paymentData = new PaymentData(Convert.ToInt32(orderId),
-                viewModel.priceTotal, $"{orderId}", items, "http://facebook.com", "http://google.com"); //return cancelUrl and successUrl
+                viewModel.priceTotal, $"{orderId}", items, viewModel.cancelUrl, viewModel.returnUrl); //return cancelUrl and successUrl
             CreatePaymentResult createPaymentResult = await _payOs.createPaymentLink(paymentData);
             //return url of payment
             return createPaymentResult.checkoutUrl;

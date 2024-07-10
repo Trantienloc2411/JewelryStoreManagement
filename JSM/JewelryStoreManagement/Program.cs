@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Net.payOS;
 
 namespace JewelryStoreManagement
 {
@@ -21,6 +22,13 @@ namespace JewelryStoreManagement
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddAuthorization();
+
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsetting.json").Build();
+
+            PayOS payOS = new PayOS(configuration["PaymentEnvironment:PAYOS_CLIENT_ID"] ?? throw new Exception("Cannot find environment"),
+                configuration["PaymentEnvironment:PAYOS_API_KEY"] ?? throw new Exception("Cannot find environment"),
+                configuration["PaymentEnvironment:PAYOS_CHECKSUM_KEY"] ?? throw new Exception("Cannot find environment"));
+            builder.Services.AddSingleton(payOS);
 
             builder.Services.AddAuthorization(options =>
             {
