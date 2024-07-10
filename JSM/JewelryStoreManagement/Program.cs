@@ -23,13 +23,13 @@ namespace JewelryStoreManagement
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddAuthorization();
 
-            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsetting.json").Build();
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
             PayOS payOS = new PayOS(configuration["PaymentEnvironment:PAYOS_CLIENT_ID"] ?? throw new Exception("Cannot find environment"),
                 configuration["PaymentEnvironment:PAYOS_API_KEY"] ?? throw new Exception("Cannot find environment"),
                 configuration["PaymentEnvironment:PAYOS_CHECKSUM_KEY"] ?? throw new Exception("Cannot find environment"));
             builder.Services.AddSingleton(payOS);
-
+            builder.Services.AddSingleton<IConfiguration>(configuration);
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("SuperAdmin", policy =>
@@ -106,7 +106,7 @@ namespace JewelryStoreManagement
             });
             IConfiguration config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsetting.json", true, true)
+                .AddJsonFile("appsettings.json", true, true)
                 .Build();
             var connectionstring = config["ConnectionStrings:Local"];
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
