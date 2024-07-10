@@ -61,7 +61,7 @@ public class OrderService : IOrderService
                     OrderDate = DateTime.Now,
                     Discount = viewmodel.Discount,
                     Type = Order.Types.Selling,
-                    PromotionCode = "nullable",
+                    PromotionCode = "string",
                     AccumulatedPoint = viewmodel.AccumulatedPoint,
                     CounterId = viewmodel.CounterId,
                     PaymentId = viewmodel.PaymentId,
