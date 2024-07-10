@@ -33,24 +33,16 @@ public class EmployeeController : Controller
         {
 
             var employee = await _employeeService.AddAccountEmployee(registerEmployeeViewModel, user);
-            if (employee.EmployeeId == null && employee.Email != null)
+            if (employee != "")
             {
                 return BadRequest(new ApiResponse()
                 {
                     IsSuccess = false,
-                    Message = @"Email is already registered. Please use another email.",
+                    Message = employee,
                     Data = null
                 });
             }
-            else if (employee.EmployeeId == null && employee.Phone != null)
-            {
-                return BadRequest(new ApiResponse()
-                {
-                    IsSuccess = false,
-                    Message = @"Phone number is already registered. Please use another phone number.",
-                    Data = null
-                });
-            }
+            
             return Ok("Create successfully");
 
         }
@@ -143,5 +135,27 @@ public class EmployeeController : Controller
             });
         }
         return Ok("Update Successfully");
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("ResetPassword/{employeeId}")]
+    public async Task<IActionResult> ResetPasswordEmployee(Guid employeeId)
+    {
+        var user = HttpContext.User;
+        string result = await _employeeService.ResetPasswordEmployee(employeeId, user);
+        if (result != "")
+        {
+            return BadRequest(new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = result
+            });
+        }
+        else
+        {
+            return Ok("Password Reset successfully");
+        }
     }
 }
