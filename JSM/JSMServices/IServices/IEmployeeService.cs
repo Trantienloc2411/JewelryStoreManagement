@@ -7,7 +7,7 @@ namespace JSMServices.IServices;
 public interface IEmployeeService
 {
     //your define interface right here
-    public Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel, ClaimsPrincipal user);
+    public Task<string> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel, ClaimsPrincipal user);
     //public Task<Employee> LoginAccountEmployee(LoginEmployeeViewModel loginEmployeeViewModel);
     public Task<ICollection<Employee>> GetAllEmployee();
     public Employee GetEmployeeById(Guid employeeId);
@@ -18,7 +18,6 @@ public interface IEmployeeService
     public Task<string> UpdateStatusEmployeeAccount(Guid uid);
     public Task<string> DeleteEmployeeAccount(Guid uid);
     public Task<string> UpdateInformationEmployee(UpdateInformationViewModel updateInformationEmployeeViewModel);
-    
-    
+    public Task<string> ResetPasswordEmployee(Guid employeeId, ClaimsPrincipal user);
 
 }

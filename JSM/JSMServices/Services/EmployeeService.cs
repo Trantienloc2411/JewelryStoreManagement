@@ -5,6 +5,11 @@ using JSMRepositories;
 using JSMServices.IServices;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Configuration;
+using MimeKit;
+using MimeKit.Text;
 
 
 #pragma warning disable
@@ -14,15 +19,17 @@ public class EmployeeService : IEmployeeService
 {
     private readonly EmployeeRepository _employeeRepository;
     private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
 
-    public EmployeeService(EmployeeRepository employeeRepository, IMapper mapper)
+    public EmployeeService(EmployeeRepository employeeRepository, IMapper mapper, IConfiguration configuration)
     {
         _employeeRepository = employeeRepository;
         _mapper = mapper;
+        _configuration = configuration;
     }
 
 
-    public async Task<Employee> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel, ClaimsPrincipal user)
+    public async Task<string> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel, ClaimsPrincipal user)
     {
         try
         {
@@ -33,13 +40,13 @@ public class EmployeeService : IEmployeeService
             {
                 // employee.Email = registerEmployeeViewModel.Email;
                 // return employee;
-                throw new Exception($"Email '{registerEmployeeViewModel.Email}' is already registered. Please use another email.");
+                return $"Email '{registerEmployeeViewModel.Email}' is already registered. Please use another email.";
             }
             else if (existedEmployeeList.FirstOrDefault(e => e.Phone.Equals(registerEmployeeViewModel.Phone)) != null)
             {
                 // employee.Phone = registerEmployeeViewModel.Phone;
                 // return employee;
-                throw new Exception($"Phone number '{registerEmployeeViewModel.Phone}' is already registered. Please use another phone number.");
+                return $"Phone number '{registerEmployeeViewModel.Phone}' is already registered. Please use another phone number.";
             }
             else
             {
@@ -51,7 +58,7 @@ public class EmployeeService : IEmployeeService
                 int roleWhoCreated = Int32.Parse(roleCurrent);
                 if (roleWhoCreated == 1)
                 {
-                    throw new Exception("You dont have permission to do this action");
+                    return "You dont have permission to do this action";
                 }
                 else if (roleWhoCreated == 2)
                 {
@@ -68,7 +75,8 @@ public class EmployeeService : IEmployeeService
                 if (entityEntry.State == EntityState.Added)
                 {
                     await _employeeRepository.SaveChangesAsync();
-                    return employee;
+                    SendEmail(employee.Email,employee.Name,employee.Password);
+                    return "";
                 }
             }
         }
@@ -290,10 +298,80 @@ public class EmployeeService : IEmployeeService
         }
     }
 
+    public async Task<string> ResetPasswordEmployee(Guid employeeId, ClaimsPrincipal user)
+    {
+        try
+        {
+            string roleUpdater = user.FindFirst("RoleId").Value;
+            int roleUpdaterConvert = int.Parse(roleUpdater);
+
+            if (roleUpdaterConvert <= 3)
+            {
+                return "You don't have any permission to do this action";
+            }
+            else
+            {
+                var employee = await _employeeRepository.GetSingleWithAsync(c => c.EmployeeId == employeeId);
+                if (employee.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
+                {
+                    return "This employee was deleted or not existed in our system";
+                }
+                else
+                {
+                    employee.IsLogin = false;
+                    employee.Password = GenerateRandomString(8);
+                    _employeeRepository.UpdateWithAsync(employee);
+                    _employeeRepository.SaveChanges();
+                    SendEmail(employee.Email, employee.Name,employee.Password);
+                    return "";
+                }
+                
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
 
     //this will setup config to send email
-    private void SendEmail(string emailTo, string header, string content)
+    private void SendEmail(string emailTo, string username, string key)
     {
+        
+        try
+        {
+            string body =
+                "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Document</title>\r\n    <style>\r\n        table, th, td{\r\n            border: 1px solid  ;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <h3>Hi,  " +
+                username +
+                "</h3>\r\nHere is the information using for login into our system.\r\n\r\n<table>\r\n    <tr>\r\n        <th>Email</th>\r\n        <th>Password</th>\r\n    </tr>\r\n    <tr>\r\n        <th>\r\n           " +
+                emailTo + "\r\n        </th>\r\n        <th>\r\n            " + key +
+                "\r\n        </th>\r\n    </tr>\r\n</table>\r\n</body>\r\n</html>";
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(_configuration.GetSection("EmailUserName").Value));
+            email.To.Add(MailboxAddress.Parse(emailTo));
+            email.Subject = "Account use for login into JSS system";
+            email.Body = new TextPart(TextFormat.Html)
+            {
+                Text = body
+            };
+
+
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Connect(_configuration.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_configuration.GetSection("EmailUserName").Value,
+                    _configuration.GetSection("EmailPassword").Value);
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
     }
 
@@ -318,4 +396,6 @@ public class EmployeeService : IEmployeeService
         }
 
     }
+    
+    
 }
