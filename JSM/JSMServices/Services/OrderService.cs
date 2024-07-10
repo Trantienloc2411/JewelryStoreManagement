@@ -1,11 +1,10 @@
-using System.Security.Claims;
 using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.BuyBackViewModel;
 using JSMServices.ViewModels.OrderViewModel;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace JSMServices.Services;
 
@@ -39,44 +38,56 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<Order> CreateNewOrder(CreateOrderViewModel createOrderViewModel)
+    public async Task<Order> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
     {
         try
         {
-            var existedOrderList = _orderRepository.GetAll();
             var order = new Order();
-            if (existedOrderList.FirstOrDefault(e => e.CustomerId.Equals(createOrderViewModel.CustomerId)) != null)
-            {
-                throw new Exception($"CustomerId '{createOrderViewModel.CustomerId}' is already existed. Please use another Id.");
-            }
-            if (existedOrderList.FirstOrDefault(e => e.EmployeeId.Equals(createOrderViewModel.EmployeeId)) != null)
-            {
-                throw new Exception($"EmployeeId '{createOrderViewModel.EmployeeId}' is already existed. Please use another Id.");
-            }
-            if (existedOrderList.FirstOrDefault(e => e.PromotionCode.Equals(createOrderViewModel.PromotionCode)) != null)
-            {
-                throw new Exception($"PromotionCode '{createOrderViewModel.PromotionCode}' is already existed. Please use another PromotionCode.");
-            }
-            _mapper.Map(createOrderViewModel, order);
-            order.OrderId = GenerateRandomString(8);
-            var entityEntry = await _orderRepository.AddSingleWithAsync(order);
+            var orderDetail = new OrderDetail();
 
-            if (entityEntry.State == EntityState.Added)
+            var getOrder = await _orderRepository.GetAllWithAsync();
+            order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
+            if (order != null)
             {
-                await _orderRepository.SaveChangesAsync();
                 return order;
             }
+            else
+            {
+                order = new Order
+                {
+                    OrderId = viewmodel.OrderId,
+                    CustomerId = viewmodel.CustomerId,
+                    EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                    OrderDate = DateTime.Now,
+                    Discount = viewmodel.Discount,
+                    Type = Order.Types.Selling,
+                    PromotionCode = "nullable",
+                    AccumulatedPoint = viewmodel.AccumulatedPoint,
+                    CounterId = viewmodel.CounterId,
+                    PaymentId = viewmodel.PaymentId,
+                    OrderStatus = Order.OrderStatuses.Created,
+                };
+                _orderRepository.Add(order);
+                await _orderRepository.SaveChangesAsync();
 
-
+                orderDetail = new OrderDetail
+                {
+                    OrderDetailId = GenerateRandomString(8),
+                    ProductId = viewmodel.OrderDetail.ProductId,
+                    OrderId = viewmodel.OrderId,
+                    Quantity = viewmodel.OrderDetail.Quantity,
+                    UnitPrice = viewmodel.OrderDetail.UnitPrice,
+                    ManufactureCost = viewmodel.OrderDetail.ManufactureCost
+                };
+                _orderDetailRepository.Add(orderDetail);
+                await _buybackRepository.SaveChangesAsync();
+            }
+            return order;
         }
         catch (Exception ex)
         {
-            // Log the exception or handle it in some other way
-            throw new Exception($"An error occurred while adding the Order: {ex.Message}");
+            throw new Exception(ex.InnerException?.Message ?? ex.Message);
         }
-
-        // If we reach this point, something went wrong during the add operation
-        throw new Exception("An error occurred while adding the Order.");
     }
 
     public async Task<Order> GetOrderByOrderId(string orderCode)
@@ -94,7 +105,7 @@ public class OrderService : IOrderService
             throw;
         }
     }
-    
+
 
     private static Random _random = new Random();
     private static string GenerateRandomString(int length)

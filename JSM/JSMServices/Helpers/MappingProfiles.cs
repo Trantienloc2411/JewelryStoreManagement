@@ -38,7 +38,6 @@ public class MappingProfiles : Profile
         CreateMap<UpdateCustomerPolicyViewModel, CustomerPolicy>().ReverseMap();
         CreateMap<CustomerPolicyViewMode, CustomerPolicy>().ReverseMap();
         CreateMap<OrderViewModel, Order>().ReverseMap();
-        CreateMap<CreateOrderViewModel, Order>().ReverseMap();
         CreateMap<CreateTypePriceViewModel, TypePrice>().ReverseMap();
         CreateMap<UpdateTypePriceViewModel, TypePrice>().ReverseMap();
         CreateMap<AddNewCounterViewModel, Counter>().ReverseMap();

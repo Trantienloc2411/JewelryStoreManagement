@@ -20,28 +20,13 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllOrders")]        [Authorize]
+        [Route("GetAllOrders")]
+        [Authorize]
         public async Task<IActionResult> GetAllOrders()
         {
             var listOrder = await _orderService.GetAllOrders();
             var result = _mapper.Map<ICollection<OrderViewModel>>(listOrder);
             return Ok(result);
-        }
-
-        [HttpPost]
-        [Route("AddNewOrder")]        [Authorize]
-        public async Task<IActionResult> AddNewOrder(
-            [FromBody] CreateOrderViewModel createOrderViewModel)
-        {
-            if (_orderService == null)
-            {
-                return BadRequest("The Order Service is not initialized!");
-            }
-            else
-            {
-                await _orderService.CreateNewOrder(createOrderViewModel);
-                return Ok("Create successfully");
-            }
         }
 
         [HttpPost]
@@ -51,7 +36,24 @@ namespace JewelryStoreManagement.Controllers
         {
             var user = HttpContext.User;
             var order = await _orderService.CreateNewBuyBack(viewModel, user);
-            if(order.OrderId == null)
+            if (order.OrderId == null)
+            {
+                return BadRequest("Create not successfully! Due to existed key");
+            }
+            else
+            {
+                return Ok("Create successfully");
+            }
+        }
+
+        [HttpPost]
+        [Route("AddNewSelling")]
+        [Authorize]
+        public async Task<IActionResult> AddNewSelling(CreateNewSellingViewModel viewModel)
+        {
+            var user = HttpContext.User;
+            var order = await _orderService.CreateNewOrderSelling(viewModel, user);
+            if (order.OrderId == null)
             {
                 return BadRequest("Create not successfully! Due to existed key");
             }
