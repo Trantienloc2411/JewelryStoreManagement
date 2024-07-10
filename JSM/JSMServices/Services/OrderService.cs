@@ -2,6 +2,7 @@ using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
+using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.BuyBackViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using System.Security.Claims;
@@ -38,7 +39,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<Order> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
+    public async Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
     {
         try
         {
@@ -49,7 +50,7 @@ public class OrderService : IOrderService
             order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
             if (order != null)
             {
-                return order;
+                return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
             }
             else
             {
@@ -61,12 +62,21 @@ public class OrderService : IOrderService
                     OrderDate = DateTime.Now,
                     Discount = viewmodel.Discount,
                     Type = Order.Types.Selling,
-                    PromotionCode = "string",
+                    PromotionCode = viewmodel.PromotionCode,
                     AccumulatedPoint = viewmodel.AccumulatedPoint,
                     CounterId = viewmodel.CounterId,
                     PaymentId = viewmodel.PaymentId,
                     OrderStatus = Order.OrderStatuses.Created,
                 };
+                if (viewmodel.PromotionCode != null)
+                {
+                    var checkPromotionCodeExisted =
+                    await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode));
+                    if (checkPromotionCodeExisted == null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "PromotionCode is not existed" };
+                    }
+                }
                 _orderRepository.Add(order);
                 await _orderRepository.SaveChangesAsync();
 
@@ -82,11 +92,11 @@ public class OrderService : IOrderService
                 _orderDetailRepository.Add(orderDetail);
                 await _buybackRepository.SaveChangesAsync();
             }
-            return order;
+            return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.InnerException?.Message ?? ex.Message);
+            return new ApiResponse { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
         }
     }
 

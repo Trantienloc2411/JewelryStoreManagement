@@ -52,10 +52,10 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> AddNewSelling(CreateNewSellingViewModel viewModel)
         {
             var user = HttpContext.User;
-            var order = await _orderService.CreateNewOrderSelling(viewModel, user);
-            if (order.OrderId == null)
+            var response = await _orderService.CreateNewOrderSelling(viewModel, user);
+            if (!response.IsSuccess)
             {
-                return BadRequest("Create not successfully! Due to existed key");
+                return BadRequest(response.Message);
             }
             else
             {

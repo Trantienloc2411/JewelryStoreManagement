@@ -48,5 +48,6 @@ public class MappingProfiles : Profile
         CreateMap<UpdateWarrantyViewModel, Warranty>().ReverseMap();
 
         CreateMap<CreateWarrantyViewModel, Warranty>().ReverseMap();
+        CreateMap<GiftViewModel, Gift>().ReverseMap();
     }
 }

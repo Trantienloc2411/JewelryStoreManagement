@@ -7,6 +7,7 @@ namespace JSMServices.ViewModels.OrderViewModel
         public string OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public double Discount { get; set; }
+        public string? PromotionCode { get; set; }
         public int AccumulatedPoint { get; set; }
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
