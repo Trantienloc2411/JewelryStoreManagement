@@ -233,7 +233,6 @@ public class OrderService : IOrderService
 
                 ordersWithDetails.Add(orderWithDetails);
             }
-
             return ordersWithDetails;
         }
         catch (Exception e)
@@ -243,4 +242,24 @@ public class OrderService : IOrderService
         }
     }
 
+    public async Task<ICollection<Order>> GetOrderByEmployeeId(Guid employeeId)
+    {
+        try
+        {
+            var listOrder = _orderRepository.GetAll();
+            var filterOrder = listOrder
+                .Where(o => o.EmployeeId == employeeId)
+                .ToList();
+            if (!filterOrder.Any())
+            {
+                throw new Exception("No orders found for the specified EmployeeId.");
+            }
+            return filterOrder;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
