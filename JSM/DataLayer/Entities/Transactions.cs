@@ -1,5 +1,5 @@
 namespace DataLayer.Entities;
-
+#pragma warning disable
 public class Transactions
 {
     public Guid TransactionId { get; set; }

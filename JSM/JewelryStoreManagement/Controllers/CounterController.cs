@@ -50,8 +50,8 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                await _counterService.AddNewCounter(addNewCounterViewModel);
-                return Ok("Create Successfully");
+                var result = await _counterService.AddNewCounter(addNewCounterViewModel);
+                return Ok(result);
             }
         }
 
@@ -60,8 +60,8 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> AssignCounterToEmployee(
             [FromBody] AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
         {
-            await _counterService.AssignCounterToEmployee(assignCounterToViewModel, employeeId);
-            return Ok("Assign Successfully");
+            var result = await _counterService.AssignCounterToEmployee(assignCounterToViewModel, employeeId);
+            return Ok(result);
         }
     }
 }

@@ -28,8 +28,8 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                await _typePriceService.CreateNewTypePrice(createTypePriceViewModel);
-                return Ok("Create successfully");
+                var result = await _typePriceService.CreateNewTypePrice(createTypePriceViewModel);
+                return Ok(result);
             }
         }
 
@@ -38,8 +38,8 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> UpdateTypePriceInfomation(
             [FromBody] UpdateTypePriceViewModel updateTypePriceViewModel, int typeId)
         {
-            await _typePriceService.UpdateTypePriceInfo(updateTypePriceViewModel, typeId);
-            return Ok("Update Successfully");
+            var result = await _typePriceService.UpdateTypePriceInfo(updateTypePriceViewModel, typeId);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -55,8 +55,8 @@ namespace JewelryStoreManagement.Controllers
         [Route("DeleteTypePrice")]
         public async Task<IActionResult> DeleteTypePrice(int typeId)
         {
-            await _typePriceService.DeleteTypePrice(typeId);
-            return Ok("Remove successfully");
+            var result = await _typePriceService.DeleteTypePrice(typeId);
+            return Ok(result);
         }
     }
 }

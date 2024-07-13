@@ -2,6 +2,8 @@ using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement;
 using JSMServices.IServices;
+using JSMServices.ViewModels.APIResponseViewModel;
+using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.TypePriceViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +20,7 @@ public class TypePriceService : ITypePriceService
         _mapper = mapper;
     }
 
-    public async Task<TypePrice> CreateNewTypePrice(CreateTypePriceViewModel createTypePriceViewModel)
+    public async Task<ApiResponse> CreateNewTypePrice(CreateTypePriceViewModel createTypePriceViewModel)
     {
         try
         {
@@ -35,23 +37,34 @@ public class TypePriceService : ITypePriceService
             if (entityEntry.State == EntityState.Added)
             {
                 await _typePriceRepository.SaveChangesAsync();
-                return typePrice;
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Create Successfully"
+                };
             }
 
         }
         catch (Exception ex)
         {
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = ex.Message
+            };
             throw new Exception($"An error occurred while adding the typePrice: {ex.Message}");
         }
 
         throw new Exception("An error occurred while adding the typePrice.");
     }
 
-    public async Task DeleteTypePrice(int typeId)
+    public async Task<ApiResponse> DeleteTypePrice(int typeId)
     {
         try
         {
-            var typePrice = _typePriceRepository.GetAll().FirstOrDefault(e => e.TypeId == typeId);
+            var typePrice = await _typePriceRepository.GetSingleWithAsync(c => c.TypeId == typeId);
             if (typePrice == null)
             {
                 throw new Exception("The TypePrice does not exist or was deleted");
@@ -60,12 +73,23 @@ public class TypePriceService : ITypePriceService
             {
                 _typePriceRepository.Remove(typePrice);
                 _typePriceRepository.SaveChanges();
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"Delete Successfully"
+                };
             }
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = e.Message
+            };
         }
     }
 
@@ -87,7 +111,7 @@ public class TypePriceService : ITypePriceService
         }
     }
 
-    public async Task UpdateTypePriceInfo(UpdateTypePriceViewModel updateTypePriceViewModel, int typeId)
+    public async Task<ApiResponse> UpdateTypePriceInfo(UpdateTypePriceViewModel updateTypePriceViewModel, int typeId)
     {
         try
         {
@@ -101,12 +125,23 @@ public class TypePriceService : ITypePriceService
             {
                 var updated = _mapper.Map(updateTypePriceViewModel, updateTypePrice);
                 await _typePriceRepository.UpdateWithAsync(updated);
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"Update Successfully"
+                };
             }
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = $"Delete failed ! {e.Message}"
+            };
         }
     }
 }

@@ -28,7 +28,7 @@ public class EmployeeService : IEmployeeService
         _configuration = configuration;
     }
 
-
+    #region AddAccountEmployee
     public async Task<string> AddAccountEmployee(RegisterEmployeeViewModel registerEmployeeViewModel, ClaimsPrincipal user)
     {
         try
@@ -89,9 +89,9 @@ public class EmployeeService : IEmployeeService
         // If we reach this point, something went wrong during the add operation
         throw new Exception("An error occurred while adding the employee.");
     }
+    #endregion
 
-
-
+    #region Generate Random String
     private static Random _random = new Random();
 
     private static string GenerateRandomString(int length)
@@ -104,8 +104,9 @@ public class EmployeeService : IEmployeeService
         }
         return new string(chars);
     }
+    #endregion
 
-
+    #region GetAllEmployee
     public async Task<ICollection<Employee>> GetAllEmployee()
     {
         try
@@ -121,13 +122,16 @@ public class EmployeeService : IEmployeeService
         }
 
     }
+    #endregion
 
+    #region GetEmployeeById
     public Employee GetEmployeeById(Guid employeeId)
     {
         try
         {
             var employeeList = _employeeRepository.GetAll();
             var employee = employeeList.FirstOrDefault(e => e.EmployeeId == employeeId);
+            
             return employee;
         }
         catch (Exception e)
@@ -136,13 +140,13 @@ public class EmployeeService : IEmployeeService
             throw new Exception(e.Message);
         }
     }
+    #endregion
 
-    public Employee GetEmployeeByEmail(string email)
+    public async Task<Employee> GetEmployeeByEmail(string email)
     {
         try
         {
-            var employeeList = _employeeRepository.GetAll();
-            var employee = employeeList.FirstOrDefault(c => c.Email == email);
+            var employee = await _employeeRepository.GetSingleWithIncludeAsync(c => c.Email.ToUpper() == email.ToUpper(), e => e.Counter);
             return employee;
         }
         catch (Exception e)
@@ -288,7 +292,7 @@ public class EmployeeService : IEmployeeService
             // Update the employee
             var updatedEmployee = _mapper.Map(updateInformationEmployeeViewModel, employee);
             await _employeeRepository.UpdateWithAsync(updatedEmployee);
-            return null;
+            return "";
 
         }
         catch (Exception e)

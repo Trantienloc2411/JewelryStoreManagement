@@ -11,7 +11,7 @@ public interface IEmployeeService
     //public Task<Employee> LoginAccountEmployee(LoginEmployeeViewModel loginEmployeeViewModel);
     public Task<ICollection<Employee>> GetAllEmployee();
     public Employee GetEmployeeById(Guid employeeId);
-    public Employee GetEmployeeByEmail(string email);
+    public Task<Employee> GetEmployeeByEmail(string email);
     public Task<ICollection<Employee>> GetEmployeeByCounterId(int counterId);
 
     public Task<Employee> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword);

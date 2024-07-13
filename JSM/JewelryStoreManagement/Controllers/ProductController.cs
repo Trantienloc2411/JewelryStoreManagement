@@ -70,8 +70,8 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                await _productService.AddNewProductAsync(addProductViewModelmodel);
-                return Ok("Create successfully");
+                var result = await _productService.AddNewProductAsync(addProductViewModelmodel);
+                return Ok(result);
             }
         }
 
@@ -87,8 +87,8 @@ namespace JewelryStoreManagement.Controllers
         [Route("UpdateStatus")]        [Authorize]
         public async Task<IActionResult> UpdateStatusProduct(Guid uid)
         {
-            await _productService.UpdateStatusProduct(uid);
-            return Ok("Update successfully");
+            var result = await _productService.UpdateStatusProduct(uid);
+            return Ok(result);
         }
 
         [HttpPut]
@@ -96,8 +96,8 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> UpdateInformationProduct(
         [FromBody] UpdateProductViewModel updateProductViewModel, Guid productId)
         {
-            await _productService.UpdateInformationProduct(updateProductViewModel, productId);
-            return Ok("Update Successfully");
+            var result = await _productService.UpdateInformationProduct(updateProductViewModel, productId);
+            return Ok(result);
         }
     }
 }
