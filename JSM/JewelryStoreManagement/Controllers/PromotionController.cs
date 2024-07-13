@@ -169,7 +169,7 @@ public class PromotionController : Controller
     [Route("GetPromotion/{promotionCode}")]
     public async Task<IActionResult> GetPromotion(string promotionCode)
     {
-        var promotion = _promotionService.GetSinglePromotion(promotionCode);
+        var promotion = await _promotionService.GetSinglePromotion(promotionCode);
         if (promotion == null)
         {
             var errorResponse = new ApiResponse

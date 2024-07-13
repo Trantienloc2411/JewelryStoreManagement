@@ -30,7 +30,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var listOrder = _orderRepository.GetAll();
+            var listOrder = await _orderRepository.GetAllWithAsync();
             return listOrder;
         }
         catch (Exception e)
@@ -187,7 +187,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var listOrder = _orderRepository.GetAll();
+            var listOrder = await _orderRepository.GetAllWithAsync();
             var filterOrders = listOrder
                 .Where(p => p.CounterId.Equals(counterId))
                 .ToList();
@@ -246,7 +246,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var listOrder = _orderRepository.GetAll();
+            var listOrder = await _orderRepository.GetAllWithAsync();
             var filterOrder = listOrder
                 .Where(o => o.EmployeeId == employeeId)
                 .ToList();

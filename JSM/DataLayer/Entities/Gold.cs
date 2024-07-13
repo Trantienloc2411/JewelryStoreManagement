@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-
+#pragma warning disable
 namespace DataLayer.Entities
 {
 	public class Gold

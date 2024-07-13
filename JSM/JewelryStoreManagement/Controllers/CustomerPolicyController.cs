@@ -36,8 +36,8 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> UpdateInformationCustomerPolicy(
         [FromBody] UpdateCustomerPolicyViewModel updateCustomerPolicyViewModel, Guid CPId)
         {
-            await _customerPolicyService.UpdateInformationCustomerPolicy(updateCustomerPolicyViewModel, CPId);
-            return Ok("Update Successfully");
+            var result = await _customerPolicyService.UpdateInformationCustomerPolicy(updateCustomerPolicyViewModel, CPId);
+            return Ok(result);
         }
 
 

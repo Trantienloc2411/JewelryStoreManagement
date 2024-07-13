@@ -133,19 +133,12 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task<Customer> GetCustomerByPhone(string phone)
+    public async Task<Customer?> GetCustomerByPhone(string phone)
     {
         try
         {
             var customer = await _customerRepository.GetSingleWithAsync(c => c.Phone == phone);
-            if (customer.Equals(null))
-            {
-                return new Customer();
-            }
-            else
-            {
-                return customer;
-            }
+            return customer;
         }
         catch (Exception e)
         {

@@ -184,22 +184,29 @@ public class CustomerController : Controller
             });
         }
     }
-
     [HttpGet]
     [Route("GetCustomerByPhone/{phoneNumber}")]
     [Authorize]
     public async Task<IActionResult> GetCustomerByPhone(string phoneNumber)
     {
-        var result = await _customerService.GetCustomerByPhone(phoneNumber);
-        if (result.Equals(null))
+        try
         {
-            return BadRequest("Customer not found");
-        }
-        else
-        {
+            var result = await _customerService.GetCustomerByPhone(phoneNumber);
+
+            // Use null-conditional operator to safely check if result is null
+            if (result?.Phone == null)
+            {
+                return NotFound($"Customer with phone number {phoneNumber} not found");
+            }
+
             return Ok(result);
         }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
     }
-    
+
 
 }

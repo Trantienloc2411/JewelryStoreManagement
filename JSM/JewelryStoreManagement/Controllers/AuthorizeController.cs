@@ -41,7 +41,9 @@ namespace JewelryStoreManagement.Controllers
                 new Claim("EmployeeName", employee.Name),
                 new Claim("Email", employee.Email),
                 new Claim("Role", employee.RoleId.ToString()),
-                new Claim("IsLogin", employee.IsLogin.ToString())
+                new Claim("IsLogin", employee.IsLogin.ToString()),
+                new Claim("CounterId", employee.CounterId.ToString()),
+                new Claim("CounterName", employee.Counter.CounterName)
             };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c2VydmVwZXJmZWN0bHljaGVlc2VxdWlja2NvYWNoY29sbGVjdHNsb3Bld2lzZWNhbWU="));
@@ -174,9 +176,9 @@ namespace JewelryStoreManagement.Controllers
         #region Login
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
-            var employee = _employeeServices.GetEmployeeByEmail(email);
+            var employee = await _employeeServices.GetEmployeeByEmail(email);
 
             if (employee == null)
             {

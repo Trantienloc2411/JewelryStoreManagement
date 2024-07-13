@@ -2,6 +2,7 @@ using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
+using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.EmployeeViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public class CounterService : ICounterService
         _mapper = mapper;
     }
 
-    public async Task<Counter> AddNewCounter(AddNewCounterViewModel addNewCounterViewModel)
+    public async Task<ApiResponse> AddNewCounter(AddNewCounterViewModel addNewCounterViewModel)
     {
         try
         {
@@ -28,16 +29,27 @@ public class CounterService : ICounterService
             var counter = new Counter();
             if (existedCounterList.FirstOrDefault(e => e.CounterName.Equals(addNewCounterViewModel.CounterName)) != null)
             {
-                throw new Exception($"CounterName '{addNewCounterViewModel.CounterName}' " +
-                    $"is already existed. Please use another Name.");
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"CounterName '{addNewCounterViewModel.CounterName}' " +
+                    $"is already existed. Please use another Name."
+                };
+                
             }
             _mapper.Map(addNewCounterViewModel, counter);
-            counter.CounterId = new int();
+            
             var entityEntry = await _counterRepository.AddSingleWithAsync(counter);
             if (entityEntry.State == EntityState.Added)
             {
                 await _counterRepository.SaveChangesAsync();
-                return counter;
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Add Successfully"
+                };
             }
         }
         catch (Exception ex)
@@ -47,7 +59,7 @@ public class CounterService : ICounterService
         throw new Exception("An error occurred while adding the counter.");
     }
 
-    public async Task AssignCounterToEmployee(AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
+    public async Task<ApiResponse> AssignCounterToEmployee(AssignCounterToViewModel assignCounterToViewModel, Guid employeeId)
     {
         try
         {
@@ -56,20 +68,43 @@ public class CounterService : ICounterService
             var employeeUpdate = getlistEmployee.FirstOrDefault(e => e.EmployeeId.Equals(employeeId));
             if (employeeUpdate == null)
             {
-                throw new Exception("Assign not successfully! Reload Page again!");
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"Assign not successfully! Reload Page again!."
+                };
+                
             }
             if (getlistCounter == null)
             {
-                throw new Exception("The CounterId does not existed or was deleted!");
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"The CounterId does not existed or was deleted!"
+                };
+                
             }
             else
             {
                 if (employeeUpdate.EmployeeStatus == Employee.EmployeeStatuses.Deleted)
                 {
-                    throw new Exception("The Employee does not existed or was deleted!");
+                    return new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Data = null,
+                        Message = $"The Employee does not existed or was deleted!"
+                    };
                 }
                 var employeeUpdated = _mapper.Map(assignCounterToViewModel, employeeUpdate);
                 await _employeeRepository.UpdateWithAsync(employeeUpdated);
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Update Successfully"
+                };
             }
         }
         catch (Exception ex)
@@ -83,7 +118,7 @@ public class CounterService : ICounterService
     {
         try
         {
-            var listCounter = _counterRepository.GetAll();
+            var listCounter = await _counterRepository.GetAllWithAsync();
             return listCounter;
         }
         catch (Exception e)

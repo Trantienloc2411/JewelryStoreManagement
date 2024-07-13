@@ -1,4 +1,5 @@
 using DataLayer.Entities;
+using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.ProductViewModel;
 
 namespace JSMServices.IServices;
@@ -6,10 +7,10 @@ namespace JSMServices.IServices;
 public interface IProductService
 {
     public Task<ICollection<Product>> GetAllProducts();
-    Task<Product> AddNewProductAsync(AddProductViewModel addProductViewModel);
-    public Task DeleteProduct(Guid uid);
-    public Task UpdateStatusProduct(Guid uid);
-    public Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId);
+    Task<ApiResponse> AddNewProductAsync(AddProductViewModel addProductViewModel);
+    public Task<ApiResponse> DeleteProduct(Guid uid);
+    public Task<ApiResponse> UpdateStatusProduct(Guid uid);
+    public Task<ApiResponse> UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId);
     public Task<Product> GetProductByBarcode(string Barcode);
     public Task<ICollection<Product>> GetProductByCounterId(int counterId);
     public Task<Product> GetProductById(Guid productId);

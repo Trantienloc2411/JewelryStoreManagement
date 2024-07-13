@@ -125,7 +125,7 @@ public class EmployeeController : Controller
         [FromBody] UpdateInformationViewModel updateInformationViewModel)
     {
         string result = await _employeeService.UpdateInformationEmployee(updateInformationViewModel);
-        if (result != null || result.Length != 0)
+        if (result != "" || result.Length != 0)
         {
             return BadRequest(new ApiResponse()
             {

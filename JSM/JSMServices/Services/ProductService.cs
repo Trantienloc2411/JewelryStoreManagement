@@ -2,6 +2,8 @@ using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
+using JSMServices.ViewModels.APIResponseViewModel;
+using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.ProductViewModel;
 using Microsoft.EntityFrameworkCore;
 #pragma warning disable
@@ -23,7 +25,7 @@ public class ProductService : IProductService
         try
         {
             var listProduct = _productRepository.GetAll();
-            listProduct = listProduct.Where(p => p.ProductStatus != Product.ProductStatuses.Deactive).ToList();
+            listProduct = listProduct.ToList();
             return listProduct;
         }
         catch (Exception e)
@@ -33,7 +35,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<Product> AddNewProductAsync(AddProductViewModel addProductViewModel)
+    public async Task<ApiResponse> AddNewProductAsync(AddProductViewModel addProductViewModel)
     {
         try
         {
@@ -41,7 +43,13 @@ public class ProductService : IProductService
             var product = new Product();
             if (existedProductList.FirstOrDefault(e => e.Barcode.Equals(addProductViewModel.Barcode)) != null)
             {
-                throw new Exception($"Barcode '{addProductViewModel.Barcode}' is already existed. Please use another Barcode.");
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"Barcode '{addProductViewModel.Barcode}' is already existed. Please use another Barcode."
+                };
+               
             }
             _mapper.Map(addProductViewModel, product);
             product.ProductId = new Guid();
@@ -50,7 +58,12 @@ public class ProductService : IProductService
             if (entityEntry.State == EntityState.Added)
             {
                 await _productRepository.SaveChangesAsync();
-                return product;
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Update Successfully"
+                };
             }
 
         }
@@ -62,19 +75,31 @@ public class ProductService : IProductService
         throw new Exception("An error occurred while adding the product.");
     }
 
-    public async Task DeleteProduct(Guid uid)
+    public async Task<ApiResponse> DeleteProduct(Guid uid)
     {
         try
         {
             var product = _productRepository.GetAll().FirstOrDefault(c => c.ProductId == uid);
             if (product == null)
             {
-                throw new Exception("The product is not exist or was deleted");
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"The product is not exist or was deleted"
+                };
+                
             }
             else
             {
                 product.ProductStatus = Product.ProductStatuses.Deactive;
                 await _productRepository.SaveChangesAsync();
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Deleted Successfully"
+                };
             }
         }
         catch (Exception e)
@@ -84,36 +109,61 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task UpdateStatusProduct(Guid uid)
+    public async Task<ApiResponse> UpdateStatusProduct(Guid uid)
     {
         try
         {
-            var product = _productRepository.Get(c => c.ProductId.Equals(uid));
-            if (product.Name == null || product.Name.Length == 0)
-            {
-                throw new Exception("Something went wrong! Everything changes will not saving!");
-            }
-            else
-            {
-                product.ProductStatus = product.ProductStatus switch
-                {
-                    Product.ProductStatuses.Active => Product.ProductStatuses.Deactive,
-                    Product.ProductStatuses.Deactive => Product.ProductStatuses.Active,
-                    _ => throw new Exception("The product is not existed or was deleted!")
-                };
+            var product = await _productRepository.GetSingleWithAsync(c => c.ProductId == uid);
 
-                await _productRepository.SaveChangesAsync();
+            if (product == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "The product does not exist or was deleted!"
+                };
             }
+
+            if (string.IsNullOrEmpty(product.Name))
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "Something went wrong! Changes will not be saved!"
+                };
+            }
+
+            product.ProductStatus = product.ProductStatus switch
+            {
+                Product.ProductStatuses.Active => Product.ProductStatuses.Deactive,
+                Product.ProductStatuses.Deactive => Product.ProductStatuses.Active,
+                _ => throw new InvalidOperationException("Invalid product status")
+            };
+
             await _productRepository.SaveChangesAsync();
+
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Data = null,
+                Message = "Product status updated successfully"
+            };
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = $"An error occurred: {e.Message}"
+            };
         }
     }
 
-    public async Task UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId)
+    public async Task<ApiResponse> UpdateInformationProduct(UpdateProductViewModel updateProductViewModel, Guid productId)
     {
         try
         {
@@ -134,13 +184,25 @@ public class ProductService : IProductService
                 {
                     var productUpdated = _mapper.Map(updateProductViewModel, productUpdate);
                     await _productRepository.UpdateWithAsync(productUpdated);
+                    return new ApiResponse
+                    {
+                        IsSuccess = true,
+                        Data = null,
+                        Message = $"Update Successfully"
+                    };
                 }
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = e.Message
+            };
+            
+
         }
     }
 

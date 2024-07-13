@@ -79,7 +79,7 @@ public class PromotionService : IPromotionService
 
         try
         {
-            var promotions = _promotionRepository.GetAll();
+            var promotions = await _promotionRepository.GetAllWithAsync();
 
             var listPromotion = promotions
                 .Where(c => c.PromotionStatus != Promotion.PromotionStatuses.Deleted)
@@ -95,12 +95,12 @@ public class PromotionService : IPromotionService
     }
 
 
-    public Task<Promotion> GetSinglePromotion(string promotionCode)
+    public async Task<Promotion> GetSinglePromotion(string promotionCode)
     {
         try
         {
             // Materialize the query results immediately
-            var promotions = _promotionRepository.GetAll();
+            var promotions =  await _promotionRepository.GetAllWithAsync();
             var singlePromotion = promotions
                 .FirstOrDefault(c => c.PromotionCode == promotionCode && c.PromotionStatus != Promotion.PromotionStatuses.Deleted);
 
@@ -110,7 +110,7 @@ public class PromotionService : IPromotionService
             }
             else
             {
-                return Task.FromResult(singlePromotion);
+                return await Task.FromResult(singlePromotion);
             }
         }
         catch (Exception e)
