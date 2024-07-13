@@ -4,6 +4,7 @@ using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.BuyBackViewModel;
+using JSMServices.ViewModels.OrderDetailViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using System.Security.Claims;
 
@@ -181,4 +182,65 @@ public class OrderService : IOrderService
             throw new Exception(ex.InnerException?.Message ?? ex.Message);
         }
     }
+
+    public async Task<ICollection<OrderOrderDetailByCounterIdViewModel>> GetOrderOrderDetailByCounterId(int counterId)
+    {
+        try
+        {
+            var listOrder = _orderRepository.GetAll();
+            var filterOrders = listOrder
+                .Where(p => p.CounterId.Equals(counterId))
+                .ToList();
+
+            if (!filterOrders.Any())
+            {
+                throw new Exception("No orders found for the specified counterId.");
+            }
+
+            var listOrderDetail = _orderDetailRepository.GetAll();
+
+            var ordersWithDetails = new List<OrderOrderDetailByCounterIdViewModel>();
+
+            foreach (var order in filterOrders)
+            {
+                var orderWithDetails = new OrderOrderDetailByCounterIdViewModel
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    EmployeeId = order.EmployeeId,
+                    OrderDate = order.OrderDate,
+                    Discount = order.Discount ?? 0,
+                    Type = order.Type,
+                    PromotionCode = order.PromotionCode ?? "",
+                    AccumulatedPoint = order.AccumulatedPoint ?? 0,
+                    CounterId = order.CounterId,
+                    PaymentId = order.PaymentId,
+                    OrderStatus = order.OrderStatus,
+                    OrderDetail = listOrderDetail
+                        .Where(od => od.OrderId == order.OrderId)
+                        .Select(od => new OrderOrderDetailViewModel
+                        {
+                            OrderDetailId = od.OrderDetailId,
+                            OrderId = od.OrderId,
+                            ProductId = od.ProductId,
+                            Quantity = od.Quantity,
+                            UnitPrice = od.UnitPrice,
+                            ManufactureCost = od.ManufactureCost,
+                            OrderDetailStatus = od.OrderDetailStatus
+                        })
+                        .ToList()
+                };
+
+                ordersWithDetails.Add(orderWithDetails);
+            }
+
+            return ordersWithDetails;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
 }
