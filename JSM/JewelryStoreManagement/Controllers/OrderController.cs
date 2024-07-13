@@ -39,6 +39,16 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetOrderByEmployeeId")]
+
+        public async Task<IActionResult> GetOrderByEmployeeId(Guid employeeId)
+        {
+            var listOrder = await _orderService.GetOrderByEmployeeId(employeeId);
+            var result = _mapper.Map<ICollection<OrderViewModel>>(listOrder);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("AddNewBuyBack")]
         [Authorize]
