@@ -209,7 +209,7 @@ public class EmployeeService : IEmployeeService
                 await _employeeRepository.SaveChangesAsync();
             }
             await _employeeRepository.SaveChangesAsync();
-            return null;
+            return "";
         }
         catch (Exception e)
         {
