@@ -89,7 +89,7 @@ public class EmployeeController : Controller
     public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
         string result = await _employeeService.UpdateStatusEmployeeAccount(uid);
-        if (result != null || result.Length != 0)
+        if (result != "" || result.Length != 0)
         {
             return BadRequest(new ApiResponse()
             {
