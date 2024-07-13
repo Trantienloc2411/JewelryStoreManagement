@@ -29,6 +29,16 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetOrderByCounterId")]
+
+        public async Task<IActionResult> GetOrderByCounterId(int counterId)
+        {
+            var listOrder = await _orderService.GetOrderOrderDetailByCounterId(counterId);
+            var result = _mapper.Map<ICollection<OrderOrderDetailByCounterIdViewModel>>(listOrder);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("AddNewBuyBack")]
         [Authorize]

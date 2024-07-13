@@ -10,6 +10,7 @@ public interface IOrderService
 {
     public Task<ICollection<Order>> GetAllOrders();
     public Task<Order> GetOrderByOrderId(string orderCode);
+    public Task<ICollection<OrderOrderDetailByCounterIdViewModel>> GetOrderOrderDetailByCounterId(int counterId);
 
     Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims);
     Task<Order> CreateNewBuyBack(CreateNewBuyBackViewModel viewModel, ClaimsPrincipal claims);
