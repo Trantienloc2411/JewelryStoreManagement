@@ -21,5 +21,8 @@ namespace JSMServices.ViewModels.ProductViewModel
         public double MarkupRate { get; set; }
         public Product.Units WeightUnit { get; set; }
         public double StonePrice { get; set; }
+        
+        public string? CounterName { get; set; }
+        public string? TypeName { get; set; }
     }
 }

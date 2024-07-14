@@ -21,7 +21,9 @@ public class MappingProfiles : Profile
         CreateMap<RegisterEmployeeViewModel, Employee>().ReverseMap();
         CreateMap<LoginEmployeeViewModel, Employee>().ReverseMap();
 
-        CreateMap<ProductViewModel, Product>().ReverseMap();
+        CreateMap<ProductViewModel, Product>().ReverseMap()
+            .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
+            .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
         CreateMap<AddProductViewModel, Product>().ReverseMap();
         CreateMap<UpdateProductViewModel, Product>().ReverseMap();
         CreateMap<ProductByBarcodeViewModel, Product>().ReverseMap();
