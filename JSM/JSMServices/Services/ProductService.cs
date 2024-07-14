@@ -3,7 +3,6 @@ using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
-using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.ProductViewModel;
 using Microsoft.EntityFrameworkCore;
 #pragma warning disable
@@ -24,7 +23,7 @@ public class ProductService : IProductService
     {
         try
         {
-            var listProduct = await _productRepository.GetAllWithIncludeAsync(e => true, e => e.Counter, e => e.TypePrice );
+            var listProduct = await _productRepository.GetAllWithIncludeAsync(e => true, e => e.Counter, e => e.TypePrice);
             listProduct = listProduct.ToList();
             return listProduct;
         }
@@ -49,7 +48,7 @@ public class ProductService : IProductService
                     Data = null,
                     Message = $"Barcode '{addProductViewModel.Barcode}' is already existed. Please use another Barcode."
                 };
-               
+
             }
             _mapper.Map(addProductViewModel, product);
             product.ProductId = new Guid();
@@ -88,7 +87,7 @@ public class ProductService : IProductService
                     Data = null,
                     Message = $"The product is not exist or was deleted"
                 };
-                
+
             }
             else
             {
@@ -201,7 +200,7 @@ public class ProductService : IProductService
                 Data = null,
                 Message = e.Message
             };
-            
+
 
         }
     }
@@ -230,7 +229,7 @@ public class ProductService : IProductService
         {
             var listProduct = _productRepository.GetAll();
             var filterProducts = listProduct
-                .Where(p => p.CounterId.Equals(counterId) && p.ProductStatus == Product.ProductStatuses.Active)
+                .Where(p => p.CounterId.Equals(counterId))
                 .ToList();
             if (!filterProducts.Any())
             {

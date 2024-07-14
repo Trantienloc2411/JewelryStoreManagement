@@ -1,4 +1,7 @@
-﻿using static DataLayer.Entities.Order;
+﻿using JSMServices.ViewModels.CounterViewMode;
+using JSMServices.ViewModels.CustomerViewModel;
+using JSMServices.ViewModels.EmployeeViewModel;
+using static DataLayer.Entities.Order;
 
 namespace JSMServices.ViewModels.OrderViewModel
 {
@@ -16,5 +19,11 @@ namespace JSMServices.ViewModels.OrderViewModel
         public int PaymentId { get; set; }
 
         public OrderStatuses OrderStatus { get; set; }
+
+        public EmployeeNameViewModel Employee { get; set; }
+
+        public CustomerNameViewModel Customer { get; set; }
+
+        public CounterNameViewModel Counter { get; set; }
     }
 }
