@@ -21,17 +21,19 @@ namespace JewelryStoreManagement.Controllers
 
 
         [HttpGet]
-        [Route("GetAllProducts")]        [Authorize]
+        [Route("GetAllProducts")]
+        [Authorize]
         public async Task<IActionResult> GetAllProducts()
         {
             var listProduct = await _productService.GetAllProducts();
             var result = _mapper.Map<ICollection<ProductViewModel>>(listProduct);
-            
+
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetProductByBarcode")]        [Authorize]
+        [Route("GetProductByBarcode")]
+        [Authorize]
         public async Task<IActionResult> GetProductByBarCode(string Barcode)
         {
             var listProduct = await _productService.GetProductByBarcode(Barcode);
@@ -41,7 +43,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetProductByCounterId")]        [Authorize]
+        [Route("GetProductByCounterId")]
+        [Authorize]
         public async Task<IActionResult> GetProductByCounterId(int counterId)
         {
             var listProduct = await _productService.GetProductByCounterId(counterId);
@@ -51,7 +54,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("ViewProductDetail")]        [Authorize]
+        [Route("ViewProductDetail")]
+        [Authorize]
         public async Task<IActionResult> GetProductById(Guid productId)
         {
             var listProduct = await _productService.GetProductById(productId);
@@ -61,7 +65,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPost]
-        [Route("AddNewProduct")]        [Authorize]
+        [Route("AddNewProduct")]
+        [Authorize]
         public async Task<IActionResult> AddNewProduct(AddProductViewModel addProductViewModelmodel)
         {
             if (_productService == null)
@@ -76,7 +81,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteProduct")]        [Authorize]
+        [Route("DeleteProduct")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             await _productService.DeleteProduct(id);
@@ -84,7 +90,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateStatus")]        [Authorize]
+        [Route("UpdateStatus")]
+        [Authorize]
         public async Task<IActionResult> UpdateStatusProduct(Guid uid)
         {
             var result = await _productService.UpdateStatusProduct(uid);
@@ -92,7 +99,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateProduct")]        [Authorize]
+        [Route("UpdateProduct")]
+        [Authorize]
         public async Task<IActionResult> UpdateInformationProduct(
         [FromBody] UpdateProductViewModel updateProductViewModel, Guid productId)
         {

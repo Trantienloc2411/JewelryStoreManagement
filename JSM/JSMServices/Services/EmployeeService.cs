@@ -3,13 +3,13 @@ using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
 using JSMRepositories;
 using JSMServices.IServices;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
+using System.Security.Claims;
 
 
 #pragma warning disable
@@ -75,7 +75,7 @@ public class EmployeeService : IEmployeeService
                 if (entityEntry.State == EntityState.Added)
                 {
                     await _employeeRepository.SaveChangesAsync();
-                    SendEmail(employee.Email,employee.Name,employee.Password);
+                    SendEmail(employee.Email, employee.Name, employee.Password);
                     return "";
                 }
             }
@@ -131,7 +131,7 @@ public class EmployeeService : IEmployeeService
         {
             var employeeList = _employeeRepository.GetAll();
             var employee = employeeList.FirstOrDefault(e => e.EmployeeId == employeeId);
-            
+
             return employee;
         }
         catch (Exception e)
@@ -326,10 +326,10 @@ public class EmployeeService : IEmployeeService
                     employee.Password = GenerateRandomString(8);
                     _employeeRepository.UpdateWithAsync(employee);
                     _employeeRepository.SaveChanges();
-                    SendEmail(employee.Email, employee.Name,employee.Password);
+                    SendEmail(employee.Email, employee.Name, employee.Password);
                     return "";
                 }
-                
+
             }
         }
         catch (Exception e)
@@ -343,7 +343,7 @@ public class EmployeeService : IEmployeeService
     //this will setup config to send email
     private void SendEmail(string emailTo, string username, string key)
     {
-        
+
         try
         {
             string body =
@@ -385,7 +385,7 @@ public class EmployeeService : IEmployeeService
         {
             var listEmployee = _employeeRepository.GetAll();
             var filteredEmployee = listEmployee.
-                Where(c => c.CounterId.Equals(counterId) && c.EmployeeStatus == Employee.EmployeeStatuses.Active)
+                Where(c => c.CounterId.Equals(counterId))
                 .ToList();
             if (!filteredEmployee.Any())
             {
@@ -400,6 +400,6 @@ public class EmployeeService : IEmployeeService
         }
 
     }
-    
-    
+
+
 }
