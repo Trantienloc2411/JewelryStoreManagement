@@ -1,3 +1,4 @@
+using AutoMapper;
 using DataLayer.Entities;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
@@ -11,10 +12,11 @@ namespace JewelryStoreManagement.Controllers;
 public class PromotionController : Controller
 {
     private readonly IPromotionService _promotionService;
-
-    public PromotionController(IPromotionService promotionService)
+    private readonly IMapper _mapper;
+    public PromotionController(IPromotionService promotionService, IMapper mapper)
     {
         _promotionService = promotionService;
+        _mapper = mapper;
     }
 
     #region Add Promotion Controller
@@ -149,6 +151,7 @@ public class PromotionController : Controller
         try
         {
             var promotionList = await _promotionService.GetAllPromotion();
+            
             return Ok(promotionList);
         }
         catch (Exception ex)

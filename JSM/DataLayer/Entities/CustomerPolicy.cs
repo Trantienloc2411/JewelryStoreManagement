@@ -17,7 +17,16 @@ namespace DataLayer.Entities
         public PublishingStatuses PublishingStatus { get; set; }
 
         public DateTime? ApprovedDate { get; set; }
-        public bool IsApprovalRequired {  get; set; } 
+        public bool IsApprovalRequired {  get; set; }
+        //new 
+        public PolicyStatuses PolicyStatus { get; set; }
+        
+        
+        public enum PolicyStatuses
+        {
+            Active,
+            Used
+        }
 
         public enum PublishingStatuses
         {

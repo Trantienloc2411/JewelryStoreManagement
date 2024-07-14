@@ -1,4 +1,6 @@
-﻿#pragma warning disable
+﻿using System.Text.Json.Serialization;
+
+#pragma warning disable
 namespace DataLayer.Entities
 {
     public class Promotion
@@ -19,6 +21,7 @@ namespace DataLayer.Entities
             Deleted
         }
 
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }  
     }
 }
