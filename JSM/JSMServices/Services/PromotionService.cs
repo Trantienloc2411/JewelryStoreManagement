@@ -82,7 +82,7 @@ public class PromotionService : IPromotionService
             var promotions = await _promotionRepository.GetAllWithAsync();
 
             var listPromotion = promotions
-                .Where(c => c.PromotionStatus != Promotion.PromotionStatuses.Deleted)
+                
                 .ToList();
 
             return listPromotion;

@@ -35,6 +35,8 @@ public class MappingProfiles : Profile
         CreateMap<ViewEmployeeByCounterId, Employee>().ReverseMap();
 
         CreateMap<CreatePromotionViewModel, Promotion>().ReverseMap();
+        CreateMap<PromotionViewModel, Promotion>().ReverseMap();
+        CreateMap<ICollection<PromotionViewModel>, ICollection<Promotion>>().ReverseMap();
         CreateMap<AddCustomerViewModel, Customer>().ReverseMap();
 
         CreateMap<UpdateCustomerPolicyViewModel, CustomerPolicy>().ReverseMap();
@@ -53,5 +55,8 @@ public class MappingProfiles : Profile
         CreateMap<GiftViewModel, Gift>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, Order>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, OrderDetail>().ReverseMap();
+        
+        CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
+        CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
     }
 }
