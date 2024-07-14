@@ -93,6 +93,21 @@ public class TypePriceService : ITypePriceService
         }
     }
 
+    public async Task<ICollection<TypePrice>> GetAllTypePrice()
+    {
+        try
+        {
+            var typePriceList = await _typePriceRepository.GetAllWithAsync();
+            return typePriceList;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }   
+        
+    }
+
     public async Task<TypePrice> GetTypePriceById(int typeId)
     {
         try
