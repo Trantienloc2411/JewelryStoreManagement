@@ -10,7 +10,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
-
+using BCrypt.Net;
 
 #pragma warning disable
 namespace JSMServices.Services;
@@ -53,7 +53,7 @@ public class EmployeeService : IEmployeeService
                 _mapper.Map(registerEmployeeViewModel, employee);
                 employee.EmployeeId = new Guid();
                 employee.IsLogin = false;
-                employee.Password = GenerateRandomString(8);
+                employee.Password = HashedPassword(GenerateRandomString(8)) ;
                 string roleCurrent = user.FindFirst("Role").Value;
                 int roleWhoCreated = Int32.Parse(roleCurrent);
                 if (roleWhoCreated == 1)
@@ -176,9 +176,11 @@ public class EmployeeService : IEmployeeService
                 }
                 else
                 {
-                    account.Password = newPassword;
+                    
+                    account.Password = HashedPassword(newPassword);
                     account.IsLogin = true;
                     await _employeeRepository.UpdateWithAsync(account);
+                    //SendEmail(email,account.Name,newPassword);
                     return account;
                 }
             }
@@ -306,7 +308,7 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
-            string roleUpdater = user.FindFirst("RoleId").Value;
+            string roleUpdater = user.FindFirst("Role").Value;
             int roleUpdaterConvert = int.Parse(roleUpdater);
 
             if (roleUpdaterConvert <= 3)
@@ -323,10 +325,11 @@ public class EmployeeService : IEmployeeService
                 else
                 {
                     employee.IsLogin = false;
-                    employee.Password = GenerateRandomString(8);
-                    _employeeRepository.UpdateWithAsync(employee);
+                    var newPassword = GenerateRandomString(8);
+                    employee.Password = HashedPassword(newPassword);
+                    await _employeeRepository.UpdateWithAsync(employee);
                     _employeeRepository.SaveChanges();
-                    SendEmail(employee.Email, employee.Name,employee.Password);
+                    //SendEmail(employee.Email, employee.Name,employee.Password);
                     return "";
                 }
                 
@@ -399,6 +402,11 @@ public class EmployeeService : IEmployeeService
             throw;
         }
 
+    }
+
+    private static string HashedPassword(string original)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(original);
     }
     
     

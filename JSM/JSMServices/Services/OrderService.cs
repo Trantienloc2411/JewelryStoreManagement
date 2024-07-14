@@ -156,7 +156,7 @@ public class OrderService : IOrderService
                     OrderStatus = Order.OrderStatuses.Created,
                     PaymentId = 1,
                     AccumulatedPoint = 0,
-                    PromotionCode = "string",
+                    PromotionCode = "",
                     Discount = 0
                 };
                 _orderRepository.Add(order);

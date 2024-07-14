@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using JSMServices.ViewModels.APIResponseViewModel;
 
 namespace JewelryStoreManagement.Controllers
 {
@@ -189,9 +190,18 @@ namespace JewelryStoreManagement.Controllers
                     data = null
                 });
             }
+            else if(employee.EmployeeStatus == Employee.EmployeeStatuses.Inactive)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Your account temporary inactive in a while! Contact Admin ASAP!",
+                    Data = null
+                });
+            }
             else
             {
-                if (password == employee.Password)
+                if (BCrypt.Net.BCrypt.Verify(password, employee.Password))
                 {
                     var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
                     if (rfTkexisted != null)
