@@ -4,6 +4,9 @@ using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.BuyBackViewModel;
+using JSMServices.ViewModels.CounterViewMode;
+using JSMServices.ViewModels.CustomerViewModel;
+using JSMServices.ViewModels.EmployeeViewModel;
 using JSMServices.ViewModels.OrderDetailViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using System.Security.Claims;
@@ -15,29 +18,23 @@ public class OrderService : IOrderService
     private readonly OrderRepository _orderRepository;
     private readonly OrderDetailRepository _orderDetailRepository;
     private readonly BuybackRepository _buybackRepository;
+    private readonly EmployeeRepository _employeeRepository;
+    private readonly CustomerRepository _customerRepository;
+    private readonly CounterRepository _counterRepository;
     private readonly IMapper _mapper;
 
     public OrderService(OrderRepository orderRepository, IMapper mapper,
-        BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository)
+        BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository
+        , CounterRepository counterRepository, EmployeeRepository employeeRepository,
+        CustomerRepository customerRepository)
     {
+        _counterRepository = counterRepository;
+        _customerRepository = customerRepository;
+        _employeeRepository = employeeRepository;
         _orderRepository = orderRepository;
         _mapper = mapper;
         _buybackRepository = buybackRepository;
         _orderDetailRepository = orderDetailRepository;
-    }
-
-    public async Task<ICollection<Order>> GetAllOrders()
-    {
-        try
-        {
-            var listOrder = await _orderRepository.GetAllWithAsync();
-            return listOrder;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw new Exception(e.Message);
-        }
     }
 
     public async Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
@@ -69,10 +66,18 @@ public class OrderService : IOrderService
                     PaymentId = viewmodel.PaymentId,
                     OrderStatus = Order.OrderStatuses.Created,
                 };
-                if (viewmodel.PromotionCode != null)
+                //if (viewmodel.PromotionCode != null)
+                //{
+                //    var checkPromotionCodeExisted =
+                //    await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode));
+                //    if (checkPromotionCodeExisted == null)
+                //    {
+                //        return new ApiResponse { IsSuccess = false, Message = "PromotionCode is not existed" };
+                //    }
+                //}
+                if (!string.IsNullOrEmpty(viewmodel.PromotionCode))
                 {
-                    var checkPromotionCodeExisted =
-                    await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode));
+                    var checkPromotionCodeExisted = await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
                     if (checkPromotionCodeExisted == null)
                     {
                         return new ApiResponse { IsSuccess = false, Message = "PromotionCode is not existed" };
@@ -156,7 +161,7 @@ public class OrderService : IOrderService
                     OrderStatus = Order.OrderStatuses.Created,
                     PaymentId = 1,
                     AccumulatedPoint = 0,
-                    PromotionCode = "string",
+                    PromotionCode = "",
                     Discount = 0
                 };
                 _orderRepository.Add(order);
@@ -242,6 +247,66 @@ public class OrderService : IOrderService
         }
     }
 
+    public async Task<ICollection<OrderViewModel>> GetAllOrders()
+    {
+        try
+        {
+            var listOrder = await _orderRepository.GetAllWithAsync();
+            var employeeName = _employeeRepository.GetAll();
+            var customerName = _customerRepository.GetAll();
+            var counterName = _counterRepository.GetAll();
+            var ordersWithNames = new List<OrderViewModel>();
+
+            foreach (var order in listOrder)
+            {
+                var orderWithNames = new OrderViewModel
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    EmployeeId = order.EmployeeId,
+                    OrderDate = order.OrderDate,
+                    Discount = order.Discount ?? 0,
+                    Type = order.Type,
+                    PromotionCode = order.PromotionCode ?? "",
+                    AccumulatedPoint = order.AccumulatedPoint ?? 0,
+                    CounterId = order.CounterId,
+                    PaymentId = order.PaymentId,
+                    OrderStatus = order.OrderStatus,
+                    Employee = employeeName
+                        .Where(en => en.EmployeeId == order.EmployeeId)
+                        .Select(od => new EmployeeNameViewModel
+                        {
+                            Name = od.Name
+                        })
+                        .First(),
+                    Customer = customerName
+                        .Where(en => en.CustomerId == order.CustomerId)
+                        .Select(od => new CustomerNameViewModel
+                        {
+                            Name = od.Name
+                        })
+                        .First(),
+                    Counter = counterName
+                        .Where(en => en.CounterId == order.CounterId)
+                        .Select(od => new CounterNameViewModel
+                        {
+                            CounterName = od.CounterName
+                        })
+                        .First()
+                };
+
+                ordersWithNames.Add(orderWithNames);
+            }
+            return ordersWithNames;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new Exception(e.Message);
+        }
+    }
+
     public async Task<ICollection<Order>> GetOrderByEmployeeId(Guid employeeId)
     {
         try
@@ -262,4 +327,5 @@ public class OrderService : IOrderService
             throw;
         }
     }
+
 }

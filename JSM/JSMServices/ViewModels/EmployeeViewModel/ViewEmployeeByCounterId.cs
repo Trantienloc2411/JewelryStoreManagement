@@ -21,7 +21,6 @@ namespace JSMServices.ViewModels.EmployeeViewModel
         public EmployeeStatuses EmployeeStatus { get; set; }
         [MaxLength(256)]
         [NotNull]
-        public string? Password { get; set; }
         public EmployeeGenders EmployeeGender { get; set; }
         [DefaultValue(false)]
         public bool IsLogin { get; set; }

@@ -111,12 +111,14 @@ namespace DataLayer
             modelBuilder.Entity<Counter>().HasData(new Counter
             {
                 CounterId = 1,
-                Location = "Counter 01"
+                Location = "Counter 01",
+                CounterName = "Counter 01"
             });
             modelBuilder.Entity<Counter>().HasData(new Counter
             {
                 CounterId = 2,
-                Location = "Counter 02"
+                Location = "Counter 02",
+                CounterName = "Counter 02"
             });
             modelBuilder.Entity<Employee>().HasData(new Employee
             {
@@ -124,7 +126,7 @@ namespace DataLayer
 	            Name = "Nguyen Van A",
 	            CounterId = 1,
 	            Email = "a@gmail.com",
-	            Password = "1",
+	            Password = "$2a$11$Tr9OUgu.cRTTH.rb93o9QuTXxbJhLKu/KgCmxRgbU/4YT5BPQp/2W",
 	            Phone = "0354410931",
 	            EmployeeGender = Employee.EmployeeGenders.Male,
 	            EmployeeStatus = Employee.EmployeeStatuses.Inactive,
@@ -137,7 +139,7 @@ namespace DataLayer
 	            Name = "Le Van B",
 	            CounterId = 2,
 	            Email = "b@gmail.com",
-	            Password = "1",
+	            Password = @"$2a$11$Tr9OUgu.cRTTH.rb93o9QuTXxbJhLKu/KgCmxRgbU/4YT5BPQp/2W",
 	            Phone = "0934425563",
 	            EmployeeGender = Employee.EmployeeGenders.Female,
 	            EmployeeStatus = Employee.EmployeeStatuses.Active,
@@ -150,7 +152,7 @@ namespace DataLayer
                 Name = "Admin",
                 CounterId = 2,
                 Email = "admin@gmail.com",
-                Password = "1",
+                Password = @"$2a$11$Tr9OUgu.cRTTH.rb93o9QuTXxbJhLKu/KgCmxRgbU/4YT5BPQp/2W",
                 Phone = "0934425533",
                 EmployeeGender = Employee.EmployeeGenders.Female,
                 EmployeeStatus = Employee.EmployeeStatuses.Active,
@@ -163,7 +165,7 @@ namespace DataLayer
                 Name = "Super Admin",
                 CounterId = 2,
                 Email = "sa@gmail.com",
-                Password = "sa@1",
+                Password = @"$2a$11$rvbF4Kctvp1VFftcz.cTf.iCV.Gjrw65RzPy4XsOmyx8.dea6KLN6",
                 Phone = "0934425533",
                 EmployeeGender = Employee.EmployeeGenders.Male,
                 EmployeeStatus = Employee.EmployeeStatuses.Active,
@@ -182,6 +184,8 @@ namespace DataLayer
                 PaymentId = 2,
                 PaymentType = "Mobile Banking"
             });
+            
+            
             
             
 

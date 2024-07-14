@@ -51,6 +51,15 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetAllTypePrice")]
+        public async Task<IActionResult> GetAllTypePrice()
+        {
+            var listTypePrice = await _typePriceService.GetAllTypePrice()
+                ;
+            return Ok(listTypePrice);
+        }
+
         [HttpDelete]
         [Route("DeleteTypePrice")]
         public async Task<IActionResult> DeleteTypePrice(int typeId)
