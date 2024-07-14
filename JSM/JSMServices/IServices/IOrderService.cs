@@ -8,7 +8,7 @@ namespace JSMServices.IServices;
 
 public interface IOrderService
 {
-    public Task<ICollection<Order>> GetAllOrders();
+    public Task<ICollection<OrderViewModel>> GetAllOrders();
     public Task<Order> GetOrderByOrderId(string orderCode);
     public Task<ICollection<OrderOrderDetailByCounterIdViewModel>> GetOrderOrderDetailByCounterId(int counterId);
     public Task<ICollection<Order>> GetOrderByEmployeeId(Guid employeeId);
