@@ -330,11 +330,11 @@ public class EmployeeService : IEmployeeService
                     employee.Password = HashedPassword(newPassword);
                     await _employeeRepository.UpdateWithAsync(employee);
                     _employeeRepository.SaveChanges();
-<<<<<<< HEAD
+
                     SendEmail(employee.Email, employee.Name, employee.Password);
-=======
+
                     //SendEmail(employee.Email, employee.Name,employee.Password);
->>>>>>> 8345419bc8ed31ad2c18cdf70f255fd3980f4275
+
                     return "";
                 }
 
@@ -409,14 +409,12 @@ public class EmployeeService : IEmployeeService
 
     }
 
-<<<<<<< HEAD
 
-=======
     private static string HashedPassword(string original)
     {
         return BCrypt.Net.BCrypt.HashPassword(original);
     }
-    
-    
->>>>>>> 8345419bc8ed31ad2c18cdf70f255fd3980f4275
+
+
+
 }
