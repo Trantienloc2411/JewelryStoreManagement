@@ -85,8 +85,8 @@ namespace JewelryStoreManagement.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            await _productService.DeleteProduct(id);
-            return Ok("Remove successfully");
+            var result = await _productService.DeleteProduct(id);
+            return Ok(result);
         }
 
         [HttpPut]
