@@ -24,7 +24,7 @@ public class ProductService : IProductService
     {
         try
         {
-            var listProduct = _productRepository.GetAll();
+            var listProduct = await _productRepository.GetAllWithIncludeAsync(e => true, e => e.Counter, e => e.TypePrice );
             listProduct = listProduct.ToList();
             return listProduct;
         }

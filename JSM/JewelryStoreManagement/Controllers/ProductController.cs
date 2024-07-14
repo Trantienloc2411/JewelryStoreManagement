@@ -26,7 +26,7 @@ namespace JewelryStoreManagement.Controllers
         {
             var listProduct = await _productService.GetAllProducts();
             var result = _mapper.Map<ICollection<ProductViewModel>>(listProduct);
-
+            
             return Ok(result);
         }
 
