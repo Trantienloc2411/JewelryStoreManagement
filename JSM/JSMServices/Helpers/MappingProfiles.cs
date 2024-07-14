@@ -24,10 +24,11 @@ public class MappingProfiles : Profile
         CreateMap<ProductViewModel, Product>().ReverseMap()
             .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
             .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
+        CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap()
+            .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
         CreateMap<AddProductViewModel, Product>().ReverseMap();
         CreateMap<UpdateProductViewModel, Product>().ReverseMap();
         CreateMap<ProductByBarcodeViewModel, Product>().ReverseMap();
-        CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap();
 
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap()

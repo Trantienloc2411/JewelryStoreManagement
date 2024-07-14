@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using static DataLayer.Entities.Product;
+﻿using static DataLayer.Entities.Product;
 
 namespace JSMServices.ViewModels.ProductViewModel
 {
@@ -14,12 +13,12 @@ namespace JSMServices.ViewModels.ProductViewModel
         public string? Description { get; set; }
         public int TypeId { get; set; }
         public string? Img { get; set; }
-        [AllowNull]
         public string? CertificateUrl { get; set; }
         public ProductStatuses ProductStatus { get; set; }
         public double Price { get; set; }
         public double MarkupRate { get; set; }
         public Units WeightUnit { get; set; }
         public double StonePrice { get; set; }
+        public string? TypeName { get; set; }
     }
 }

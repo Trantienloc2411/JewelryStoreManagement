@@ -227,7 +227,7 @@ public class ProductService : IProductService
     {
         try
         {
-            var listProduct = _productRepository.GetAll();
+            var listProduct = await _productRepository.GetAllWithIncludeAsync(e => true, e => e.Counter, e => e.TypePrice);
             var filterProducts = listProduct
                 .Where(p => p.CounterId.Equals(counterId))
                 .ToList();
@@ -235,6 +235,7 @@ public class ProductService : IProductService
             {
                 throw new Exception("The product does not existed or was deleted");
             }
+            filterProducts = filterProducts.ToList();
             return filterProducts;
         }
         catch (Exception e)
