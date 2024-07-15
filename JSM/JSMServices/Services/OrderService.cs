@@ -93,17 +93,21 @@ public class OrderService : IOrderService
                 _orderRepository.Add(order);
                 await _orderRepository.SaveChangesAsync();
 
-                orderDetail = new OrderDetail
+                foreach (var detailViewModel in viewmodel.OrderDetail)
                 {
-                    OrderDetailId = GenerateRandomString(8),
-                    ProductId = viewmodel.OrderDetail.ProductId,
-                    OrderId = viewmodel.OrderId,
-                    Quantity = viewmodel.OrderDetail.Quantity,
-                    UnitPrice = viewmodel.OrderDetail.UnitPrice,
-                    ManufactureCost = viewmodel.OrderDetail.ManufactureCost
-                };
-                _orderDetailRepository.Add(orderDetail);
-                await _orderDetailRepository.SaveChangesAsync();
+                    orderDetail = new OrderDetail
+                    {
+                        OrderDetailId = GenerateRandomString(8),
+                        ProductId = detailViewModel.ProductId,
+                        OrderId = viewmodel.OrderId,
+                        Quantity = detailViewModel.Quantity,
+                        UnitPrice = detailViewModel.UnitPrice,
+                        ManufactureCost = detailViewModel.ManufactureCost
+                    };
+
+                    _orderDetailRepository.Add(orderDetail);
+                    await _orderDetailRepository.SaveChangesAsync();
+                }
             }
             return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
         }
