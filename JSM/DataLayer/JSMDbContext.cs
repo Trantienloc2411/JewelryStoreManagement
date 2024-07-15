@@ -221,7 +221,7 @@ namespace DataLayer
             modelBuilder.Entity<TypePrice>().HasData(new TypePrice
             {
                 TypeId = 4,
-                TypeName = "Vàng SJC 1 chỉ",
+                TypeName = "Vàng nhẫn SJC 99,99 1 chỉ, 2 chỉ, 5 chỉ",
                 BuyPricePerGram = 0,
                 SellPricePerGram = 0,
                 DateUpdated = DateTime.UtcNow
@@ -231,7 +231,7 @@ namespace DataLayer
             modelBuilder.Entity<TypePrice>().HasData(new TypePrice
             {
                 TypeId = 5,
-                TypeName = "Vàng SJC 1 lượng",
+                TypeName = "Vàng nhẫn SJC 99,99 0,3 chỉ, 0,5 chỉ",
                 BuyPricePerGram = 0,
                 SellPricePerGram = 0,
                 DateUpdated = DateTime.UtcNow
@@ -241,7 +241,7 @@ namespace DataLayer
             modelBuilder.Entity<TypePrice>().HasData(new TypePrice
             {
                 TypeId = 6,
-                TypeName = "Nhẫn 1 chỉ SJC",
+                TypeName = "Vàng nữ trang 99,99%",
                 BuyPricePerGram = 0,
                 SellPricePerGram = 0,
                 DateUpdated = DateTime.UtcNow
@@ -251,11 +251,40 @@ namespace DataLayer
             modelBuilder.Entity<TypePrice>().HasData(new TypePrice
             {
                 TypeId = 7,
-                TypeName = "Trang sức 49 SJC",
+                TypeName = "Vàng nữ trang 99%",
                 BuyPricePerGram = 0,
                 SellPricePerGram = 0,
                 DateUpdated = DateTime.UtcNow
 
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 8,
+                TypeName = "Vàng nữ trang 75%",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 9,
+                TypeName = "Vàng nữ trang 58,3%",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 10,
+                TypeName = "Vàng nữ trang 41,7%",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
             });
             
             

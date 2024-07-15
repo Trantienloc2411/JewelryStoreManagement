@@ -67,5 +67,13 @@ namespace JewelryStoreManagement.Controllers
             var result = await _typePriceService.DeleteTypePrice(typeId);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("FetchGoldData")]
+        public async Task<IActionResult> FetchGoldPrice()
+        {
+            await _typePriceService.fetchDataType();
+            return Ok("Fetch Successfully");
+        }
     }
 }
