@@ -13,7 +13,7 @@ namespace JSMServices.ViewModels.OrderViewModel
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
 
-        public CreateOrderDetailViewModel OrderDetail { get; set; }
+        public ICollection<CreateOrderDetailViewModel> OrderDetail { get; set; }
 
     }
 }
