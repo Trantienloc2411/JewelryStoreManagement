@@ -1,11 +1,10 @@
-using System.Security.Claims;
 using AutoMapper;
 using DataLayer.Entities;
 using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
-using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
+using System.Security.Claims;
 
 namespace JSMServices.Services;
 
@@ -48,7 +47,7 @@ public class CustomerPolicyService : ICustomerPolicyService
                     Data = null,
                     Message = $"Update not successfully! Reload Page again!"
                 };
-                
+
             }
             else
             {
@@ -60,7 +59,7 @@ public class CustomerPolicyService : ICustomerPolicyService
                         Data = null,
                         Message = $"CustomerPolicy does not existed or was deleted!."
                     };
-                    
+
                 }
                 else
                 {
@@ -108,9 +107,9 @@ public class CustomerPolicyService : ICustomerPolicyService
             Console.WriteLine(e);
             throw;
         }
-        
-        
-        
+
+
+
     }
 
     public async Task<string> ApproveCustomerPolicy(Guid customerPolicy, ClaimsPrincipal user)
@@ -162,8 +161,12 @@ public class CustomerPolicyService : ICustomerPolicyService
         try
         {
             var cp = await _customerPolicyRepository.GetAllWithAsync();
-            cp = cp.Where(c => c.CustomerId == customerId).ToList();
-            return cp;
+            var filtercp = cp.Where(c => c.CustomerId == customerId).ToList();
+            if (!filtercp.Any())
+            {
+                throw new Exception("No CustomerPolicies found for the specified CustomerId.");
+            }
+            return filtercp;
         }
         catch (Exception e)
         {

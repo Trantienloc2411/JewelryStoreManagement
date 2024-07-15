@@ -61,28 +61,35 @@ public class OrderService : IOrderService
                     Discount = viewmodel.Discount,
                     Type = Order.Types.Selling,
                     PromotionCode = viewmodel.PromotionCode,
+                    CPId = viewmodel.CPId,
                     AccumulatedPoint = viewmodel.AccumulatedPoint,
                     CounterId = viewmodel.CounterId,
                     PaymentId = viewmodel.PaymentId,
                     OrderStatus = Order.OrderStatuses.Created,
                 };
-                //if (viewmodel.PromotionCode != null)
-                //{
-                //    var checkPromotionCodeExisted =
-                //    await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode));
-                //    if (checkPromotionCodeExisted == null)
-                //    {
-                //        return new ApiResponse { IsSuccess = false, Message = "PromotionCode is not existed" };
-                //    }
-                //}
                 if (!string.IsNullOrEmpty(viewmodel.PromotionCode))
                 {
-                    var checkPromotionCodeExisted = await _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
+                    var checkPromotionCodeExisted = _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
                     if (checkPromotionCodeExisted == null)
                     {
-                        return new ApiResponse { IsSuccess = false, Message = "PromotionCode is not existed" };
+                        return new ApiResponse { IsSuccess = false, Message = "PromotionCode does not exist" };
                     }
                 }
+
+                if (viewmodel.CPId != Guid.Empty && viewmodel.CPId != null)
+                {
+                    var checkCustomerPolicyIdExisted = _orderRepository.GetSingleWithAsync(e => e.CPId.Equals(viewmodel.CPId));
+                    if (checkCustomerPolicyIdExisted == null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "CustomerPolicyId does not exist" };
+                    }
+                    var existingCPIdOrder = getOrder.FirstOrDefault(c => c.CPId == viewmodel.CPId);
+                    if (existingCPIdOrder != null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "An order with this CPId already exists." };
+                    }
+                }
+
                 _orderRepository.Add(order);
                 await _orderRepository.SaveChangesAsync();
 
@@ -96,7 +103,7 @@ public class OrderService : IOrderService
                     ManufactureCost = viewmodel.OrderDetail.ManufactureCost
                 };
                 _orderDetailRepository.Add(orderDetail);
-                await _buybackRepository.SaveChangesAsync();
+                await _orderDetailRepository.SaveChangesAsync();
             }
             return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
         }
@@ -328,4 +335,25 @@ public class OrderService : IOrderService
         }
     }
 
+    public async Task<ICollection<Order>> GetOrderByCustomerId(Guid customerId)
+    {
+        try
+        {
+            var listOrder = await _orderRepository.GetAllWithAsync();
+            var filterOrder = listOrder
+                .Where(o => o.CustomerId == customerId)
+                .ToList();
+            if (!filterOrder.Any())
+            {
+                throw new Exception("No orders found for the specified CustomerId.");
+            }
+
+            return filterOrder;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
