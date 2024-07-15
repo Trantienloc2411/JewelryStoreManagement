@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using JSMServices.IServices;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +20,8 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllCustomerPolicies")]        [Authorize]
+        [Route("GetAllCustomerPolicies")]
+        [Authorize]
         public async Task<IActionResult> GetAllProducts()
         {
             var listProduct = await _customerPolicyService.GetAllCustomerPolicies();
@@ -31,8 +30,19 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetCustomerPolicyByCustomerId")]
+        [Authorize]
+        public async Task<IActionResult> GetOrderByCustomerId(Guid customerId)
+        {
+            var listOrder = await _customerPolicyService.GetAllCustomerPolicyByCustomerId(customerId);
+            var result = _mapper.Map<ICollection<CustomerPolicyByCustomerId>>(listOrder);
+            return Ok(result);
+        }
+
         [HttpPut]
-        [Route("UpdateCustomerPolicy")]        [Authorize]
+        [Route("UpdateCustomerPolicy")]
+        [Authorize]
         public async Task<IActionResult> UpdateInformationCustomerPolicy(
         [FromBody] UpdateCustomerPolicyViewModel updateCustomerPolicyViewModel, Guid CPId)
         {
@@ -73,8 +83,8 @@ namespace JewelryStoreManagement.Controllers
                 return Ok("Approve Successfully");
             }
         }
-        
-        
+
+
         [HttpPut]
         [Authorize]
         [Route("DenyCustomerPolicy")]
