@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -32,10 +33,13 @@ namespace DataLayer.Entities
             Active,
             Deactive
         }
-
+        [JsonIgnore]
         public virtual TypePrice TypePrice { get; set; }
+        [JsonIgnore]
         public virtual Counter Counter { get; set; }
+        [JsonIgnore]
         public ICollection<BuyBack> BuyBacks { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

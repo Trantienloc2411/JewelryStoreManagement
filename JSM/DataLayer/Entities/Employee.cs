@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -48,9 +49,11 @@ namespace DataLayer.Entities
             Unassign,
             Deleted,
         }
-
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
         public virtual Counter Counter { get; set; }
+        [JsonIgnore]
         public virtual Role Role { get; set; }
     }
 }
