@@ -59,7 +59,7 @@ namespace JewelryStoreManagement.Controllers
         public async Task<IActionResult> GetProductById(Guid productId)
         {
             var listProduct = await _productService.GetProductById(productId);
-            var result = _mapper.Map<ProductByBarcodeViewModel>(listProduct);
+            var result = _mapper.Map<ProductViewById>(listProduct);
 
             return Ok(result);
         }
