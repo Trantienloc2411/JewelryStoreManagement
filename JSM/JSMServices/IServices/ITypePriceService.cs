@@ -16,4 +16,6 @@ public interface ITypePriceService
 
     Task<ICollection<TypePrice>> GetAllTypePrice();
 
+    Task fetchDataType();
+
 }

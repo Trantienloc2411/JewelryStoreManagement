@@ -20,14 +20,17 @@ public class MappingProfiles : Profile
     {
         CreateMap<RegisterEmployeeViewModel, Employee>().ReverseMap();
         CreateMap<LoginEmployeeViewModel, Employee>().ReverseMap();
+        CreateMap<TypePrice, TypePrice>()
+            .ForMember(dest => dest.Products, opt => opt.Ignore());
 
-        CreateMap<ProductViewModel, Product>().ReverseMap()
+        CreateMap<Product, ProductViewModel>()
             .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
+            .ForMember(dest => dest.TypePrice, opt => opt.MapFrom(src => src.TypePrice));
+        CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap()
             .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
         CreateMap<AddProductViewModel, Product>().ReverseMap();
         CreateMap<UpdateProductViewModel, Product>().ReverseMap();
         CreateMap<ProductByBarcodeViewModel, Product>().ReverseMap();
-        CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap();
 
         CreateMap<UpdateInformationViewModel, Employee>().ReverseMap();
         CreateMap<ViewEmployeeListViewModel, Employee>().ReverseMap()
@@ -35,6 +38,8 @@ public class MappingProfiles : Profile
         CreateMap<ViewEmployeeByCounterId, Employee>().ReverseMap();
 
         CreateMap<CreatePromotionViewModel, Promotion>().ReverseMap();
+        CreateMap<PromotionViewModel, Promotion>().ReverseMap();
+        CreateMap<ICollection<PromotionViewModel>, ICollection<Promotion>>().ReverseMap();
         CreateMap<AddCustomerViewModel, Customer>().ReverseMap();
 
         CreateMap<UpdateCustomerPolicyViewModel, CustomerPolicy>().ReverseMap();
@@ -53,5 +58,8 @@ public class MappingProfiles : Profile
         CreateMap<GiftViewModel, Gift>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, Order>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, OrderDetail>().ReverseMap();
+        
+        CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
+        CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
     }
 }

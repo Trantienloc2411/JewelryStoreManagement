@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -17,7 +18,16 @@ namespace DataLayer.Entities
         public PublishingStatuses PublishingStatus { get; set; }
 
         public DateTime? ApprovedDate { get; set; }
-        public bool IsApprovalRequired {  get; set; } 
+        public bool IsApprovalRequired {  get; set; }
+        //new 
+        public PolicyStatuses PolicyStatus { get; set; }
+        
+        
+        public enum PolicyStatuses
+        {
+            Active,
+            Used
+        }
 
         public enum PublishingStatuses
         {
@@ -25,8 +35,10 @@ namespace DataLayer.Entities
             Approved,
             Denied
         }
-
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
+        [JsonIgnore]
+        public virtual Order Order { get; set; }
         
     }
 }

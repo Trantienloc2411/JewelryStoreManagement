@@ -1,4 +1,6 @@
-﻿#pragma warning disable
+﻿using System.Text.Json.Serialization;
+
+#pragma warning disable
 namespace DataLayer.Entities
 {
     public class TypePrice
@@ -8,7 +10,7 @@ namespace DataLayer.Entities
         public double BuyPricePerGram { get; set; } 
         public double SellPricePerGram { get; set; }
         public DateTime DateUpdated { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
     }
 }

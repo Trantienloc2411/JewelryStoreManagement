@@ -3,6 +3,7 @@ using System;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(JSMDbContext))]
-    partial class JSMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240715035600_v10_UpdateDbRelationshipOrder_CP")]
+    partial class v10_UpdateDbRelationshipOrder_CP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,7 +134,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("50e47e43-3920-4410-8c2e-8f4b2057a6e4"),
+                            CustomerId = new Guid("013547f4-1a5e-4faf-a7f0-65b5ce4747c5"),
                             AccumulatedPoint = 3000,
                             Address = "Xã Hồng Thủy, Huyện Lệ Thủy, Quảng Bình",
                             CustomerGender = 0,
@@ -142,7 +144,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            CustomerId = new Guid("106bb060-7216-49a3-9a2a-b5dd277e2f00"),
+                            CustomerId = new Guid("9f5d0345-0266-4213-8544-3a8b062dd65f"),
                             AccumulatedPoint = 0,
                             Address = "Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh",
                             CustomerGender = 1,
@@ -152,7 +154,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            CustomerId = new Guid("ba478046-1203-448a-accc-dc05379fa38d"),
+                            CustomerId = new Guid("3d27847c-5aaf-4697-9ce3-0f7ee58428b0"),
                             AccumulatedPoint = 0,
                             Address = "Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội",
                             CustomerGender = 0,
@@ -162,7 +164,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            CustomerId = new Guid("9c55d35a-952d-465e-a61a-4cd29c228ee9"),
+                            CustomerId = new Guid("f776ed8d-5c50-4e4f-be3c-b9633f7532bf"),
                             AccumulatedPoint = 2500,
                             Address = "Phường Cầu Diễn, Quận Nam Từ Liêm, Hà Nội",
                             CustomerGender = 1,
@@ -263,7 +265,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("7116fb6e-d97e-4265-b8fe-03ae772b7903"),
+                            EmployeeId = new Guid("31023a3a-96a4-4803-ac2b-5b4cebadc3ca"),
                             CounterId = 1,
                             Email = "a@gmail.com",
                             EmployeeGender = 0,
@@ -277,7 +279,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("a41e1289-d7e4-4bf7-8709-009498b73f43"),
+                            EmployeeId = new Guid("e8cc4ead-e3ea-49c3-92dc-4a704e7c5547"),
                             CounterId = 2,
                             Email = "b@gmail.com",
                             EmployeeGender = 1,
@@ -291,7 +293,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("63c01856-a5b5-4361-8daf-2ffbfe173ddd"),
+                            EmployeeId = new Guid("5b1293f4-54a1-4580-826e-f48106600d88"),
                             CounterId = 2,
                             Email = "admin@gmail.com",
                             EmployeeGender = 1,
@@ -305,7 +307,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("d28230fc-2771-4565-927c-0b4d933ba598"),
+                            EmployeeId = new Guid("f758d1e1-37a6-415f-bb1d-36181ab71fc3"),
                             CounterId = 2,
                             Email = "sa@gmail.com",
                             EmployeeGender = 0,
@@ -339,19 +341,19 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            GiftId = new Guid("165cdb54-48d1-479f-b60e-f76bc785de8c"),
+                            GiftId = new Guid("11d623d3-97ed-4e9b-ba91-d9115358ef8e"),
                             GiftName = "Lịch vạn niên 2025",
                             PointRequired = 6000
                         },
                         new
                         {
-                            GiftId = new Guid("4376f2bc-ccee-45c9-a206-ce10ac730d63"),
+                            GiftId = new Guid("44251df8-dc2b-46b4-bfd6-1b20b66e1203"),
                             GiftName = "Bộ bàn ghế gỗ",
                             PointRequired = 14000
                         },
                         new
                         {
-                            GiftId = new Guid("3521f378-14fe-430c-9021-0760b74759ed"),
+                            GiftId = new Guid("d4c78d1d-f2b6-467f-b00d-cd4ac7eb406c"),
                             GiftName = "Áo mưa",
                             PointRequired = 3500
                         });
@@ -566,7 +568,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            ProductId = new Guid("820a8c79-a6e4-4cc5-9fe1-5abae56bc8aa"),
+                            ProductId = new Guid("4f7ac7c6-c7e5-44c1-97a2-18eafc8d73e3"),
                             Barcode = "GOLD001",
                             CounterId = 1,
                             Description = "Gold product description 1",
@@ -584,7 +586,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("88788702-0485-4867-b421-44adbf728fa8"),
+                            ProductId = new Guid("3fc57e43-1697-4efc-8d58-7bdd3114267c"),
                             Barcode = "GOLD002",
                             CounterId = 1,
                             Description = "Gold product description 2",
@@ -602,7 +604,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("6d7cf018-bc43-4c30-8e93-d4f854f99d03"),
+                            ProductId = new Guid("d48d7699-27d2-4e03-a085-7dac1e542ba9"),
                             Barcode = "GOLD003",
                             CounterId = 1,
                             Description = "Gold product description 3",
@@ -620,7 +622,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("3b70efec-b8de-4866-967d-d0c0e9ba6eca"),
+                            ProductId = new Guid("e28e254b-9de7-4137-b0b5-170bc91bd67a"),
                             Barcode = "GOLD004",
                             CounterId = 1,
                             Description = "Gold product description 4",
@@ -638,7 +640,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("51ac2b26-77ae-4157-8cee-2f7af0ce7834"),
+                            ProductId = new Guid("c5bb6400-2396-4e5d-aad4-8b7b3dd78f65"),
                             Barcode = "GOLD005",
                             CounterId = 1,
                             Description = "Gold product description 5",
@@ -656,7 +658,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("6db5d553-0b9f-4f03-9ebe-c5942bb63850"),
+                            ProductId = new Guid("1db26988-7562-4a2f-a94e-98877d1d1ae9"),
                             Barcode = "GOLD006",
                             CounterId = 1,
                             Description = "Gold product description 6",
@@ -674,7 +676,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("99e27373-6015-4956-bda9-a0ad99bbede1"),
+                            ProductId = new Guid("8456ee3a-2592-49cd-a868-a072d999ea5a"),
                             Barcode = "GOLD007",
                             CounterId = 1,
                             Description = "Gold product description 7",
@@ -692,7 +694,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("cb67c597-27cc-4e24-b0be-ed15854bb31f"),
+                            ProductId = new Guid("9ebba22c-c0f4-4914-9cb6-ca48aa7b8c5d"),
                             Barcode = "GOLD008",
                             CounterId = 1,
                             Description = "Gold product description 8",
@@ -710,7 +712,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("e3933d73-8886-4c95-add6-7a26ee7831e0"),
+                            ProductId = new Guid("105ebc10-5186-46c9-88e7-b3d4010df604"),
                             Barcode = "GOLD009",
                             CounterId = 1,
                             Description = "Gold product description 9",
@@ -728,7 +730,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("179547d5-b37a-4f83-95f6-bd998398b29f"),
+                            ProductId = new Guid("fa8dd5cd-e91a-4e11-88dd-d575de808f66"),
                             Barcode = "GOLD0010",
                             CounterId = 1,
                             Description = "Gold product description 10",
@@ -746,7 +748,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("83b64d25-6c50-4498-a8aa-ac4c34f7b087"),
+                            ProductId = new Guid("5080311d-9e09-4c24-853d-49030de91759"),
                             Barcode = "GOLD0011",
                             CounterId = 1,
                             Description = "Gold product description 11",
@@ -764,7 +766,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("9d5cdbc3-98bb-4229-9e6d-2758f605d454"),
+                            ProductId = new Guid("8cf252c0-75c6-4bcc-95ef-e51557088e49"),
                             Barcode = "GOLD0012",
                             CounterId = 1,
                             Description = "Gold product description 12",
@@ -782,7 +784,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("fb58fcf0-3fd5-4e04-9d77-e8487d374042"),
+                            ProductId = new Guid("000eabfb-a482-4740-ad3f-03b1b9b02cc3"),
                             Barcode = "GOLD0013",
                             CounterId = 1,
                             Description = "Gold product description 13",
@@ -800,7 +802,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("76ec22f3-5b89-445c-a811-6dcb90906f54"),
+                            ProductId = new Guid("f28cf969-79ff-48fd-81de-08789cda41c4"),
                             Barcode = "GOLD0014",
                             CounterId = 1,
                             Description = "Gold product description 14",
@@ -818,7 +820,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("7e14cead-4b63-46e3-9986-52c7e951cf38"),
+                            ProductId = new Guid("b486fdd7-f854-4bd2-bdd3-ad92555f46ce"),
                             Barcode = "GOLD0015",
                             CounterId = 1,
                             Description = "Gold product description 15",
@@ -836,7 +838,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("bdbce0c9-2a78-4b9f-8cd5-1a685082e724"),
+                            ProductId = new Guid("9efdec6e-9924-47ed-8d5f-4d62f0b7687d"),
                             Barcode = "GOLD0016",
                             CounterId = 1,
                             Description = "Gold product description 16",
@@ -854,7 +856,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("ada33166-20fd-45ba-a0a3-b9fefb75dbf0"),
+                            ProductId = new Guid("c05e0a69-a00c-4b70-9d69-46f1e4488640"),
                             Barcode = "GOLD0017",
                             CounterId = 1,
                             Description = "Gold product description 17",
@@ -872,7 +874,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("dafe4d3c-b554-4e08-ace4-2b9bf3201ce8"),
+                            ProductId = new Guid("a1cf7983-9a92-4d1e-95b2-06f23f2300da"),
                             Barcode = "GOLD0018",
                             CounterId = 1,
                             Description = "Gold product description 18",
@@ -890,7 +892,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("9dcd63a8-f5bc-4ee7-a027-8ceae6d28a28"),
+                            ProductId = new Guid("a0383574-6e32-4af8-929f-e90168b74aef"),
                             Barcode = "GOLD0019",
                             CounterId = 1,
                             Description = "Gold product description 19",
@@ -908,7 +910,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("83d2f190-96d9-4069-8770-ab2fed2ce5e3"),
+                            ProductId = new Guid("bf803140-4ca3-414a-b3f7-7a9967e85d08"),
                             Barcode = "GOLD0020",
                             CounterId = 1,
                             Description = "Gold product description 20",
@@ -926,7 +928,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("b280a02a-ea23-4cce-93e7-c83a239fcc40"),
+                            ProductId = new Guid("a654ffff-9e1e-453a-ba3c-4e240acd3e6a"),
                             Barcode = "GOLD0021",
                             CounterId = 1,
                             Description = "Gold product description 21",
@@ -944,7 +946,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("75ba1eac-7900-4f58-8332-fcacec3b1b1b"),
+                            ProductId = new Guid("108ec182-5999-496e-969c-63c3b6d66f77"),
                             Barcode = "GOLD0022",
                             CounterId = 1,
                             Description = "Gold product description 22",
@@ -962,7 +964,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("fc839d64-3248-4e87-86e9-3b9474993b15"),
+                            ProductId = new Guid("f1c1914d-6527-4106-ab00-b801755fefcd"),
                             Barcode = "GOLD0023",
                             CounterId = 1,
                             Description = "Gold product description 23",
@@ -980,7 +982,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("552b4945-b31b-49ee-b4ef-4eaa905039cb"),
+                            ProductId = new Guid("22c95a5a-e4a2-4526-bb12-7c24c7e4c754"),
                             Barcode = "GOLD0024",
                             CounterId = 1,
                             Description = "Gold product description 24",
@@ -998,7 +1000,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("fe697019-fe38-4b1b-9fdb-236ae48a852e"),
+                            ProductId = new Guid("e4681a1c-ab9a-4bb1-85f8-b6b3d59b520c"),
                             Barcode = "GOLD0025",
                             CounterId = 1,
                             Description = "Gold product description 25",
@@ -1016,7 +1018,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("302b1dde-9abf-4aad-afc6-3a9508a04169"),
+                            ProductId = new Guid("3c1d70e7-ed24-4af3-97ab-072f925a67d1"),
                             Barcode = "GOLD0026",
                             CounterId = 1,
                             Description = "Gold product description 26",
@@ -1034,7 +1036,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("c33713b4-8204-4060-ac6b-f99c9bede697"),
+                            ProductId = new Guid("000cbf32-abea-44db-be3d-2155c06d59d6"),
                             Barcode = "GOLD0027",
                             CounterId = 1,
                             Description = "Gold product description 27",
@@ -1052,7 +1054,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("b4021e09-d847-44b9-9f4b-7d518850db56"),
+                            ProductId = new Guid("be860e91-a6eb-4d72-b1a0-e58d7848b9bb"),
                             Barcode = "GOLD0028",
                             CounterId = 1,
                             Description = "Gold product description 28",
@@ -1070,7 +1072,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("4f326d1d-8419-4af6-a91f-0aba6238f40e"),
+                            ProductId = new Guid("475c6813-2231-498a-b53b-fb37fcd40d84"),
                             Barcode = "GOLD0029",
                             CounterId = 1,
                             Description = "Gold product description 29",
@@ -1088,7 +1090,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("d139a88e-d471-49dd-9b6c-2c6c42b882fa"),
+                            ProductId = new Guid("ba778455-a06b-4746-9fdf-b39821548624"),
                             Barcode = "GOLD0030",
                             CounterId = 1,
                             Description = "Gold product description 30",
@@ -1106,7 +1108,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("3cf073f5-7835-40be-92eb-545e1e093555"),
+                            ProductId = new Guid("1ea13acf-3b9d-42c6-ba60-3aba19f7c45d"),
                             Barcode = "DIAMOND001",
                             CounterId = 1,
                             Description = "Diamond product description 1",
@@ -1124,7 +1126,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("9ba0b6e7-ba5e-45d5-bf0b-2e89a70b68c8"),
+                            ProductId = new Guid("0537a665-f951-41f8-a37c-2c0fab1d9085"),
                             Barcode = "DIAMOND002",
                             CounterId = 1,
                             Description = "Diamond product description 2",
@@ -1142,7 +1144,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("e3664577-7e60-4dbf-8db7-19fe73771d53"),
+                            ProductId = new Guid("4e7d2495-c454-4eb6-bb89-644be3eb8d66"),
                             Barcode = "DIAMOND003",
                             CounterId = 1,
                             Description = "Diamond product description 3",
@@ -1160,7 +1162,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("8661991d-7743-4a91-b4bc-120af5a540d0"),
+                            ProductId = new Guid("b946343a-47c1-40c9-8c5a-e0ae09572a1e"),
                             Barcode = "DIAMOND004",
                             CounterId = 1,
                             Description = "Diamond product description 4",
@@ -1178,7 +1180,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("21f39ce3-613f-47e0-9a7c-7dbb45749a76"),
+                            ProductId = new Guid("89bcb683-e65d-401c-a25a-2c7c36dd1208"),
                             Barcode = "DIAMOND005",
                             CounterId = 1,
                             Description = "Diamond product description 5",
@@ -1196,7 +1198,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("4345658c-15ee-4997-952f-142a238e2d9a"),
+                            ProductId = new Guid("bdde4d4c-5dc8-482e-9a8d-1cb2beb682d3"),
                             Barcode = "DIAMOND006",
                             CounterId = 1,
                             Description = "Diamond product description 6",
@@ -1214,7 +1216,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("7ed5a346-c858-4b5a-bff0-e032d90b92d4"),
+                            ProductId = new Guid("1071e6d6-7868-4022-be3b-c779c4b293c1"),
                             Barcode = "DIAMOND007",
                             CounterId = 1,
                             Description = "Diamond product description 7",
@@ -1232,7 +1234,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("61aa3e14-6369-442a-9653-f693c737a3b7"),
+                            ProductId = new Guid("97245d49-bcec-4e9d-a3dc-21b184720fd1"),
                             Barcode = "DIAMOND008",
                             CounterId = 1,
                             Description = "Diamond product description 8",
@@ -1250,7 +1252,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("4c08b875-01c4-4281-8e0d-35d0f22fa7ac"),
+                            ProductId = new Guid("f577ce14-63a1-450d-8a17-3eb2e841ba0d"),
                             Barcode = "DIAMOND009",
                             CounterId = 1,
                             Description = "Diamond product description 9",
@@ -1268,7 +1270,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("1d10a1ea-864b-49cb-97ea-d658fe9822d4"),
+                            ProductId = new Guid("944540fe-638a-496d-8b3c-75371ac517b9"),
                             Barcode = "DIAMOND0010",
                             CounterId = 1,
                             Description = "Diamond product description 10",
@@ -1286,7 +1288,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("24742873-f787-4f76-b6fc-acd101667033"),
+                            ProductId = new Guid("f47b0dcb-f449-400d-a60c-ed0ea2d5f112"),
                             Barcode = "DIAMOND0011",
                             CounterId = 1,
                             Description = "Diamond product description 11",
@@ -1304,7 +1306,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("e2a25696-5e47-46df-8fba-47a15a4f08d0"),
+                            ProductId = new Guid("584a959b-de8a-4e80-bd05-936b3f02ca51"),
                             Barcode = "DIAMOND0012",
                             CounterId = 1,
                             Description = "Diamond product description 12",
@@ -1322,7 +1324,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("e94e5071-104e-4331-9f9f-f836ff592331"),
+                            ProductId = new Guid("9c59bdb4-eebe-4039-9807-ceae6f7c7ceb"),
                             Barcode = "DIAMOND0013",
                             CounterId = 1,
                             Description = "Diamond product description 13",
@@ -1340,7 +1342,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("834ba31b-cef4-4611-9321-a7c7f459a9fc"),
+                            ProductId = new Guid("e7d4d79a-a4f5-44d7-82a6-6dd56f2416a3"),
                             Barcode = "DIAMOND0014",
                             CounterId = 1,
                             Description = "Diamond product description 14",
@@ -1358,7 +1360,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("c8f046eb-b837-424b-9b3a-1ae080a7f907"),
+                            ProductId = new Guid("0ac7c3f9-34ba-4a0e-89e1-31975752e523"),
                             Barcode = "DIAMOND0015",
                             CounterId = 1,
                             Description = "Diamond product description 15",
@@ -1376,7 +1378,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("3f480a9b-e078-4dd2-911a-d699a05c3fe3"),
+                            ProductId = new Guid("ef0b8490-563a-4518-a0b4-e6f84564fe46"),
                             Barcode = "DIAMOND0016",
                             CounterId = 1,
                             Description = "Diamond product description 16",
@@ -1394,7 +1396,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("70c1662f-1862-4e20-8c81-a587c69902b3"),
+                            ProductId = new Guid("5a5d2f70-5a2a-499c-893c-d722f1f9e23d"),
                             Barcode = "DIAMOND0017",
                             CounterId = 1,
                             Description = "Diamond product description 17",
@@ -1412,7 +1414,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("cd5aa324-5c30-49af-99e4-0713eb5926a8"),
+                            ProductId = new Guid("fc18ad8e-4f46-4e33-ac74-25fb434236ff"),
                             Barcode = "DIAMOND0018",
                             CounterId = 1,
                             Description = "Diamond product description 18",
@@ -1430,7 +1432,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("45c0ed4a-2de1-43cd-a634-90f8e7115d71"),
+                            ProductId = new Guid("4e3938e7-73c9-4316-b430-acf9238f6234"),
                             Barcode = "DIAMOND0019",
                             CounterId = 1,
                             Description = "Diamond product description 19",
@@ -1448,7 +1450,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("b299e670-5004-4a89-9e61-8b8d99221602"),
+                            ProductId = new Guid("24e380a4-8263-4d60-8a08-d975cacaa3cc"),
                             Barcode = "DIAMOND0020",
                             CounterId = 1,
                             Description = "Diamond product description 20",
@@ -1466,7 +1468,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("00791dce-9449-489c-9e0d-22b3ebcb1d77"),
+                            ProductId = new Guid("a496ca5d-bf1f-4a49-bfd6-a70dc0472995"),
                             Barcode = "DIAMOND0021",
                             CounterId = 1,
                             Description = "Diamond product description 21",
@@ -1484,7 +1486,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("da44cf1f-e119-4589-a32e-01770b9bbfb7"),
+                            ProductId = new Guid("d88c4f8d-2289-414c-8137-589551e211dc"),
                             Barcode = "DIAMOND0022",
                             CounterId = 1,
                             Description = "Diamond product description 22",
@@ -1502,7 +1504,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("51d83d7d-b619-41d3-a286-5ac4f53978bf"),
+                            ProductId = new Guid("b829de1b-2465-49a3-8915-d8843cfbf251"),
                             Barcode = "DIAMOND0023",
                             CounterId = 1,
                             Description = "Diamond product description 23",
@@ -1520,7 +1522,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("ab93e336-a8df-4b35-b8d7-dd068f476f79"),
+                            ProductId = new Guid("ca9aeef9-9dd3-4913-bca5-822883e01bdd"),
                             Barcode = "DIAMOND0024",
                             CounterId = 1,
                             Description = "Diamond product description 24",
@@ -1538,7 +1540,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("392b947c-e86b-4c3b-88c7-24d5dbca07d9"),
+                            ProductId = new Guid("b0712973-8d43-482a-bda9-0e54955ae233"),
                             Barcode = "DIAMOND0025",
                             CounterId = 1,
                             Description = "Diamond product description 25",
@@ -1556,7 +1558,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("a143677e-a0e7-491d-a37c-dbac24144649"),
+                            ProductId = new Guid("e70e9116-63da-46db-9d2e-448687786138"),
                             Barcode = "DIAMOND0026",
                             CounterId = 1,
                             Description = "Diamond product description 26",
@@ -1574,7 +1576,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("fc73f121-6eab-45c4-99b1-ee6bfbb71ea8"),
+                            ProductId = new Guid("22060e2a-82b6-498b-b2c3-e3b263d812a6"),
                             Barcode = "DIAMOND0027",
                             CounterId = 1,
                             Description = "Diamond product description 27",
@@ -1592,7 +1594,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("39f5f1c1-4f6b-4934-995a-099ec3a34942"),
+                            ProductId = new Guid("45bcea7e-01fa-49bf-b1df-d9771b69cc97"),
                             Barcode = "DIAMOND0028",
                             CounterId = 1,
                             Description = "Diamond product description 28",
@@ -1610,7 +1612,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("242aac4a-e67e-4720-859b-b85dd908877d"),
+                            ProductId = new Guid("a092c366-5a32-4906-9b8f-32003c7cdc0f"),
                             Barcode = "DIAMOND0029",
                             CounterId = 1,
                             Description = "Diamond product description 29",
@@ -1628,7 +1630,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("696416c8-0b1d-466d-a6e1-1e3b86da456e"),
+                            ProductId = new Guid("0d4f7d2b-2b33-4467-966a-a68c135ca205"),
                             Barcode = "DIAMOND0030",
                             CounterId = 1,
                             Description = "Diamond product description 30",
@@ -1646,7 +1648,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("48a35665-944b-4143-9813-daa984454aed"),
+                            ProductId = new Guid("2c08588b-25a0-453b-a329-27533035e8cd"),
                             Barcode = "JEWEL001",
                             CounterId = 1,
                             Description = "Jewel product description 1",
@@ -1664,7 +1666,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("7a380f67-1b8a-4942-8339-81744a45c868"),
+                            ProductId = new Guid("3d199a3f-8880-43ac-a76c-b3d25dfc2314"),
                             Barcode = "JEWEL002",
                             CounterId = 1,
                             Description = "Jewel product description 2",
@@ -1682,7 +1684,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("27f356a6-f6c6-4084-a2e7-074b4814c3bb"),
+                            ProductId = new Guid("4fa09148-6b29-4342-83e0-6fc65569b60f"),
                             Barcode = "JEWEL003",
                             CounterId = 1,
                             Description = "Jewel product description 3",
@@ -1700,7 +1702,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("731918db-b643-4bc4-869c-4c8225845cc9"),
+                            ProductId = new Guid("aac25b5e-82b1-4e32-8474-922453cddf5a"),
                             Barcode = "JEWEL004",
                             CounterId = 1,
                             Description = "Jewel product description 4",
@@ -1718,7 +1720,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("4cdd551a-a5fd-4fe3-a998-4755f03c22cd"),
+                            ProductId = new Guid("bf4d6378-c746-4c08-93e7-caaf109ce4ed"),
                             Barcode = "JEWEL005",
                             CounterId = 1,
                             Description = "Jewel product description 5",
@@ -1736,7 +1738,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("7c015d32-34ef-4b6e-ac89-5a38a52f3314"),
+                            ProductId = new Guid("cd2a8026-a077-4d01-b8e3-9fb25ce5cf20"),
                             Barcode = "JEWEL006",
                             CounterId = 1,
                             Description = "Jewel product description 6",
@@ -1754,7 +1756,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("148fcd0e-4a7e-43cf-968a-0b71a2fcd097"),
+                            ProductId = new Guid("38bffdfa-ed10-4597-86ab-3ed2cc5abe31"),
                             Barcode = "JEWEL007",
                             CounterId = 1,
                             Description = "Jewel product description 7",
@@ -1772,7 +1774,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("c09ab8f2-c3b2-4e4b-9661-fa50de6850dd"),
+                            ProductId = new Guid("b63784e5-05ff-4f52-be85-5a5efff7f9dd"),
                             Barcode = "JEWEL008",
                             CounterId = 1,
                             Description = "Jewel product description 8",
@@ -1790,7 +1792,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("31c63c64-ad74-4f6e-b26e-c1dc27e8564e"),
+                            ProductId = new Guid("aba343bb-f921-4ccc-8d15-aec4adc1ccc8"),
                             Barcode = "JEWEL009",
                             CounterId = 1,
                             Description = "Jewel product description 9",
@@ -1808,7 +1810,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("c55ff7b9-904e-4f7c-a83d-a7fc8fbdb5eb"),
+                            ProductId = new Guid("3fecb191-4301-46a3-a485-6c90881c6045"),
                             Barcode = "JEWEL0010",
                             CounterId = 1,
                             Description = "Jewel product description 10",
@@ -1826,7 +1828,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("d2b67426-61b6-476c-876d-00e59673af35"),
+                            ProductId = new Guid("cebb4da5-d5c5-4c50-948b-e873bcdb72e4"),
                             Barcode = "JEWEL0011",
                             CounterId = 1,
                             Description = "Jewel product description 11",
@@ -1844,7 +1846,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("38d0ec54-9366-4707-8ee1-8b94ce390f35"),
+                            ProductId = new Guid("d69ac406-6a9a-4196-bfca-b522850e345c"),
                             Barcode = "JEWEL0012",
                             CounterId = 1,
                             Description = "Jewel product description 12",
@@ -1862,7 +1864,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("5da5ca63-0157-4647-9a0c-614b5b0e1c7f"),
+                            ProductId = new Guid("45a77b6b-a25d-4eac-9dba-6edd2e1d6797"),
                             Barcode = "JEWEL0013",
                             CounterId = 1,
                             Description = "Jewel product description 13",
@@ -1880,7 +1882,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("81442bb3-eede-452f-81c2-0be31a9e933c"),
+                            ProductId = new Guid("5b932ce5-3a81-4849-bafe-209ec5c54009"),
                             Barcode = "JEWEL0014",
                             CounterId = 1,
                             Description = "Jewel product description 14",
@@ -1898,7 +1900,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("3644579e-a2c2-4b1a-b89f-c09ca842c5e2"),
+                            ProductId = new Guid("5fbd5d28-37b8-4f8f-92c0-470182962115"),
                             Barcode = "JEWEL0015",
                             CounterId = 1,
                             Description = "Jewel product description 15",
@@ -1916,7 +1918,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("7e6746bb-0fc8-4240-80e9-753c90ff8377"),
+                            ProductId = new Guid("eb35cdf7-b288-4f70-bb91-4faccc3ff0e6"),
                             Barcode = "JEWEL0016",
                             CounterId = 1,
                             Description = "Jewel product description 16",
@@ -1934,7 +1936,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("44caeea7-969e-42b9-b536-4a5974d9db4e"),
+                            ProductId = new Guid("74ee5bbc-21ce-4172-9a7b-18897c8503b9"),
                             Barcode = "JEWEL0017",
                             CounterId = 1,
                             Description = "Jewel product description 17",
@@ -1952,7 +1954,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("fb48c29a-32ad-43a6-bfad-06668a73f49d"),
+                            ProductId = new Guid("6c01a36f-9d4a-42af-b1e3-c17aed6a48d4"),
                             Barcode = "JEWEL0018",
                             CounterId = 1,
                             Description = "Jewel product description 18",
@@ -1970,7 +1972,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("bf312650-b452-417f-b1ec-96c48845441e"),
+                            ProductId = new Guid("dfcabede-71c5-4877-a391-5250c44cc1c4"),
                             Barcode = "JEWEL0019",
                             CounterId = 1,
                             Description = "Jewel product description 19",
@@ -1988,7 +1990,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("3a5d542d-b232-4049-9f6f-e62657f36649"),
+                            ProductId = new Guid("37e3469a-838e-419b-8ec1-b7a74f3cb756"),
                             Barcode = "JEWEL0020",
                             CounterId = 1,
                             Description = "Jewel product description 20",
@@ -2006,7 +2008,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("42d48c93-edf7-4598-ba7b-2a84f9946618"),
+                            ProductId = new Guid("bab3b868-9830-4804-9ac3-805d3dc12c53"),
                             Barcode = "JEWEL0021",
                             CounterId = 1,
                             Description = "Jewel product description 21",
@@ -2024,7 +2026,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("75a7092c-0134-40a9-908b-a5cefb837c52"),
+                            ProductId = new Guid("0d8a81a5-86ad-4cb9-855f-856d14d72809"),
                             Barcode = "JEWEL0022",
                             CounterId = 1,
                             Description = "Jewel product description 22",
@@ -2042,7 +2044,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("d671c688-1a3d-457f-8a8b-8d334361eaa9"),
+                            ProductId = new Guid("b867afdf-65d2-4e65-8f7b-52952a73b105"),
                             Barcode = "JEWEL0023",
                             CounterId = 1,
                             Description = "Jewel product description 23",
@@ -2060,7 +2062,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("61f10616-c32f-4ea2-bcd3-0b980ed446bd"),
+                            ProductId = new Guid("40a8fd37-cd81-4a46-b4dc-9cfb9f90b099"),
                             Barcode = "JEWEL0024",
                             CounterId = 1,
                             Description = "Jewel product description 24",
@@ -2078,7 +2080,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("c6540a8a-b078-4b60-ae82-bb04a435c847"),
+                            ProductId = new Guid("6a3871f2-f05f-4d48-8342-ac4e993f6a11"),
                             Barcode = "JEWEL0025",
                             CounterId = 1,
                             Description = "Jewel product description 25",
@@ -2096,7 +2098,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("f95d5004-26b8-4a3b-993c-d5fccc5f9343"),
+                            ProductId = new Guid("1c3c4b22-bd06-40c0-9f68-05f19d1688f0"),
                             Barcode = "JEWEL0026",
                             CounterId = 1,
                             Description = "Jewel product description 26",
@@ -2114,7 +2116,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("1358afa9-ca8f-49a7-866f-8c62504311c2"),
+                            ProductId = new Guid("458cd034-e599-483d-9260-b39f8f3a3d69"),
                             Barcode = "JEWEL0027",
                             CounterId = 1,
                             Description = "Jewel product description 27",
@@ -2132,7 +2134,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("da051611-f093-45af-8df2-1931a4c74902"),
+                            ProductId = new Guid("bbb3f379-de71-4d83-842b-1f6e1f225d9d"),
                             Barcode = "JEWEL0028",
                             CounterId = 1,
                             Description = "Jewel product description 28",
@@ -2150,7 +2152,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("9177912e-9107-4925-8a18-1d48c4d16bf6"),
+                            ProductId = new Guid("f75a4c4f-1c49-48c5-bf9a-eac99426322d"),
                             Barcode = "JEWEL0029",
                             CounterId = 1,
                             Description = "Jewel product description 29",
@@ -2168,7 +2170,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("d4852069-fb6f-4b39-964c-71b0d16797a3"),
+                            ProductId = new Guid("3791978f-8952-44b5-864f-99e0325023ae"),
                             Barcode = "JEWEL0030",
                             CounterId = 1,
                             Description = "Jewel product description 30",
@@ -2219,7 +2221,7 @@ namespace DataLayer.Migrations
                             PromotionCode = "Promotion 01",
                             Description = "This is the promtion super hot",
                             DiscountPercentage = 10.0,
-                            EndDate = new DateTime(2024, 7, 25, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(5440),
+                            EndDate = new DateTime(2024, 7, 25, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6610),
                             PromotionStatus = 0,
                             StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -2228,7 +2230,7 @@ namespace DataLayer.Migrations
                             PromotionCode = "Promotion 02",
                             Description = "This is the promtion super hot",
                             DiscountPercentage = 10.0,
-                            EndDate = new DateTime(2024, 7, 5, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(5460),
+                            EndDate = new DateTime(2024, 7, 5, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6630),
                             PromotionStatus = 1,
                             StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -2237,7 +2239,7 @@ namespace DataLayer.Migrations
                             PromotionCode = "Promotion 03",
                             Description = "This is the promtion super hot",
                             DiscountPercentage = 10.0,
-                            EndDate = new DateTime(2024, 7, 5, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(5460),
+                            EndDate = new DateTime(2024, 7, 5, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6640),
                             PromotionStatus = 2,
                             StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -2363,7 +2365,7 @@ namespace DataLayer.Migrations
                         {
                             TypeId = 1,
                             BuyPricePerGram = 500000.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4010),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4580),
                             SellPricePerGram = 750000.0,
                             TypeName = "Gold"
                         },
@@ -2371,7 +2373,7 @@ namespace DataLayer.Migrations
                         {
                             TypeId = 2,
                             BuyPricePerGram = 5000000.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4020),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4600),
                             SellPricePerGram = 7500000.0,
                             TypeName = "Diamond"
                         },
@@ -2379,7 +2381,7 @@ namespace DataLayer.Migrations
                         {
                             TypeId = 3,
                             BuyPricePerGram = 2000000.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4030),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4610),
                             SellPricePerGram = 3000000.0,
                             TypeName = "Jewel"
                         },
@@ -2387,57 +2389,33 @@ namespace DataLayer.Migrations
                         {
                             TypeId = 4,
                             BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4040),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4620),
                             SellPricePerGram = 0.0,
-                            TypeName = "Vàng nhẫn SJC 99,99 1 chỉ, 2 chỉ, 5 chỉ"
+                            TypeName = "Vàng SJC 1 chỉ"
                         },
                         new
                         {
                             TypeId = 5,
                             BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4050),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4630),
                             SellPricePerGram = 0.0,
-                            TypeName = "Vàng nhẫn SJC 99,99 0,3 chỉ, 0,5 chỉ"
+                            TypeName = "Vàng SJC 1 lượng"
                         },
                         new
                         {
                             TypeId = 6,
                             BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4060),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4640),
                             SellPricePerGram = 0.0,
-                            TypeName = "Vàng nữ trang 99,99%"
+                            TypeName = "Nhẫn 1 chỉ SJC"
                         },
                         new
                         {
                             TypeId = 7,
                             BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4060),
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4650),
                             SellPricePerGram = 0.0,
-                            TypeName = "Vàng nữ trang 99%"
-                        },
-                        new
-                        {
-                            TypeId = 8,
-                            BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4070),
-                            SellPricePerGram = 0.0,
-                            TypeName = "Vàng nữ trang 75%"
-                        },
-                        new
-                        {
-                            TypeId = 9,
-                            BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4080),
-                            SellPricePerGram = 0.0,
-                            TypeName = "Vàng nữ trang 58,3%"
-                        },
-                        new
-                        {
-                            TypeId = 10,
-                            BuyPricePerGram = 0.0,
-                            DateUpdated = new DateTime(2024, 7, 15, 8, 33, 46, 661, DateTimeKind.Utc).AddTicks(4090),
-                            SellPricePerGram = 0.0,
-                            TypeName = "Vàng nữ trang 41,7%"
+                            TypeName = "Trang sức 49 SJC"
                         });
                 });
 

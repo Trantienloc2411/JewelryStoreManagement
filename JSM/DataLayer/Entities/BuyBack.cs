@@ -1,4 +1,6 @@
-﻿#pragma warning disable
+﻿using System.Text.Json.Serialization;
+
+#pragma warning disable
 namespace DataLayer.Entities
 {
     public class BuyBack
@@ -11,8 +13,9 @@ namespace DataLayer.Entities
         
         public bool HaveInvoice { get; set; }
         public double ManufactureCost { get; set; }
-
+        [JsonIgnore]
         public virtual Order Order { get; set; }
+        [JsonIgnore]
         public virtual Product Product { get; set; }
         
         

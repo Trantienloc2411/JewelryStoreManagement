@@ -4,6 +4,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace DataLayer.Entities
 {
@@ -21,7 +22,8 @@ namespace DataLayer.Entities
         public int? AccumulatedPoint { get; set; }
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
-        
+        [AllowNull]
+        public Guid? CPId { get; set; }
         public OrderStatuses OrderStatus { get; set; }
 
         public enum OrderStatuses
@@ -36,14 +38,21 @@ namespace DataLayer.Entities
             BuyBack,
             Selling
         }
-
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore]
         public virtual Promotion? Promotion { get; set; }
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
+        [JsonIgnore]
         public virtual Employee Employee { get; set; }
+        [JsonIgnore]
         public virtual BuyBack BuyBack { get; set; }
+        [JsonIgnore]
         public virtual Counter Counter { get; set; }
-        
+        [JsonIgnore]
+        public virtual CustomerPolicy? CustomerPolicy { get; set; }
+        [JsonIgnore]
         public virtual PaymentMethod? PaymentMethod { get; set; }
 
     }

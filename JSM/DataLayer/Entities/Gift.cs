@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+
 #pragma warning disable
 namespace DataLayer.Entities
 {
@@ -10,6 +12,7 @@ namespace DataLayer.Entities
         [MaxLength(100)]
         public string? GiftName { get; set; }
         public int PointRequired { get; set; }
+        [JsonIgnore]
         public ICollection<Transactions> Transactions { get; set; }
     }
 }
