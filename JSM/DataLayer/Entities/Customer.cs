@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -28,9 +29,12 @@ namespace DataLayer.Entities
             Male,
             Female,
         }
+        [JsonIgnore]
 
         public virtual ICollection<CustomerPolicy> CustomerPolicies { get; set;}
+        [JsonIgnore]
         public virtual ICollection<Order> Orders {get;set;}
+        [JsonIgnore]
         public virtual ICollection<Transactions> Transactions { get; set; }
         
     }

@@ -20,10 +20,12 @@ public class MappingProfiles : Profile
     {
         CreateMap<RegisterEmployeeViewModel, Employee>().ReverseMap();
         CreateMap<LoginEmployeeViewModel, Employee>().ReverseMap();
+        CreateMap<TypePrice, TypePrice>()
+            .ForMember(dest => dest.Products, opt => opt.Ignore());
 
-        CreateMap<ProductViewModel, Product>().ReverseMap()
+        CreateMap<Product, ProductViewModel>()
             .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
-            .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
+            .ForMember(dest => dest.TypePrice, opt => opt.MapFrom(src => src.TypePrice));
         CreateMap<ProductByCounterIdViewModel, Product>().ReverseMap()
             .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.TypePrice.TypeName));
         CreateMap<AddProductViewModel, Product>().ReverseMap();
