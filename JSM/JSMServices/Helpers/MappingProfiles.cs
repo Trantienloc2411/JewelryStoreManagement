@@ -23,6 +23,8 @@ public class MappingProfiles : Profile
         CreateMap<TypePrice, TypePrice>()
             .ForMember(dest => dest.Products, opt => opt.Ignore());
 
+        CreateMap<ProductViewById, Product>().ReverseMap()
+            .ForMember(dest => dest.Counter, opt => opt.MapFrom(src => src.Counter));
         CreateMap<Product, ProductViewModel>()
             .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
             .ForMember(dest => dest.TypePrice, opt => opt.MapFrom(src => src.TypePrice));
