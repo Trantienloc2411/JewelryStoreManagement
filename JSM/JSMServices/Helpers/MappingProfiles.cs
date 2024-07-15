@@ -58,7 +58,8 @@ public class MappingProfiles : Profile
         CreateMap<GiftViewModel, Gift>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, Order>().ReverseMap();
         CreateMap<OrderOrderDetailByCounterIdViewModel, OrderDetail>().ReverseMap();
-        
+        CreateMap<OrderByCustomerIdViewModel, Order>().ReverseMap();
+
         CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
         CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
     }
