@@ -1,6 +1,8 @@
 using DataLayer;
 using DataLayer.Entities;
+using JewelryStoreManagement.Helpers;
 using JSMRepositories;
+using JSMServices.Helpers;
 using JSMServices.IServices;
 using JSMServices.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -116,7 +118,7 @@ namespace JewelryStoreManagement
             options.UseNpgsql(connectionstring));
             //Add Scope 
             //Repositories
-
+            builder.Services.AddHostedService<FetchService>();
 
             builder.Services.AddScoped<TransactionRepository>();
             builder.Services.AddScoped<BuybackRepository>();
@@ -150,7 +152,8 @@ namespace JewelryStoreManagement
             builder.Services.AddScoped<IGenericRepository<Warranty>, WarrantyRepository>();
             builder.Services.AddScoped<IGenericRepository<RefreshToken>, RefreshHandlerRepository>();
             builder.Services.AddScoped<IGenericRepository<Transactions>, TransactionRepository>();
-
+            
+            
             //IService + Service
             builder.Services.AddScoped<IRefreshHandlerService, RefreshHandlerService>();
             builder.Services.AddScoped<IBuyBackService, BuyBackService>();
