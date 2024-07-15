@@ -249,8 +249,8 @@ public class ProductService : IProductService
     {
         try
         {
-            var listProduct = await _productRepository.GetSingleWithAsync(b => b.ProductId.Equals(productId));
-            if (listProduct == null || listProduct.ProductStatus == Product.ProductStatuses.Deactive)
+            var listProduct = await _productRepository.GetSingleWithIncludeAsync(e => e.ProductId == productId, e=>e.Counter);
+            if (listProduct == null)
             {
                 throw new Exception("The product does not exist or was deleted");
             }
