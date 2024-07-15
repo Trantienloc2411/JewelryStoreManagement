@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 #pragma warning disable
 namespace DataLayer.Entities
@@ -34,8 +35,10 @@ namespace DataLayer.Entities
             Approved,
             Denied
         }
-
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
+        [JsonIgnore]
+        public virtual Order Order { get; set; }
         
     }
 }

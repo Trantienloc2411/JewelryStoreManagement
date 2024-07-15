@@ -128,6 +128,48 @@ namespace DataLayer.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = new Guid("013547f4-1a5e-4faf-a7f0-65b5ce4747c5"),
+                            AccumulatedPoint = 3000,
+                            Address = "Xã Hồng Thủy, Huyện Lệ Thủy, Quảng Bình",
+                            CustomerGender = 0,
+                            Email = "lamAnh@hotmail.com",
+                            Name = "anh Lâm",
+                            Phone = "0820256734"
+                        },
+                        new
+                        {
+                            CustomerId = new Guid("9f5d0345-0266-4213-8544-3a8b062dd65f"),
+                            AccumulatedPoint = 0,
+                            Address = "Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh",
+                            CustomerGender = 1,
+                            Email = "hoanguyen@outlook.com",
+                            Name = "Nguyễn Thị Hoa",
+                            Phone = "0987654321"
+                        },
+                        new
+                        {
+                            CustomerId = new Guid("3d27847c-5aaf-4697-9ce3-0f7ee58428b0"),
+                            AccumulatedPoint = 0,
+                            Address = "Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội",
+                            CustomerGender = 0,
+                            Email = "ducpham@yahoo.com",
+                            Name = "Phạm Văn Đức",
+                            Phone = "0909876543"
+                        },
+                        new
+                        {
+                            CustomerId = new Guid("f776ed8d-5c50-4e4f-be3c-b9633f7532bf"),
+                            AccumulatedPoint = 2500,
+                            Address = "Phường Cầu Diễn, Quận Nam Từ Liêm, Hà Nội",
+                            CustomerGender = 1,
+                            Email = "minhTran@gmail.com",
+                            Name = "Trần Minh",
+                            Phone = "0912345678"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.CustomerPolicy", b =>
@@ -150,6 +192,9 @@ namespace DataLayer.Migrations
 
                     b.Property<bool>("IsApprovalRequired")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("PolicyStatus")
+                        .HasColumnType("integer");
 
                     b.Property<int>("PublishingStatus")
                         .HasColumnType("integer");
@@ -218,7 +263,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("f25db718-ef66-4ae7-b5a8-9cc70e5c7220"),
+                            EmployeeId = new Guid("31023a3a-96a4-4803-ac2b-5b4cebadc3ca"),
                             CounterId = 1,
                             Email = "a@gmail.com",
                             EmployeeGender = 0,
@@ -232,7 +277,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("17b420ed-870e-4d42-8c20-a04433f22861"),
+                            EmployeeId = new Guid("e8cc4ead-e3ea-49c3-92dc-4a704e7c5547"),
                             CounterId = 2,
                             Email = "b@gmail.com",
                             EmployeeGender = 1,
@@ -246,7 +291,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("f355d945-689e-4009-a612-f6f50b5a94e9"),
+                            EmployeeId = new Guid("5b1293f4-54a1-4580-826e-f48106600d88"),
                             CounterId = 2,
                             Email = "admin@gmail.com",
                             EmployeeGender = 1,
@@ -260,7 +305,7 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("6db1c26d-675f-473a-9688-99cf3e1551e2"),
+                            EmployeeId = new Guid("f758d1e1-37a6-415f-bb1d-36181ab71fc3"),
                             CounterId = 2,
                             Email = "sa@gmail.com",
                             EmployeeGender = 0,
@@ -290,6 +335,26 @@ namespace DataLayer.Migrations
                     b.HasKey("GiftId");
 
                     b.ToTable("Gifts");
+
+                    b.HasData(
+                        new
+                        {
+                            GiftId = new Guid("11d623d3-97ed-4e9b-ba91-d9115358ef8e"),
+                            GiftName = "Lịch vạn niên 2025",
+                            PointRequired = 6000
+                        },
+                        new
+                        {
+                            GiftId = new Guid("44251df8-dc2b-46b4-bfd6-1b20b66e1203"),
+                            GiftName = "Bộ bàn ghế gỗ",
+                            PointRequired = 14000
+                        },
+                        new
+                        {
+                            GiftId = new Guid("d4c78d1d-f2b6-467f-b00d-cd4ac7eb406c"),
+                            GiftName = "Áo mưa",
+                            PointRequired = 3500
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Gold", b =>
@@ -329,6 +394,9 @@ namespace DataLayer.Migrations
                     b.Property<int?>("AccumulatedPoint")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("CPId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("CounterId")
                         .HasColumnType("integer");
 
@@ -357,6 +425,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("CPId")
+                        .IsUnique();
 
                     b.HasIndex("CounterId");
 
@@ -491,6 +562,1628 @@ namespace DataLayer.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = new Guid("4f7ac7c6-c7e5-44c1-97a2-18eafc8d73e3"),
+                            Barcode = "GOLD001",
+                            CounterId = 1,
+                            Description = "Gold product description 1",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 1001000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 1",
+                            Price = 1501000.0,
+                            ProductStatus = 0,
+                            Quantity = 11,
+                            StonePrice = 755000.0,
+                            TypeId = 1,
+                            Weight = 51.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3fc57e43-1697-4efc-8d58-7bdd3114267c"),
+                            Barcode = "GOLD002",
+                            CounterId = 1,
+                            Description = "Gold product description 2",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 1002000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 2",
+                            Price = 1502000.0,
+                            ProductStatus = 0,
+                            Quantity = 12,
+                            StonePrice = 760000.0,
+                            TypeId = 1,
+                            Weight = 52.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d48d7699-27d2-4e03-a085-7dac1e542ba9"),
+                            Barcode = "GOLD003",
+                            CounterId = 1,
+                            Description = "Gold product description 3",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 1003000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 3",
+                            Price = 1503000.0,
+                            ProductStatus = 0,
+                            Quantity = 13,
+                            StonePrice = 765000.0,
+                            TypeId = 1,
+                            Weight = 53.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e28e254b-9de7-4137-b0b5-170bc91bd67a"),
+                            Barcode = "GOLD004",
+                            CounterId = 1,
+                            Description = "Gold product description 4",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 1004000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 4",
+                            Price = 1504000.0,
+                            ProductStatus = 0,
+                            Quantity = 14,
+                            StonePrice = 770000.0,
+                            TypeId = 1,
+                            Weight = 54.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c5bb6400-2396-4e5d-aad4-8b7b3dd78f65"),
+                            Barcode = "GOLD005",
+                            CounterId = 1,
+                            Description = "Gold product description 5",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 1005000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 5",
+                            Price = 1505000.0,
+                            ProductStatus = 0,
+                            Quantity = 15,
+                            StonePrice = 775000.0,
+                            TypeId = 1,
+                            Weight = 55.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1db26988-7562-4a2f-a94e-98877d1d1ae9"),
+                            Barcode = "GOLD006",
+                            CounterId = 1,
+                            Description = "Gold product description 6",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 1006000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 6",
+                            Price = 1506000.0,
+                            ProductStatus = 0,
+                            Quantity = 16,
+                            StonePrice = 780000.0,
+                            TypeId = 1,
+                            Weight = 56.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("8456ee3a-2592-49cd-a868-a072d999ea5a"),
+                            Barcode = "GOLD007",
+                            CounterId = 1,
+                            Description = "Gold product description 7",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 1007000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 7",
+                            Price = 1507000.0,
+                            ProductStatus = 0,
+                            Quantity = 17,
+                            StonePrice = 785000.0,
+                            TypeId = 1,
+                            Weight = 57.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("9ebba22c-c0f4-4914-9cb6-ca48aa7b8c5d"),
+                            Barcode = "GOLD008",
+                            CounterId = 1,
+                            Description = "Gold product description 8",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 1008000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 8",
+                            Price = 1508000.0,
+                            ProductStatus = 0,
+                            Quantity = 18,
+                            StonePrice = 790000.0,
+                            TypeId = 1,
+                            Weight = 58.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("105ebc10-5186-46c9-88e7-b3d4010df604"),
+                            Barcode = "GOLD009",
+                            CounterId = 1,
+                            Description = "Gold product description 9",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 1009000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 9",
+                            Price = 1509000.0,
+                            ProductStatus = 0,
+                            Quantity = 19,
+                            StonePrice = 795000.0,
+                            TypeId = 1,
+                            Weight = 59.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("fa8dd5cd-e91a-4e11-88dd-d575de808f66"),
+                            Barcode = "GOLD0010",
+                            CounterId = 1,
+                            Description = "Gold product description 10",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 1010000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 10",
+                            Price = 1510000.0,
+                            ProductStatus = 0,
+                            Quantity = 20,
+                            StonePrice = 800000.0,
+                            TypeId = 1,
+                            Weight = 60.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5080311d-9e09-4c24-853d-49030de91759"),
+                            Barcode = "GOLD0011",
+                            CounterId = 1,
+                            Description = "Gold product description 11",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 1011000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 11",
+                            Price = 1511000.0,
+                            ProductStatus = 0,
+                            Quantity = 21,
+                            StonePrice = 805000.0,
+                            TypeId = 1,
+                            Weight = 61.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("8cf252c0-75c6-4bcc-95ef-e51557088e49"),
+                            Barcode = "GOLD0012",
+                            CounterId = 1,
+                            Description = "Gold product description 12",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 1012000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 12",
+                            Price = 1512000.0,
+                            ProductStatus = 0,
+                            Quantity = 22,
+                            StonePrice = 810000.0,
+                            TypeId = 1,
+                            Weight = 62.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("000eabfb-a482-4740-ad3f-03b1b9b02cc3"),
+                            Barcode = "GOLD0013",
+                            CounterId = 1,
+                            Description = "Gold product description 13",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 1013000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 13",
+                            Price = 1513000.0,
+                            ProductStatus = 0,
+                            Quantity = 23,
+                            StonePrice = 815000.0,
+                            TypeId = 1,
+                            Weight = 63.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f28cf969-79ff-48fd-81de-08789cda41c4"),
+                            Barcode = "GOLD0014",
+                            CounterId = 1,
+                            Description = "Gold product description 14",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 1014000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 14",
+                            Price = 1514000.0,
+                            ProductStatus = 0,
+                            Quantity = 24,
+                            StonePrice = 820000.0,
+                            TypeId = 1,
+                            Weight = 64.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b486fdd7-f854-4bd2-bdd3-ad92555f46ce"),
+                            Barcode = "GOLD0015",
+                            CounterId = 1,
+                            Description = "Gold product description 15",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 1015000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 15",
+                            Price = 1515000.0,
+                            ProductStatus = 0,
+                            Quantity = 25,
+                            StonePrice = 825000.0,
+                            TypeId = 1,
+                            Weight = 65.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("9efdec6e-9924-47ed-8d5f-4d62f0b7687d"),
+                            Barcode = "GOLD0016",
+                            CounterId = 1,
+                            Description = "Gold product description 16",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 1016000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 16",
+                            Price = 1516000.0,
+                            ProductStatus = 0,
+                            Quantity = 26,
+                            StonePrice = 830000.0,
+                            TypeId = 1,
+                            Weight = 66.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c05e0a69-a00c-4b70-9d69-46f1e4488640"),
+                            Barcode = "GOLD0017",
+                            CounterId = 1,
+                            Description = "Gold product description 17",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 1017000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 17",
+                            Price = 1517000.0,
+                            ProductStatus = 0,
+                            Quantity = 27,
+                            StonePrice = 835000.0,
+                            TypeId = 1,
+                            Weight = 67.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a1cf7983-9a92-4d1e-95b2-06f23f2300da"),
+                            Barcode = "GOLD0018",
+                            CounterId = 1,
+                            Description = "Gold product description 18",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 1018000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 18",
+                            Price = 1518000.0,
+                            ProductStatus = 0,
+                            Quantity = 28,
+                            StonePrice = 840000.0,
+                            TypeId = 1,
+                            Weight = 68.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a0383574-6e32-4af8-929f-e90168b74aef"),
+                            Barcode = "GOLD0019",
+                            CounterId = 1,
+                            Description = "Gold product description 19",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 1019000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 19",
+                            Price = 1519000.0,
+                            ProductStatus = 0,
+                            Quantity = 29,
+                            StonePrice = 845000.0,
+                            TypeId = 1,
+                            Weight = 69.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bf803140-4ca3-414a-b3f7-7a9967e85d08"),
+                            Barcode = "GOLD0020",
+                            CounterId = 1,
+                            Description = "Gold product description 20",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 1020000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 20",
+                            Price = 1520000.0,
+                            ProductStatus = 0,
+                            Quantity = 30,
+                            StonePrice = 850000.0,
+                            TypeId = 1,
+                            Weight = 70.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a654ffff-9e1e-453a-ba3c-4e240acd3e6a"),
+                            Barcode = "GOLD0021",
+                            CounterId = 1,
+                            Description = "Gold product description 21",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 1021000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 21",
+                            Price = 1521000.0,
+                            ProductStatus = 0,
+                            Quantity = 31,
+                            StonePrice = 855000.0,
+                            TypeId = 1,
+                            Weight = 71.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("108ec182-5999-496e-969c-63c3b6d66f77"),
+                            Barcode = "GOLD0022",
+                            CounterId = 1,
+                            Description = "Gold product description 22",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 1022000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 22",
+                            Price = 1522000.0,
+                            ProductStatus = 0,
+                            Quantity = 32,
+                            StonePrice = 860000.0,
+                            TypeId = 1,
+                            Weight = 72.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f1c1914d-6527-4106-ab00-b801755fefcd"),
+                            Barcode = "GOLD0023",
+                            CounterId = 1,
+                            Description = "Gold product description 23",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 1023000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 23",
+                            Price = 1523000.0,
+                            ProductStatus = 0,
+                            Quantity = 33,
+                            StonePrice = 865000.0,
+                            TypeId = 1,
+                            Weight = 73.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("22c95a5a-e4a2-4526-bb12-7c24c7e4c754"),
+                            Barcode = "GOLD0024",
+                            CounterId = 1,
+                            Description = "Gold product description 24",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 1024000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 24",
+                            Price = 1524000.0,
+                            ProductStatus = 0,
+                            Quantity = 34,
+                            StonePrice = 870000.0,
+                            TypeId = 1,
+                            Weight = 74.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e4681a1c-ab9a-4bb1-85f8-b6b3d59b520c"),
+                            Barcode = "GOLD0025",
+                            CounterId = 1,
+                            Description = "Gold product description 25",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 1025000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 25",
+                            Price = 1525000.0,
+                            ProductStatus = 0,
+                            Quantity = 35,
+                            StonePrice = 875000.0,
+                            TypeId = 1,
+                            Weight = 75.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3c1d70e7-ed24-4af3-97ab-072f925a67d1"),
+                            Barcode = "GOLD0026",
+                            CounterId = 1,
+                            Description = "Gold product description 26",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 1026000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 26",
+                            Price = 1526000.0,
+                            ProductStatus = 0,
+                            Quantity = 36,
+                            StonePrice = 880000.0,
+                            TypeId = 1,
+                            Weight = 76.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("000cbf32-abea-44db-be3d-2155c06d59d6"),
+                            Barcode = "GOLD0027",
+                            CounterId = 1,
+                            Description = "Gold product description 27",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 1027000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 27",
+                            Price = 1527000.0,
+                            ProductStatus = 0,
+                            Quantity = 37,
+                            StonePrice = 885000.0,
+                            TypeId = 1,
+                            Weight = 77.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("be860e91-a6eb-4d72-b1a0-e58d7848b9bb"),
+                            Barcode = "GOLD0028",
+                            CounterId = 1,
+                            Description = "Gold product description 28",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 1028000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 28",
+                            Price = 1528000.0,
+                            ProductStatus = 0,
+                            Quantity = 38,
+                            StonePrice = 890000.0,
+                            TypeId = 1,
+                            Weight = 78.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("475c6813-2231-498a-b53b-fb37fcd40d84"),
+                            Barcode = "GOLD0029",
+                            CounterId = 1,
+                            Description = "Gold product description 29",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 1029000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 29",
+                            Price = 1529000.0,
+                            ProductStatus = 0,
+                            Quantity = 39,
+                            StonePrice = 895000.0,
+                            TypeId = 1,
+                            Weight = 79.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ba778455-a06b-4746-9fdf-b39821548624"),
+                            Barcode = "GOLD0030",
+                            CounterId = 1,
+                            Description = "Gold product description 30",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 1030000.0,
+                            MarkupRate = 0.5,
+                            Name = "Gold Product 30",
+                            Price = 1530000.0,
+                            ProductStatus = 0,
+                            Quantity = 40,
+                            StonePrice = 900000.0,
+                            TypeId = 1,
+                            Weight = 80.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1ea13acf-3b9d-42c6-ba60-3aba19f7c45d"),
+                            Barcode = "DIAMOND001",
+                            CounterId = 1,
+                            Description = "Diamond product description 1",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 5005000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 1",
+                            Price = 7505000.0,
+                            ProductStatus = 0,
+                            Quantity = 6,
+                            StonePrice = 15005000.0,
+                            TypeId = 2,
+                            Weight = 11.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0537a665-f951-41f8-a37c-2c0fab1d9085"),
+                            Barcode = "DIAMOND002",
+                            CounterId = 1,
+                            Description = "Diamond product description 2",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 5010000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 2",
+                            Price = 7510000.0,
+                            ProductStatus = 0,
+                            Quantity = 7,
+                            StonePrice = 15010000.0,
+                            TypeId = 2,
+                            Weight = 12.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4e7d2495-c454-4eb6-bb89-644be3eb8d66"),
+                            Barcode = "DIAMOND003",
+                            CounterId = 1,
+                            Description = "Diamond product description 3",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 5015000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 3",
+                            Price = 7515000.0,
+                            ProductStatus = 0,
+                            Quantity = 8,
+                            StonePrice = 15015000.0,
+                            TypeId = 2,
+                            Weight = 13.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b946343a-47c1-40c9-8c5a-e0ae09572a1e"),
+                            Barcode = "DIAMOND004",
+                            CounterId = 1,
+                            Description = "Diamond product description 4",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 5020000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 4",
+                            Price = 7520000.0,
+                            ProductStatus = 0,
+                            Quantity = 9,
+                            StonePrice = 15020000.0,
+                            TypeId = 2,
+                            Weight = 14.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("89bcb683-e65d-401c-a25a-2c7c36dd1208"),
+                            Barcode = "DIAMOND005",
+                            CounterId = 1,
+                            Description = "Diamond product description 5",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 5025000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 5",
+                            Price = 7525000.0,
+                            ProductStatus = 0,
+                            Quantity = 10,
+                            StonePrice = 15025000.0,
+                            TypeId = 2,
+                            Weight = 15.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bdde4d4c-5dc8-482e-9a8d-1cb2beb682d3"),
+                            Barcode = "DIAMOND006",
+                            CounterId = 1,
+                            Description = "Diamond product description 6",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 5030000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 6",
+                            Price = 7530000.0,
+                            ProductStatus = 0,
+                            Quantity = 11,
+                            StonePrice = 15030000.0,
+                            TypeId = 2,
+                            Weight = 16.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1071e6d6-7868-4022-be3b-c779c4b293c1"),
+                            Barcode = "DIAMOND007",
+                            CounterId = 1,
+                            Description = "Diamond product description 7",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 5035000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 7",
+                            Price = 7535000.0,
+                            ProductStatus = 0,
+                            Quantity = 12,
+                            StonePrice = 15035000.0,
+                            TypeId = 2,
+                            Weight = 17.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("97245d49-bcec-4e9d-a3dc-21b184720fd1"),
+                            Barcode = "DIAMOND008",
+                            CounterId = 1,
+                            Description = "Diamond product description 8",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 5040000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 8",
+                            Price = 7540000.0,
+                            ProductStatus = 0,
+                            Quantity = 13,
+                            StonePrice = 15040000.0,
+                            TypeId = 2,
+                            Weight = 18.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f577ce14-63a1-450d-8a17-3eb2e841ba0d"),
+                            Barcode = "DIAMOND009",
+                            CounterId = 1,
+                            Description = "Diamond product description 9",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 5045000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 9",
+                            Price = 7545000.0,
+                            ProductStatus = 0,
+                            Quantity = 14,
+                            StonePrice = 15045000.0,
+                            TypeId = 2,
+                            Weight = 19.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("944540fe-638a-496d-8b3c-75371ac517b9"),
+                            Barcode = "DIAMOND0010",
+                            CounterId = 1,
+                            Description = "Diamond product description 10",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 5050000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 10",
+                            Price = 7550000.0,
+                            ProductStatus = 0,
+                            Quantity = 15,
+                            StonePrice = 15050000.0,
+                            TypeId = 2,
+                            Weight = 20.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f47b0dcb-f449-400d-a60c-ed0ea2d5f112"),
+                            Barcode = "DIAMOND0011",
+                            CounterId = 1,
+                            Description = "Diamond product description 11",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 5055000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 11",
+                            Price = 7555000.0,
+                            ProductStatus = 0,
+                            Quantity = 16,
+                            StonePrice = 15055000.0,
+                            TypeId = 2,
+                            Weight = 21.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("584a959b-de8a-4e80-bd05-936b3f02ca51"),
+                            Barcode = "DIAMOND0012",
+                            CounterId = 1,
+                            Description = "Diamond product description 12",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 5060000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 12",
+                            Price = 7560000.0,
+                            ProductStatus = 0,
+                            Quantity = 17,
+                            StonePrice = 15060000.0,
+                            TypeId = 2,
+                            Weight = 22.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("9c59bdb4-eebe-4039-9807-ceae6f7c7ceb"),
+                            Barcode = "DIAMOND0013",
+                            CounterId = 1,
+                            Description = "Diamond product description 13",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 5065000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 13",
+                            Price = 7565000.0,
+                            ProductStatus = 0,
+                            Quantity = 18,
+                            StonePrice = 15065000.0,
+                            TypeId = 2,
+                            Weight = 23.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e7d4d79a-a4f5-44d7-82a6-6dd56f2416a3"),
+                            Barcode = "DIAMOND0014",
+                            CounterId = 1,
+                            Description = "Diamond product description 14",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 5070000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 14",
+                            Price = 7570000.0,
+                            ProductStatus = 0,
+                            Quantity = 19,
+                            StonePrice = 15070000.0,
+                            TypeId = 2,
+                            Weight = 24.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0ac7c3f9-34ba-4a0e-89e1-31975752e523"),
+                            Barcode = "DIAMOND0015",
+                            CounterId = 1,
+                            Description = "Diamond product description 15",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 5075000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 15",
+                            Price = 7575000.0,
+                            ProductStatus = 0,
+                            Quantity = 20,
+                            StonePrice = 15075000.0,
+                            TypeId = 2,
+                            Weight = 25.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ef0b8490-563a-4518-a0b4-e6f84564fe46"),
+                            Barcode = "DIAMOND0016",
+                            CounterId = 1,
+                            Description = "Diamond product description 16",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 5080000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 16",
+                            Price = 7580000.0,
+                            ProductStatus = 0,
+                            Quantity = 21,
+                            StonePrice = 15080000.0,
+                            TypeId = 2,
+                            Weight = 26.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5a5d2f70-5a2a-499c-893c-d722f1f9e23d"),
+                            Barcode = "DIAMOND0017",
+                            CounterId = 1,
+                            Description = "Diamond product description 17",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 5085000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 17",
+                            Price = 7585000.0,
+                            ProductStatus = 0,
+                            Quantity = 22,
+                            StonePrice = 15085000.0,
+                            TypeId = 2,
+                            Weight = 27.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("fc18ad8e-4f46-4e33-ac74-25fb434236ff"),
+                            Barcode = "DIAMOND0018",
+                            CounterId = 1,
+                            Description = "Diamond product description 18",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 5090000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 18",
+                            Price = 7590000.0,
+                            ProductStatus = 0,
+                            Quantity = 23,
+                            StonePrice = 15090000.0,
+                            TypeId = 2,
+                            Weight = 28.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4e3938e7-73c9-4316-b430-acf9238f6234"),
+                            Barcode = "DIAMOND0019",
+                            CounterId = 1,
+                            Description = "Diamond product description 19",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 5095000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 19",
+                            Price = 7595000.0,
+                            ProductStatus = 0,
+                            Quantity = 24,
+                            StonePrice = 15095000.0,
+                            TypeId = 2,
+                            Weight = 29.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("24e380a4-8263-4d60-8a08-d975cacaa3cc"),
+                            Barcode = "DIAMOND0020",
+                            CounterId = 1,
+                            Description = "Diamond product description 20",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 5100000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 20",
+                            Price = 7600000.0,
+                            ProductStatus = 0,
+                            Quantity = 25,
+                            StonePrice = 15100000.0,
+                            TypeId = 2,
+                            Weight = 30.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a496ca5d-bf1f-4a49-bfd6-a70dc0472995"),
+                            Barcode = "DIAMOND0021",
+                            CounterId = 1,
+                            Description = "Diamond product description 21",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 5105000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 21",
+                            Price = 7605000.0,
+                            ProductStatus = 0,
+                            Quantity = 26,
+                            StonePrice = 15105000.0,
+                            TypeId = 2,
+                            Weight = 31.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d88c4f8d-2289-414c-8137-589551e211dc"),
+                            Barcode = "DIAMOND0022",
+                            CounterId = 1,
+                            Description = "Diamond product description 22",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 5110000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 22",
+                            Price = 7610000.0,
+                            ProductStatus = 0,
+                            Quantity = 27,
+                            StonePrice = 15110000.0,
+                            TypeId = 2,
+                            Weight = 32.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b829de1b-2465-49a3-8915-d8843cfbf251"),
+                            Barcode = "DIAMOND0023",
+                            CounterId = 1,
+                            Description = "Diamond product description 23",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 5115000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 23",
+                            Price = 7615000.0,
+                            ProductStatus = 0,
+                            Quantity = 28,
+                            StonePrice = 15115000.0,
+                            TypeId = 2,
+                            Weight = 33.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ca9aeef9-9dd3-4913-bca5-822883e01bdd"),
+                            Barcode = "DIAMOND0024",
+                            CounterId = 1,
+                            Description = "Diamond product description 24",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 5120000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 24",
+                            Price = 7620000.0,
+                            ProductStatus = 0,
+                            Quantity = 29,
+                            StonePrice = 15120000.0,
+                            TypeId = 2,
+                            Weight = 34.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b0712973-8d43-482a-bda9-0e54955ae233"),
+                            Barcode = "DIAMOND0025",
+                            CounterId = 1,
+                            Description = "Diamond product description 25",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 5125000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 25",
+                            Price = 7625000.0,
+                            ProductStatus = 0,
+                            Quantity = 30,
+                            StonePrice = 15125000.0,
+                            TypeId = 2,
+                            Weight = 35.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e70e9116-63da-46db-9d2e-448687786138"),
+                            Barcode = "DIAMOND0026",
+                            CounterId = 1,
+                            Description = "Diamond product description 26",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 5130000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 26",
+                            Price = 7630000.0,
+                            ProductStatus = 0,
+                            Quantity = 31,
+                            StonePrice = 15130000.0,
+                            TypeId = 2,
+                            Weight = 36.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("22060e2a-82b6-498b-b2c3-e3b263d812a6"),
+                            Barcode = "DIAMOND0027",
+                            CounterId = 1,
+                            Description = "Diamond product description 27",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 5135000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 27",
+                            Price = 7635000.0,
+                            ProductStatus = 0,
+                            Quantity = 32,
+                            StonePrice = 15135000.0,
+                            TypeId = 2,
+                            Weight = 37.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("45bcea7e-01fa-49bf-b1df-d9771b69cc97"),
+                            Barcode = "DIAMOND0028",
+                            CounterId = 1,
+                            Description = "Diamond product description 28",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 5140000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 28",
+                            Price = 7640000.0,
+                            ProductStatus = 0,
+                            Quantity = 33,
+                            StonePrice = 15140000.0,
+                            TypeId = 2,
+                            Weight = 38.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a092c366-5a32-4906-9b8f-32003c7cdc0f"),
+                            Barcode = "DIAMOND0029",
+                            CounterId = 1,
+                            Description = "Diamond product description 29",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 5145000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 29",
+                            Price = 7645000.0,
+                            ProductStatus = 0,
+                            Quantity = 34,
+                            StonePrice = 15145000.0,
+                            TypeId = 2,
+                            Weight = 39.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0d4f7d2b-2b33-4467-966a-a68c135ca205"),
+                            Barcode = "DIAMOND0030",
+                            CounterId = 1,
+                            Description = "Diamond product description 30",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 5150000.0,
+                            MarkupRate = 0.59999999999999998,
+                            Name = "Diamond Product 30",
+                            Price = 7650000.0,
+                            ProductStatus = 0,
+                            Quantity = 35,
+                            StonePrice = 15150000.0,
+                            TypeId = 2,
+                            Weight = 40.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("2c08588b-25a0-453b-a329-27533035e8cd"),
+                            Barcode = "JEWEL001",
+                            CounterId = 1,
+                            Description = "Jewel product description 1",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 2002000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 1",
+                            Price = 3002000.0,
+                            ProductStatus = 0,
+                            Quantity = 16,
+                            StonePrice = 5002000.0,
+                            TypeId = 3,
+                            Weight = 21.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3d199a3f-8880-43ac-a76c-b3d25dfc2314"),
+                            Barcode = "JEWEL002",
+                            CounterId = 1,
+                            Description = "Jewel product description 2",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 2004000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 2",
+                            Price = 3004000.0,
+                            ProductStatus = 0,
+                            Quantity = 17,
+                            StonePrice = 5004000.0,
+                            TypeId = 3,
+                            Weight = 22.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4fa09148-6b29-4342-83e0-6fc65569b60f"),
+                            Barcode = "JEWEL003",
+                            CounterId = 1,
+                            Description = "Jewel product description 3",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 2006000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 3",
+                            Price = 3006000.0,
+                            ProductStatus = 0,
+                            Quantity = 18,
+                            StonePrice = 5006000.0,
+                            TypeId = 3,
+                            Weight = 23.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("aac25b5e-82b1-4e32-8474-922453cddf5a"),
+                            Barcode = "JEWEL004",
+                            CounterId = 1,
+                            Description = "Jewel product description 4",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 2008000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 4",
+                            Price = 3008000.0,
+                            ProductStatus = 0,
+                            Quantity = 19,
+                            StonePrice = 5008000.0,
+                            TypeId = 3,
+                            Weight = 24.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bf4d6378-c746-4c08-93e7-caaf109ce4ed"),
+                            Barcode = "JEWEL005",
+                            CounterId = 1,
+                            Description = "Jewel product description 5",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 2010000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 5",
+                            Price = 3010000.0,
+                            ProductStatus = 0,
+                            Quantity = 20,
+                            StonePrice = 5010000.0,
+                            TypeId = 3,
+                            Weight = 25.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("cd2a8026-a077-4d01-b8e3-9fb25ce5cf20"),
+                            Barcode = "JEWEL006",
+                            CounterId = 1,
+                            Description = "Jewel product description 6",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 2012000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 6",
+                            Price = 3012000.0,
+                            ProductStatus = 0,
+                            Quantity = 21,
+                            StonePrice = 5012000.0,
+                            TypeId = 3,
+                            Weight = 26.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("38bffdfa-ed10-4597-86ab-3ed2cc5abe31"),
+                            Barcode = "JEWEL007",
+                            CounterId = 1,
+                            Description = "Jewel product description 7",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 2014000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 7",
+                            Price = 3014000.0,
+                            ProductStatus = 0,
+                            Quantity = 22,
+                            StonePrice = 5014000.0,
+                            TypeId = 3,
+                            Weight = 27.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b63784e5-05ff-4f52-be85-5a5efff7f9dd"),
+                            Barcode = "JEWEL008",
+                            CounterId = 1,
+                            Description = "Jewel product description 8",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 2016000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 8",
+                            Price = 3016000.0,
+                            ProductStatus = 0,
+                            Quantity = 23,
+                            StonePrice = 5016000.0,
+                            TypeId = 3,
+                            Weight = 28.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("aba343bb-f921-4ccc-8d15-aec4adc1ccc8"),
+                            Barcode = "JEWEL009",
+                            CounterId = 1,
+                            Description = "Jewel product description 9",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 2018000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 9",
+                            Price = 3018000.0,
+                            ProductStatus = 0,
+                            Quantity = 24,
+                            StonePrice = 5018000.0,
+                            TypeId = 3,
+                            Weight = 29.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3fecb191-4301-46a3-a485-6c90881c6045"),
+                            Barcode = "JEWEL0010",
+                            CounterId = 1,
+                            Description = "Jewel product description 10",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 2020000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 10",
+                            Price = 3020000.0,
+                            ProductStatus = 0,
+                            Quantity = 25,
+                            StonePrice = 5020000.0,
+                            TypeId = 3,
+                            Weight = 30.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("cebb4da5-d5c5-4c50-948b-e873bcdb72e4"),
+                            Barcode = "JEWEL0011",
+                            CounterId = 1,
+                            Description = "Jewel product description 11",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 2022000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 11",
+                            Price = 3022000.0,
+                            ProductStatus = 0,
+                            Quantity = 26,
+                            StonePrice = 5022000.0,
+                            TypeId = 3,
+                            Weight = 31.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d69ac406-6a9a-4196-bfca-b522850e345c"),
+                            Barcode = "JEWEL0012",
+                            CounterId = 1,
+                            Description = "Jewel product description 12",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 2024000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 12",
+                            Price = 3024000.0,
+                            ProductStatus = 0,
+                            Quantity = 27,
+                            StonePrice = 5024000.0,
+                            TypeId = 3,
+                            Weight = 32.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("45a77b6b-a25d-4eac-9dba-6edd2e1d6797"),
+                            Barcode = "JEWEL0013",
+                            CounterId = 1,
+                            Description = "Jewel product description 13",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 2026000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 13",
+                            Price = 3026000.0,
+                            ProductStatus = 0,
+                            Quantity = 28,
+                            StonePrice = 5026000.0,
+                            TypeId = 3,
+                            Weight = 33.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5b932ce5-3a81-4849-bafe-209ec5c54009"),
+                            Barcode = "JEWEL0014",
+                            CounterId = 1,
+                            Description = "Jewel product description 14",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 2028000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 14",
+                            Price = 3028000.0,
+                            ProductStatus = 0,
+                            Quantity = 29,
+                            StonePrice = 5028000.0,
+                            TypeId = 3,
+                            Weight = 34.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5fbd5d28-37b8-4f8f-92c0-470182962115"),
+                            Barcode = "JEWEL0015",
+                            CounterId = 1,
+                            Description = "Jewel product description 15",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 2030000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 15",
+                            Price = 3030000.0,
+                            ProductStatus = 0,
+                            Quantity = 30,
+                            StonePrice = 5030000.0,
+                            TypeId = 3,
+                            Weight = 35.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("eb35cdf7-b288-4f70-bb91-4faccc3ff0e6"),
+                            Barcode = "JEWEL0016",
+                            CounterId = 1,
+                            Description = "Jewel product description 16",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+                            ManufactureCost = 2032000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 16",
+                            Price = 3032000.0,
+                            ProductStatus = 0,
+                            Quantity = 31,
+                            StonePrice = 5032000.0,
+                            TypeId = 3,
+                            Weight = 36.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("74ee5bbc-21ce-4172-9a7b-18897c8503b9"),
+                            Barcode = "JEWEL0017",
+                            CounterId = 1,
+                            Description = "Jewel product description 17",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+                            ManufactureCost = 2034000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 17",
+                            Price = 3034000.0,
+                            ProductStatus = 0,
+                            Quantity = 32,
+                            StonePrice = 5034000.0,
+                            TypeId = 3,
+                            Weight = 37.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("6c01a36f-9d4a-42af-b1e3-c17aed6a48d4"),
+                            Barcode = "JEWEL0018",
+                            CounterId = 1,
+                            Description = "Jewel product description 18",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+                            ManufactureCost = 2036000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 18",
+                            Price = 3036000.0,
+                            ProductStatus = 0,
+                            Quantity = 33,
+                            StonePrice = 5036000.0,
+                            TypeId = 3,
+                            Weight = 38.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("dfcabede-71c5-4877-a391-5250c44cc1c4"),
+                            Barcode = "JEWEL0019",
+                            CounterId = 1,
+                            Description = "Jewel product description 19",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+                            ManufactureCost = 2038000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 19",
+                            Price = 3038000.0,
+                            ProductStatus = 0,
+                            Quantity = 34,
+                            StonePrice = 5038000.0,
+                            TypeId = 3,
+                            Weight = 39.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("37e3469a-838e-419b-8ec1-b7a74f3cb756"),
+                            Barcode = "JEWEL0020",
+                            CounterId = 1,
+                            Description = "Jewel product description 20",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+                            ManufactureCost = 2040000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 20",
+                            Price = 3040000.0,
+                            ProductStatus = 0,
+                            Quantity = 35,
+                            StonePrice = 5040000.0,
+                            TypeId = 3,
+                            Weight = 40.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bab3b868-9830-4804-9ac3-805d3dc12c53"),
+                            Barcode = "JEWEL0021",
+                            CounterId = 1,
+                            Description = "Jewel product description 21",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+                            ManufactureCost = 2042000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 21",
+                            Price = 3042000.0,
+                            ProductStatus = 0,
+                            Quantity = 36,
+                            StonePrice = 5042000.0,
+                            TypeId = 3,
+                            Weight = 41.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0d8a81a5-86ad-4cb9-855f-856d14d72809"),
+                            Barcode = "JEWEL0022",
+                            CounterId = 1,
+                            Description = "Jewel product description 22",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+                            ManufactureCost = 2044000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 22",
+                            Price = 3044000.0,
+                            ProductStatus = 0,
+                            Quantity = 37,
+                            StonePrice = 5044000.0,
+                            TypeId = 3,
+                            Weight = 42.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("b867afdf-65d2-4e65-8f7b-52952a73b105"),
+                            Barcode = "JEWEL0023",
+                            CounterId = 1,
+                            Description = "Jewel product description 23",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+                            ManufactureCost = 2046000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 23",
+                            Price = 3046000.0,
+                            ProductStatus = 0,
+                            Quantity = 38,
+                            StonePrice = 5046000.0,
+                            TypeId = 3,
+                            Weight = 43.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("40a8fd37-cd81-4a46-b4dc-9cfb9f90b099"),
+                            Barcode = "JEWEL0024",
+                            CounterId = 1,
+                            Description = "Jewel product description 24",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+                            ManufactureCost = 2048000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 24",
+                            Price = 3048000.0,
+                            ProductStatus = 0,
+                            Quantity = 39,
+                            StonePrice = 5048000.0,
+                            TypeId = 3,
+                            Weight = 44.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("6a3871f2-f05f-4d48-8342-ac4e993f6a11"),
+                            Barcode = "JEWEL0025",
+                            CounterId = 1,
+                            Description = "Jewel product description 25",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+                            ManufactureCost = 2050000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 25",
+                            Price = 3050000.0,
+                            ProductStatus = 0,
+                            Quantity = 40,
+                            StonePrice = 5050000.0,
+                            TypeId = 3,
+                            Weight = 45.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1c3c4b22-bd06-40c0-9f68-05f19d1688f0"),
+                            Barcode = "JEWEL0026",
+                            CounterId = 1,
+                            Description = "Jewel product description 26",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 2052000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 26",
+                            Price = 3052000.0,
+                            ProductStatus = 0,
+                            Quantity = 41,
+                            StonePrice = 5052000.0,
+                            TypeId = 3,
+                            Weight = 46.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("458cd034-e599-483d-9260-b39f8f3a3d69"),
+                            Barcode = "JEWEL0027",
+                            CounterId = 1,
+                            Description = "Jewel product description 27",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+                            ManufactureCost = 2054000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 27",
+                            Price = 3054000.0,
+                            ProductStatus = 0,
+                            Quantity = 42,
+                            StonePrice = 5054000.0,
+                            TypeId = 3,
+                            Weight = 47.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bbb3f379-de71-4d83-842b-1f6e1f225d9d"),
+                            Barcode = "JEWEL0028",
+                            CounterId = 1,
+                            Description = "Jewel product description 28",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+                            ManufactureCost = 2056000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 28",
+                            Price = 3056000.0,
+                            ProductStatus = 0,
+                            Quantity = 43,
+                            StonePrice = 5056000.0,
+                            TypeId = 3,
+                            Weight = 48.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f75a4c4f-1c49-48c5-bf9a-eac99426322d"),
+                            Barcode = "JEWEL0029",
+                            CounterId = 1,
+                            Description = "Jewel product description 29",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a",
+                            ManufactureCost = 2058000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 29",
+                            Price = 3058000.0,
+                            ProductStatus = 0,
+                            Quantity = 44,
+                            StonePrice = 5058000.0,
+                            TypeId = 3,
+                            Weight = 49.0,
+                            WeightUnit = 0
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3791978f-8952-44b5-864f-99e0325023ae"),
+                            Barcode = "JEWEL0030",
+                            CounterId = 1,
+                            Description = "Jewel product description 30",
+                            Img = "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+                            ManufactureCost = 2060000.0,
+                            MarkupRate = 0.55000000000000004,
+                            Name = "Jewel Product 30",
+                            Price = 3060000.0,
+                            ProductStatus = 0,
+                            Quantity = 45,
+                            StonePrice = 5060000.0,
+                            TypeId = 3,
+                            Weight = 50.0,
+                            WeightUnit = 0
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Promotion", b =>
@@ -519,6 +2212,35 @@ namespace DataLayer.Migrations
                     b.HasKey("PromotionCode");
 
                     b.ToTable("Promotions");
+
+                    b.HasData(
+                        new
+                        {
+                            PromotionCode = "Promotion 01",
+                            Description = "This is the promtion super hot",
+                            DiscountPercentage = 10.0,
+                            EndDate = new DateTime(2024, 7, 25, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6610),
+                            PromotionStatus = 0,
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            PromotionCode = "Promotion 02",
+                            Description = "This is the promtion super hot",
+                            DiscountPercentage = 10.0,
+                            EndDate = new DateTime(2024, 7, 5, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6630),
+                            PromotionStatus = 1,
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            PromotionCode = "Promotion 03",
+                            Description = "This is the promtion super hot",
+                            DiscountPercentage = 10.0,
+                            EndDate = new DateTime(2024, 7, 5, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(6640),
+                            PromotionStatus = 2,
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.RefreshToken", b =>
@@ -635,6 +2357,64 @@ namespace DataLayer.Migrations
                     b.HasKey("TypeId");
 
                     b.ToTable("TypePrices");
+
+                    b.HasData(
+                        new
+                        {
+                            TypeId = 1,
+                            BuyPricePerGram = 500000.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4580),
+                            SellPricePerGram = 750000.0,
+                            TypeName = "Gold"
+                        },
+                        new
+                        {
+                            TypeId = 2,
+                            BuyPricePerGram = 5000000.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4600),
+                            SellPricePerGram = 7500000.0,
+                            TypeName = "Diamond"
+                        },
+                        new
+                        {
+                            TypeId = 3,
+                            BuyPricePerGram = 2000000.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4610),
+                            SellPricePerGram = 3000000.0,
+                            TypeName = "Jewel"
+                        },
+                        new
+                        {
+                            TypeId = 4,
+                            BuyPricePerGram = 0.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4620),
+                            SellPricePerGram = 0.0,
+                            TypeName = "Vàng SJC 1 chỉ"
+                        },
+                        new
+                        {
+                            TypeId = 5,
+                            BuyPricePerGram = 0.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4630),
+                            SellPricePerGram = 0.0,
+                            TypeName = "Vàng SJC 1 lượng"
+                        },
+                        new
+                        {
+                            TypeId = 6,
+                            BuyPricePerGram = 0.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4640),
+                            SellPricePerGram = 0.0,
+                            TypeName = "Nhẫn 1 chỉ SJC"
+                        },
+                        new
+                        {
+                            TypeId = 7,
+                            BuyPricePerGram = 0.0,
+                            DateUpdated = new DateTime(2024, 7, 15, 3, 55, 59, 400, DateTimeKind.Utc).AddTicks(4650),
+                            SellPricePerGram = 0.0,
+                            TypeName = "Trang sức 49 SJC"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Warranty", b =>
@@ -712,6 +2492,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Order", b =>
                 {
+                    b.HasOne("DataLayer.Entities.CustomerPolicy", "CustomerPolicy")
+                        .WithOne("Order")
+                        .HasForeignKey("DataLayer.Entities.Order", "CPId");
+
                     b.HasOne("DataLayer.Entities.Counter", "Counter")
                         .WithMany("Orders")
                         .HasForeignKey("CounterId")
@@ -743,6 +2527,8 @@ namespace DataLayer.Migrations
                     b.Navigation("Counter");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("CustomerPolicy");
 
                     b.Navigation("Employee");
 
@@ -835,6 +2621,12 @@ namespace DataLayer.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.CustomerPolicy", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Employee", b =>

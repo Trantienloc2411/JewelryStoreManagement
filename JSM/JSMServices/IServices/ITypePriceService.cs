@@ -15,5 +15,7 @@ public interface ITypePriceService
     public Task<ApiResponse> DeleteTypePrice(int typeId);
 
     Task<ICollection<TypePrice>> GetAllTypePrice();
+    
+    
 
 }

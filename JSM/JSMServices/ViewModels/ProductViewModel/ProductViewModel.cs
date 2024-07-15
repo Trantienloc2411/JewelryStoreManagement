@@ -13,7 +13,7 @@ namespace JSMServices.ViewModels.ProductViewModel
         public int Quantity { get; set; }
         public string? Description { get; set; }
         public int CounterId { get; set; }
-        public int TypeId { get; set; }
+        
         public string? Img { get; set; }
         public string? CertificateUrl { get; set; }
         public ProductStatuses ProductStatus { get; set; }
@@ -23,6 +23,7 @@ namespace JSMServices.ViewModels.ProductViewModel
         public double StonePrice { get; set; }
 
         public string? CounterName { get; set; }
-        public string? TypeName { get; set; }
+        
+        public TypePrice? TypePrice { get; set; }
     }
 }

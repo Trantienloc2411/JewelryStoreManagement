@@ -58,7 +58,13 @@ namespace DataLayer
             modelBuilder.Entity<Order>().HasOne(pr => pr.Promotion).WithMany(o => o.Orders).HasForeignKey(o => o.PromotionCode).HasPrincipalKey(po => po.PromotionCode);
             modelBuilder.Entity<Order>().HasOne(pm => pm.PaymentMethod).WithMany(o => o.Orders)
                 .HasForeignKey(o => o.PaymentId).HasPrincipalKey(o => o.PaymentId);
-
+            //new
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.CustomerPolicy)
+                .WithOne(cp => cp.Order)
+                .HasForeignKey<Order>(o => o.CPId)
+                .IsRequired(false);
+            
             modelBuilder.Entity<OrderDetail>().HasKey(od => od.OrderDetailId);
             modelBuilder.Entity<OrderDetail>().HasOne(p => p.Product).WithMany(od => od.OrderDetails).HasForeignKey(od => od.ProductId);
             modelBuilder.Entity<OrderDetail>().HasOne(o => o.Order).WithMany(od => od.OrderDetails).HasForeignKey(od => od.OrderId);
@@ -185,9 +191,265 @@ namespace DataLayer
                 PaymentType = "Mobile Banking"
             });
             
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 1,
+                TypeName = "Gold",
+                BuyPricePerGram = 500000,
+                SellPricePerGram = 750000,
+                DateUpdated = DateTime.UtcNow
+            });
+
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 2,
+                TypeName = "Diamond",
+                BuyPricePerGram = 5000000,
+                SellPricePerGram = 7500000,
+                DateUpdated = DateTime.UtcNow
+            });
+
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 3,
+                TypeName = "Jewel",
+                BuyPricePerGram = 2000000,
+                SellPricePerGram = 3000000,
+                DateUpdated = DateTime.UtcNow
+            });
+
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 4,
+                TypeName = "Vàng SJC 1 chỉ",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 5,
+                TypeName = "Vàng SJC 1 lượng",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 6,
+                TypeName = "Nhẫn 1 chỉ SJC",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
+            
+            modelBuilder.Entity<TypePrice>().HasData(new TypePrice
+            {
+                TypeId = 7,
+                TypeName = "Trang sức 49 SJC",
+                BuyPricePerGram = 0,
+                SellPricePerGram = 0,
+                DateUpdated = DateTime.UtcNow
+
+            });
             
             
             
+            string[] imageUrls = new string[]
+            {
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F1.jpg?alt=media&token=edd76054-7ffd-4726-9f57-3a5abe125c10",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F2.jpg?alt=media&token=54f08c6f-e41e-4cde-b6c6-1e40194320a5",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F3.jpg?alt=media&token=f255817b-bc8f-405c-91f8-a5c733b20a16",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F4.jpg?alt=media&token=d87d662c-f2ff-4dec-ac0a-8da9fb426585",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F5.jpg?alt=media&token=d0f7a320-2176-4b9c-b6b3-df74cbf36baa",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2FDayChuyenBac.jpg?alt=media&token=4badf84f-4a3c-489a-bf3b-59bd3517dd8a",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F7.jpg?alt=media&token=5b91fa57-76a5-4911-820b-86f9b11ebbf9",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F8.jpg?alt=media&token=bbe17db6-2209-42ad-86dd-ee2422be3d56",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F9.jpg?alt=media&token=0f4b2e0c-ecf4-4ea8-9047-efe08d5b4e71",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F10.jpg?alt=media&token=55a92de8-ee5c-42c9-9abe-878a240dd0f1",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F11.jpg?alt=media&token=7afc835a-dc04-491f-a922-14f97c05ad47",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F12.jpg?alt=media&token=4d09d356-609b-410c-8a9a-bafdb4c906cd",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F14.jpg?alt=media&token=f9685ad2-52ff-4c5b-b27d-af7e82831126",
+    "https://firebasestorage.googleapis.com/v0/b/jss-prn221.appspot.com/o/Products%2F15.jpg?alt=media&token=54605a2e-243b-471a-95be-1636963e915a"
+            };
+
+            // Product Data
+            for (int i = 1; i <= 30; i++)
+            {
+                modelBuilder.Entity<Product>().HasData(new Product
+                {
+                    ProductId = Guid.NewGuid(),
+                    Name = $"Gold Product {i}",
+                    Barcode = $"GOLD00{i}",
+                    ManufactureCost = 1000000 + i * 1000,
+                    Weight = 50.0 + i,
+                    Quantity = 10 + i,
+                    Description = $"Gold product description {i}",
+                    CounterId = 1,
+                    TypeId = 1,
+                    Img = imageUrls[i % imageUrls.Length],
+                    ProductStatus = Product.ProductStatuses.Active,
+                    Price = 1500000 + i * 1000,
+                    MarkupRate = 0.5,
+                    WeightUnit = Product.Units.g,
+                    StonePrice = 750000 + i * 5000
+                });
+            }
+
+            for (int i = 1; i <= 30; i++)
+            {
+                modelBuilder.Entity<Product>().HasData(new Product
+                {
+                    ProductId = Guid.NewGuid(),
+                    Name = $"Diamond Product {i}",
+                    Barcode = $"DIAMOND00{i}",
+                    ManufactureCost = 5000000 + i * 5000,
+                    Weight = 10.0 + i,
+                    Quantity = 5 + i,
+                    Description = $"Diamond product description {i}",
+                    CounterId = 1,
+                    TypeId = 2,
+                    Img = imageUrls[i % imageUrls.Length],
+                    ProductStatus = Product.ProductStatuses.Active,
+                    Price = 7500000 + i * 5000,
+                    MarkupRate = 0.6,
+                    WeightUnit = Product.Units.g,
+                    StonePrice = 15000000 + i * 5000
+                });
+            }
+
+            for (int i = 1; i <= 30; i++)
+            {
+                modelBuilder.Entity<Product>().HasData(new Product
+                {
+                    ProductId = Guid.NewGuid(),
+                    Name = $"Jewel Product {i}",
+                    Barcode = $"JEWEL00{i}",
+                    ManufactureCost = 2000000 + i * 2000,
+                    Weight = 20.0 + i,
+                    Quantity = 15 + i,
+                    Description = $"Jewel product description {i}",
+                    CounterId = 1,
+                    TypeId = 3,
+                    Img = imageUrls[i % imageUrls.Length],
+                    ProductStatus = Product.ProductStatuses.Active,
+                    Price = 3000000 + i * 2000,
+                    MarkupRate = 0.55,
+                    WeightUnit = Product.Units.g,
+                    StonePrice = 5000000 + i * 2000
+                });
+            }
+
+
+            modelBuilder.Entity<Promotion>().HasData(new Promotion
+            {
+                PromotionCode = "Promotion 01",
+                Description = "This is the promtion super hot",
+                DiscountPercentage = 10,
+                EndDate = DateTime.UtcNow.AddDays(10),
+                PromotionStatus = Promotion.PromotionStatuses.Active
+            });
+            
+            modelBuilder.Entity<Promotion>().HasData(new Promotion
+            {
+                PromotionCode = "Promotion 02",
+                Description = "This is the promtion super hot",
+                DiscountPercentage = 10,
+                EndDate = DateTime.UtcNow.AddDays(-10),
+                PromotionStatus = Promotion.PromotionStatuses.Inactive
+                
+            });
+            
+            modelBuilder.Entity<Promotion>().HasData(new Promotion
+            {
+                PromotionCode = "Promotion 03",
+                Description = "This is the promtion super hot",
+                DiscountPercentage = 10,
+                EndDate = DateTime.UtcNow.AddDays(-10),
+                PromotionStatus = Promotion.PromotionStatuses.Deleted
+                
+            });
+
+            modelBuilder.Entity<Gift>().HasData(new Gift
+            {
+                GiftId = Guid.NewGuid(),
+                GiftName = "Lịch vạn niên 2025",
+                PointRequired = 6000
+            });
+            
+            modelBuilder.Entity<Gift>().HasData(new Gift
+            {
+                GiftId = Guid.NewGuid(),
+                GiftName = "Bộ bàn ghế gỗ",
+                PointRequired = 14000
+            });
+            
+            modelBuilder.Entity<Gift>().HasData(new Gift
+            {
+                GiftId = Guid.NewGuid(),
+                GiftName = "Áo mưa",
+                PointRequired = 3500
+            });
+
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = Guid.NewGuid(),
+                Name = "anh Lâm",
+                AccumulatedPoint = 3000,
+                Address = "Xã Hồng Thủy, Huyện Lệ Thủy, Quảng Bình",
+                Email = "lamAnh@hotmail.com",
+                Phone = "0820256734",
+                CustomerGender = Customer.CustomerGenders.Male
+            });
+            
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = Guid.NewGuid(),
+                Name = "Nguyễn Thị Hoa",
+                AccumulatedPoint = 0,
+                Address = "Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh",
+                Email = "hoanguyen@outlook.com",
+                Phone = "0987654321",
+                CustomerGender = Customer.CustomerGenders.Female
+            });
+
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = Guid.NewGuid(),
+                Name = "Phạm Văn Đức",
+                AccumulatedPoint = 0,
+                Address = "Phường Cửa Nam, Quận Hoàn Kiếm, Hà Nội",
+                Email = "ducpham@yahoo.com",
+                Phone = "0909876543",
+                CustomerGender = Customer.CustomerGenders.Male
+            });
+            
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = Guid.NewGuid(),
+                Name = "Trần Minh",
+                AccumulatedPoint = 2500,
+                Address = "Phường Cầu Diễn, Quận Nam Từ Liêm, Hà Nội",
+                Email = "minhTran@gmail.com",
+                Phone = "0912345678",
+                CustomerGender = Customer.CustomerGenders.Female
+            });
+            
+            
+
+
+
+
+
+
+
+
 
 
 
