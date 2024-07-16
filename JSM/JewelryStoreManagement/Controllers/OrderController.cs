@@ -30,6 +30,23 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpGet]
+        [Route("GetOrdersByOrderId")]
+        [Authorize]
+        public async Task<IActionResult> GetOrdersByOrderId(string orderId)
+        {
+            var (listOrder, apiResponse) = await _orderService.GetOrdersByOrderId(orderId);
+            if (!apiResponse.IsSuccess)
+            {
+                return BadRequest(apiResponse.Message);
+            }
+            else
+            {
+                var result = _mapper.Map<ICollection<OrderByOrderIdViewModel>>(listOrder);
+                return Ok(result);
+            }
+        }
+
+        [HttpGet]
         [Route("GetOrderByCounterId")]
 
         public async Task<IActionResult> GetOrderByCounterId(int counterId)

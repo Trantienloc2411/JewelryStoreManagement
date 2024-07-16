@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
+using JSMServices.ViewModels.APIResponseViewModel;
 using JSMServices.ViewModels.CounterViewMode;
 using JSMServices.ViewModels.CustomerPolicyViewModel;
 using JSMServices.ViewModels.CustomerViewModel;
@@ -64,7 +65,9 @@ public class MappingProfiles : Profile
         CreateMap<OrderOrderDetailByCounterIdViewModel, OrderDetail>().ReverseMap();
         CreateMap<OrderByCustomerIdViewModel, Order>().ReverseMap();
         CreateMap<CustomerPolicyByCustomerId, CustomerPolicy>().ReverseMap();
-
+        //CreateMap<OrderByOrderIdViewModel, Order>().ReverseMap();
+        CreateMap<(ICollection<OrderByOrderIdViewModel>, ApiResponse), ICollection<OrderByOrderIdViewModel>>()
+            .ConvertUsing(src => src.Item1);
         CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
         CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
     }

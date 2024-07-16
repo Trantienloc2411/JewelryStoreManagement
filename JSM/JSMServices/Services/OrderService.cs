@@ -1,5 +1,6 @@
 using AutoMapper;
 using DataLayer.Entities;
+using JewelryStoreManagement;
 using JSMRepositories;
 using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
@@ -9,6 +10,8 @@ using JSMServices.ViewModels.CustomerViewModel;
 using JSMServices.ViewModels.EmployeeViewModel;
 using JSMServices.ViewModels.OrderDetailViewModel;
 using JSMServices.ViewModels.OrderViewModel;
+using JSMServices.ViewModels.ProductViewModel;
+using JSMServices.ViewModels.TypePriceViewModel;
 using System.Security.Claims;
 using System.Transactions;
 
@@ -23,13 +26,16 @@ public class OrderService : IOrderService
     private readonly CustomerRepository _customerRepository;
     private readonly CounterRepository _counterRepository;
     private readonly ProductRepository _productRepository;
+    private readonly TypePriceRepository _typePriceRepository;
     private readonly IMapper _mapper;
 
     public OrderService(OrderRepository orderRepository, IMapper mapper,
         BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository
         , CounterRepository counterRepository, EmployeeRepository employeeRepository,
-        CustomerRepository customerRepository, ProductRepository productRepository)
+        CustomerRepository customerRepository, ProductRepository productRepository,
+        TypePriceRepository typePriceRepository)
     {
+        _typePriceRepository = typePriceRepository;
         _counterRepository = counterRepository;
         _customerRepository = customerRepository;
         _employeeRepository = employeeRepository;
@@ -341,6 +347,135 @@ public class OrderService : IOrderService
         {
             Console.WriteLine(e);
             throw new Exception(e.Message);
+        }
+    }
+
+    public async Task<(ICollection<OrderByOrderIdViewModel>, ApiResponse)> GetOrdersByOrderId(string orderId)
+    {
+        var apiResponse = new ApiResponse();
+        try
+        {
+            var listOrder = await _orderRepository.GetAllWithAsync();
+            var filterOrder = listOrder
+                .Where(o => o.OrderId == orderId)
+                .ToList();
+            if (!filterOrder.Any())
+            {
+                apiResponse.IsSuccess = false;
+                apiResponse.Message = "No orders found for the specified OrderId.";
+                return (null, apiResponse);
+            }
+            var listOrderDetail = _orderDetailRepository.GetAll();
+            var listCustomer = _customerRepository.GetAll();
+            var listEmplyoee = _employeeRepository.GetAll();
+            var listProduct = _productRepository.GetAll();
+            var listTypePrice = _typePriceRepository.GetAll();
+            var ordersWithAllDetails = new List<OrderByOrderIdViewModel>();
+
+            foreach (var order in filterOrder)
+            {
+                var orderWithAllDetail = new OrderByOrderIdViewModel
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    EmployeeId = order.EmployeeId,
+                    OrderDate = order.OrderDate,
+                    Discount = order.Discount ?? 0,
+                    Type = order.Type,
+                    PromotionCode = order.PromotionCode ?? "",
+                    AccumulatedPoint = order.AccumulatedPoint ?? 0,
+                    CounterId = order.CounterId,
+                    PaymentId = order.PaymentId,
+                    OrderStatus = order.OrderStatus,
+                    OrderDetail = listOrderDetail
+                        .Where(od => od.OrderId == order.OrderId)
+                        .Select(od => new OrderDetailsViewModel
+                        {
+                            OrderDetailId = od.OrderDetailId,
+                            OrderId = od.OrderId,
+                            ProductId = od.ProductId,
+                            Quantity = od.Quantity,
+                            UnitPrice = od.UnitPrice,
+                            ManufactureCost = od.ManufactureCost,
+                            OrderDetailStatus = od.OrderDetailStatus,
+                            Products = listProduct
+                            .Where(p => p.ProductId == od.ProductId)
+                            .Select(p => new ProductByOrderDetailViewModel
+                            {
+                                ProductId = p.ProductId,
+                                Name = p.Name,
+                                Barcode = p.Barcode,
+                                ManufactureCost = p.ManufactureCost,
+                                Weight = p.ManufactureCost,
+                                Quantity = p.Quantity,
+                                Description = p.Description,
+                                CounterId = p.CounterId,
+                                TypeId = p.TypeId,
+                                Img = p.Img,
+                                CertificateUrl = p.CertificateUrl,
+                                ProductStatus = p.ProductStatus,
+                                Price = p.Price,
+                                MarkupRate = p.MarkupRate,
+                                WeightUnit = p.WeightUnit,
+                                StonePrice = p.StonePrice,
+                                TypePrice = listTypePrice
+                                .Where(tp => tp.TypeId == p.TypeId)
+                                .Select(tp => new TypePricesViewModel
+                                {
+                                    TypeId = tp.TypeId,
+                                    TypeName = tp.TypeName,
+                                    BuyPricePerGram = tp.BuyPricePerGram,
+                                    SellPricePerGram = tp.SellPricePerGram,
+                                    DateUpdated = tp.DateUpdated,
+                                }).First(),
+                            }).First(),
+                        })
+                        .ToList(),
+                    Customer = listCustomer
+                        .Where(en => en.CustomerId == order.CustomerId)
+                        .Select(customer => new CustomerByOrderViewModel
+                        {
+                            CustomerId = customer.CustomerId,
+                            Name = customer.Name,
+                            Address = customer.Address,
+                            Phone = customer.Phone,
+                            AccumulatedPoint = customer.AccumulatedPoint,
+                            Email = customer.Email,
+                            CustomerGender = customer.CustomerGender
+
+                        })
+                        .First(),
+                    Employee = listEmplyoee
+                        .Where(e => e.EmployeeId == order.EmployeeId)
+                        .Select(e => new EmployeeByOrderViewModel
+                        {
+                            EmployeeId = e.EmployeeId,
+                            Name = e.Name,
+                            Email = e.Email,
+                            Phone = e.Phone,
+                            EmployeeStatus = e.EmployeeStatus,
+                            Password = e.Password,
+                            EmployeeGender = e.EmployeeGender,
+                            IsLogin = e.IsLogin,
+                            ManagedBy = e.ManagedBy,
+                            CounterId = e.CounterId,
+                            RoleId = e.RoleId
+
+                        })
+                        .First()
+                };
+
+                ordersWithAllDetails.Add(orderWithAllDetail);
+            }
+            apiResponse.IsSuccess = true;
+            return (ordersWithAllDetails, apiResponse);
+
+        }
+        catch (Exception e)
+        {
+            apiResponse.IsSuccess = false;
+            apiResponse.Message = e.Message;
+            return (null, apiResponse);
         }
     }
 
