@@ -25,6 +25,8 @@ public class MappingProfiles : Profile
 
         CreateMap<ProductViewById, Product>().ReverseMap()
             .ForMember(dest => dest.Counter, opt => opt.MapFrom(src => src.Counter));
+        CreateMap<CustomerPolicyViewMode, CustomerPolicy>().ReverseMap()
+            .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.Name));
         CreateMap<Product, ProductViewModel>()
             .ForMember(dest => dest.CounterName, opt => opt.MapFrom(src => src.Counter.CounterName))
             .ForMember(dest => dest.TypePrice, opt => opt.MapFrom(src => src.TypePrice));

@@ -23,7 +23,7 @@ public class CustomerPolicyService : ICustomerPolicyService
     {
         try
         {
-            var listProduct = await _customerPolicyRepository.GetAllWithAsync();
+            var listProduct = await _customerPolicyRepository.GetAllWithIncludeAsync(e => true, e => e.Customer);
             return listProduct;
         }
         catch (Exception e)

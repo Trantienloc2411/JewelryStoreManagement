@@ -18,5 +18,7 @@ namespace JSMServices.ViewModels.CustomerPolicyViewModel
 
         public DateTime ApprovedDate { get; set; }
         public bool IsApprovalRequired { get; set; }
+
+        public string? CustomerName { get; set; }
     }
 }
