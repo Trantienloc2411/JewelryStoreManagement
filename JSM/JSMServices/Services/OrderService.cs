@@ -10,6 +10,7 @@ using JSMServices.ViewModels.EmployeeViewModel;
 using JSMServices.ViewModels.OrderDetailViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using System.Security.Claims;
+using System.Transactions;
 
 namespace JSMServices.Services;
 
@@ -21,12 +22,13 @@ public class OrderService : IOrderService
     private readonly EmployeeRepository _employeeRepository;
     private readonly CustomerRepository _customerRepository;
     private readonly CounterRepository _counterRepository;
+    private readonly ProductRepository _productRepository;
     private readonly IMapper _mapper;
 
     public OrderService(OrderRepository orderRepository, IMapper mapper,
         BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository
         , CounterRepository counterRepository, EmployeeRepository employeeRepository,
-        CustomerRepository customerRepository)
+        CustomerRepository customerRepository, ProductRepository productRepository)
     {
         _counterRepository = counterRepository;
         _customerRepository = customerRepository;
@@ -35,85 +37,104 @@ public class OrderService : IOrderService
         _mapper = mapper;
         _buybackRepository = buybackRepository;
         _orderDetailRepository = orderDetailRepository;
+        _productRepository = productRepository;
     }
 
     public async Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
     {
-        try
+        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
-            var order = new Order();
-            var orderDetail = new OrderDetail();
-
-            var getOrder = await _orderRepository.GetAllWithAsync();
-            order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
-            if (order != null)
+            try
             {
+                var order = new Order();
+                var orderDetail = new OrderDetail();
+
+                var getOrder = await _orderRepository.GetAllWithAsync();
+                order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
+                if (order != null)
+                {
+                    return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
+                }
+                else
+                {
+                    order = new Order
+                    {
+                        OrderId = viewmodel.OrderId,
+                        CustomerId = viewmodel.CustomerId,
+                        EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                        OrderDate = DateTime.Now,
+                        Discount = viewmodel.Discount,
+                        Type = Order.Types.Selling,
+                        PromotionCode = viewmodel.PromotionCode,
+                        CPId = viewmodel.CPId,
+                        AccumulatedPoint = viewmodel.AccumulatedPoint,
+                        CounterId = viewmodel.CounterId,
+                        PaymentId = viewmodel.PaymentId,
+                        OrderStatus = Order.OrderStatuses.Created,
+                    };
+                    if (!string.IsNullOrEmpty(viewmodel.PromotionCode))
+                    {
+                        var checkPromotionCodeExisted = _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
+                        if (checkPromotionCodeExisted == null)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = "PromotionCode does not exist" };
+                        }
+                    }
+
+                    if (viewmodel.CPId != Guid.Empty && viewmodel.CPId != null)
+                    {
+                        var checkCustomerPolicyIdExisted = _orderRepository.GetSingleWithAsync(e => e.CPId.Equals(viewmodel.CPId));
+                        if (checkCustomerPolicyIdExisted == null)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = "CustomerPolicyId does not exist" };
+                        }
+                        var existingCPIdOrder = getOrder.FirstOrDefault(c => c.CPId == viewmodel.CPId);
+                        if (existingCPIdOrder != null)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = "An order with this CPId already exists." };
+                        }
+                    }
+
+                    _orderRepository.Add(order);
+                    await _orderRepository.SaveChangesAsync();
+
+                    foreach (var detailViewModel in viewmodel.OrderDetail)
+                    {
+                        var product = await _productRepository.GetSingleWithAsync(p => p.ProductId == detailViewModel.ProductId);
+                        if (product == null)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = $"Product with ID {detailViewModel.ProductId} does not exist" };
+                        }
+                        if (product.Quantity < detailViewModel.Quantity)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = $"Not enough stock for product {product.Name}. Available: {product.Quantity}, Requested: {detailViewModel.Quantity}" };
+                        }
+                        orderDetail = new OrderDetail
+                        {
+                            OrderDetailId = GenerateRandomString(8),
+                            ProductId = detailViewModel.ProductId,
+                            OrderId = viewmodel.OrderId,
+                            Quantity = detailViewModel.Quantity,
+                            UnitPrice = detailViewModel.UnitPrice,
+                            ManufactureCost = detailViewModel.ManufactureCost
+                        };
+
+                        _orderDetailRepository.Add(orderDetail);
+                        await _orderDetailRepository.SaveChangesAsync();
+
+                        product.Quantity -= detailViewModel.Quantity;
+                        _productRepository.Update(product);
+                        await _productRepository.SaveChangesAsync();
+                    }
+
+                }
+                transaction.Complete();
                 return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
             }
-            else
+            catch (Exception ex)
             {
-                order = new Order
-                {
-                    OrderId = viewmodel.OrderId,
-                    CustomerId = viewmodel.CustomerId,
-                    EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
-                    OrderDate = DateTime.Now,
-                    Discount = viewmodel.Discount,
-                    Type = Order.Types.Selling,
-                    PromotionCode = viewmodel.PromotionCode,
-                    CPId = viewmodel.CPId,
-                    AccumulatedPoint = viewmodel.AccumulatedPoint,
-                    CounterId = viewmodel.CounterId,
-                    PaymentId = viewmodel.PaymentId,
-                    OrderStatus = Order.OrderStatuses.Created,
-                };
-                if (!string.IsNullOrEmpty(viewmodel.PromotionCode))
-                {
-                    var checkPromotionCodeExisted = _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
-                    if (checkPromotionCodeExisted == null)
-                    {
-                        return new ApiResponse { IsSuccess = false, Message = "PromotionCode does not exist" };
-                    }
-                }
-
-                if (viewmodel.CPId != Guid.Empty && viewmodel.CPId != null)
-                {
-                    var checkCustomerPolicyIdExisted = _orderRepository.GetSingleWithAsync(e => e.CPId.Equals(viewmodel.CPId));
-                    if (checkCustomerPolicyIdExisted == null)
-                    {
-                        return new ApiResponse { IsSuccess = false, Message = "CustomerPolicyId does not exist" };
-                    }
-                    var existingCPIdOrder = getOrder.FirstOrDefault(c => c.CPId == viewmodel.CPId);
-                    if (existingCPIdOrder != null)
-                    {
-                        return new ApiResponse { IsSuccess = false, Message = "An order with this CPId already exists." };
-                    }
-                }
-
-                _orderRepository.Add(order);
-                await _orderRepository.SaveChangesAsync();
-
-                foreach (var detailViewModel in viewmodel.OrderDetail)
-                {
-                    orderDetail = new OrderDetail
-                    {
-                        OrderDetailId = GenerateRandomString(8),
-                        ProductId = detailViewModel.ProductId,
-                        OrderId = viewmodel.OrderId,
-                        Quantity = detailViewModel.Quantity,
-                        UnitPrice = detailViewModel.UnitPrice,
-                        ManufactureCost = detailViewModel.ManufactureCost
-                    };
-
-                    _orderDetailRepository.Add(orderDetail);
-                    await _orderDetailRepository.SaveChangesAsync();
-                }
+                return new ApiResponse { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-            return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
-        }
-        catch (Exception ex)
-        {
-            return new ApiResponse { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
         }
     }
 
@@ -294,7 +315,12 @@ public class OrderService : IOrderService
                         .Where(en => en.CustomerId == order.CustomerId)
                         .Select(od => new CustomerNameViewModel
                         {
-                            Name = od.Name
+                            CustomerId = od.CustomerId,
+                            Name = od.Name,
+                            Phone = od.Phone,
+                            Address = od.Address,
+                            Email = od.Email
+
                         })
                         .First(),
                     Counter = counterName
@@ -339,11 +365,13 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<ICollection<Order>> GetOrderByCustomerId(Guid customerId)
+    public async Task<ICollection<OrderByCustomerIdViewModel>> GetOrderByCustomerId(Guid customerId)
     {
         try
         {
             var listOrder = await _orderRepository.GetAllWithAsync();
+            var listCustomer = _customerRepository.GetAll();
+            var ordersWithCustomer = new List<OrderByCustomerIdViewModel>();
             var filterOrder = listOrder
                 .Where(o => o.CustomerId == customerId)
                 .ToList();
@@ -352,7 +380,38 @@ public class OrderService : IOrderService
                 throw new Exception("No orders found for the specified CustomerId.");
             }
 
-            return filterOrder;
+            foreach (var order in filterOrder)
+            {
+                var orderWithCustomer = new OrderByCustomerIdViewModel
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    EmployeeId = order.EmployeeId,
+                    OrderDate = order.OrderDate,
+                    Discount = order.Discount ?? 0,
+                    Type = order.Type,
+                    PromotionCode = order.PromotionCode ?? "",
+                    AccumulatedPoint = order.AccumulatedPoint ?? 0,
+                    CounterId = order.CounterId,
+                    PaymentId = order.PaymentId,
+                    OrderStatus = order.OrderStatus,
+                    Customer = listCustomer
+                        .Where(en => en.CustomerId == order.CustomerId)
+                        .Select(od => new CustomerNameViewModel
+                        {
+                            CustomerId = od.CustomerId,
+                            Name = od.Name,
+                            Phone = od.Phone,
+                            Address = od.Address,
+                            Email = od.Email
+
+                        })
+                        .First(),
+                };
+
+                ordersWithCustomer.Add(orderWithCustomer);
+            }
+            return ordersWithCustomer;
         }
         catch (Exception e)
         {
