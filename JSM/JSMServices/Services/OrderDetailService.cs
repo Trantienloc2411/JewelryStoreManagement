@@ -4,5 +4,5 @@ namespace JSMServices.Services;
 
 public class OrderDetailService : IOrderDetailService
 {
-    
+
 }
