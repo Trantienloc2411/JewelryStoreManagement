@@ -1,4 +1,5 @@
-﻿using static DataLayer.Entities.Order;
+﻿using JSMServices.ViewModels.CustomerViewModel;
+using static DataLayer.Entities.Order;
 
 namespace JSMServices.ViewModels.OrderViewModel
 {
@@ -17,5 +18,8 @@ namespace JSMServices.ViewModels.OrderViewModel
         public Guid? CPId { get; set; }
 
         public OrderStatuses OrderStatus { get; set; }
+
+        public CustomerNameViewModel Customer { get; set; }
+
     }
 }
