@@ -23,8 +23,9 @@ public class CustomerPolicyService : ICustomerPolicyService
     {
         try
         {
-            var listProduct = await _customerPolicyRepository.GetAllWithIncludeAsync(e => true, e => e.Customer);
-            return listProduct;
+            var listCP = await _customerPolicyRepository.GetAllWithIncludeAsync(e => true, e => e.Customer);
+            listCP = listCP.ToList();
+            return listCP;
         }
         catch (Exception e)
         {
@@ -80,6 +81,49 @@ public class CustomerPolicyService : ICustomerPolicyService
             throw;
         }
     }
+
+    public async Task<ApiResponse> UpdatePolicyStatus(Guid CPId)
+    {
+        try
+        {
+            var customerPolicy = await _customerPolicyRepository.GetSingleWithAsync(c => c.CPId == CPId);
+
+            if (customerPolicy == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "The CustomerPolicy does not exist or was deleted!"
+                };
+            }
+            customerPolicy.PolicyStatus = customerPolicy.PolicyStatus switch
+            {
+                CustomerPolicy.PolicyStatuses.Active => CustomerPolicy.PolicyStatuses.Used,
+                _ => throw new InvalidOperationException("Invalid policy status")
+            };
+
+            await _customerPolicyRepository.SaveChangesAsync();
+
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Data = null,
+                Message = "Policy status updated successfully"
+            };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = $"An error occurred: {e.Message}"
+            };
+        }
+    }
+
     public async Task<string> CreateRequestCustomerPolicy(CreateRequestCustomerPolicyViewModel viewModel)
     {
         try

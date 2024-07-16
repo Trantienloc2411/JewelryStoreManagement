@@ -22,11 +22,10 @@ namespace JewelryStoreManagement.Controllers
         [HttpGet]
         [Route("GetAllCustomerPolicies")]
         [Authorize]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllCustomerPolicies()
         {
-            var listProduct = await _customerPolicyService.GetAllCustomerPolicies();
-            var result = _mapper.Map<ICollection<CustomerPolicyViewMode>>(listProduct);
-
+            var listCP = await _customerPolicyService.GetAllCustomerPolicies();
+            var result = _mapper.Map<ICollection<CustomerPolicyViewMode>>(listCP);
             return Ok(result);
         }
 
@@ -50,6 +49,14 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        [Route("UpdatePolicyStatus")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePolicyStatus(Guid CPId)
+        {
+            var result = await _customerPolicyService.UpdatePolicyStatus(CPId);
+            return Ok(result);
+        }
 
         [HttpPost]
         [Authorize]
