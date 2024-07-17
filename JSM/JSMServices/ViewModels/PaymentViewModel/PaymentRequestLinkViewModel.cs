@@ -10,7 +10,7 @@ public class PaymentRequestLinkViewModel
     public List<ItemShowRequest> items { get; set; }
 }
 
-public abstract class ItemShowRequest
+public class ItemShowRequest
 {
     public string productName { get; set; }
     public int quantity { get; set; }
