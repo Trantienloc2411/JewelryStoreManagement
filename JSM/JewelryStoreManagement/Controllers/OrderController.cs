@@ -119,5 +119,15 @@ namespace JewelryStoreManagement.Controllers
             var result = await _orderService.UpdateOrderStatus(updateOrderStatusViewModel, orderId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetBuyBackByOrderId")]
+        [Authorize]
+        public async Task<IActionResult> GetBuyBackOrderId(string orderId)
+        {
+            var order = await _orderService.GetBuyBackByOrderId(orderId);
+            var result =  _mapper.Map<BuyBackByOrderId>(order);
+            return Ok(result);
+        }
     }
 }
