@@ -16,4 +16,5 @@ public interface IOrderService
     public Task<ICollection<Order>> GetOrderByEmployeeId(Guid employeeId);
     Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims);
     Task<Order> CreateNewBuyBack(CreateNewBuyBackViewModel viewModel, ClaimsPrincipal claims);
+    public Task<ApiResponse> UpdateOrderStatus(UpdateOrderStatusViewModel updateOrderStatusViewModel, string orderId);
 }

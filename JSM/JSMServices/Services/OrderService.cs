@@ -559,4 +559,38 @@ public class OrderService : IOrderService
             throw;
         }
     }
+    public async Task<ApiResponse> UpdateOrderStatus(UpdateOrderStatusViewModel updateOrderStatusViewModel, string orderId)
+    {
+        try
+        {
+            var order = await _orderRepository.GetAllWithAsync();
+            var filterOrder = order.FirstOrDefault(c => c.OrderId == orderId);
+            if (filterOrder == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = $"Update not successfully! Reload Page again!"
+                };
+
+            }
+            else
+            {
+                var customerPolicyUpdate = _mapper.Map(updateOrderStatusViewModel, filterOrder);
+                await _orderRepository.UpdateWithAsync(customerPolicyUpdate);
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = $"Update Successfully"
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
