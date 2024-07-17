@@ -757,34 +757,42 @@ public class OrderService : IOrderService
             }
             else
             {
-                if (filterOrder.OrderStatus == Order.OrderStatuses.Cancelled)
+                if (filterOrder.OrderStatus != Order.OrderStatuses.Cancelled)
                 {
-                    var customerPoint = await _customerRepository.GetSingleWithAsync(p => p.CustomerId == filterOrder.CustomerId);
-                    if (customerPoint == null)
+                    return new ApiResponse
                     {
-                        return new ApiResponse { IsSuccess = false, Message = "Customer does not exist" };
-                    }
-                    int accumulatedPoint = filterOrder.AccumulatedPoint ?? 0;
-                    customerPoint.AccumulatedPoint -= accumulatedPoint;
-                    _customerRepository.Update(customerPoint);
-                    await _customerRepository.SaveChangesAsync();
-
-                    var orderDetails = (await _orderDetailRepository.GetAllWithAsync()).Where(d => d.OrderId == filterOrder.OrderId).ToList();
-                    var filterOrderDetail = orderDetails.FirstOrDefault(d => d.OrderId == filterOrder.OrderId);
-
-                    foreach (var orderDetail in orderDetails)
-                    {
-                        var product = await _productRepository.GetSingleWithAsync(p => p.ProductId == orderDetail.ProductId);
-                        if (product == null)
-                        {
-                            return new ApiResponse { IsSuccess = false, Message = "Product does not exist" };
-                        }
-
-                        product.Quantity += orderDetail.Quantity;
-                        _productRepository.Update(product);
-                    }
-                    await _productRepository.SaveChangesAsync();
+                        IsSuccess = false,
+                        Data = null,
+                        Message = "Update failed! Order is not cancelled."
+                    };
                 }
+
+                var customerPoint = await _customerRepository.GetSingleWithAsync(p => p.CustomerId == filterOrder.CustomerId);
+                if (customerPoint == null)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = "Customer does not exist" };
+                }
+                int accumulatedPoint = filterOrder.AccumulatedPoint ?? 0;
+                customerPoint.AccumulatedPoint -= accumulatedPoint;
+                _customerRepository.Update(customerPoint);
+                await _customerRepository.SaveChangesAsync();
+
+                var orderDetails = (await _orderDetailRepository.GetAllWithAsync()).Where(d => d.OrderId == filterOrder.OrderId).ToList();
+                var filterOrderDetail = orderDetails.FirstOrDefault(d => d.OrderId == filterOrder.OrderId);
+
+                foreach (var orderDetail in orderDetails)
+                {
+                    var product = await _productRepository.GetSingleWithAsync(p => p.ProductId == orderDetail.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "Product does not exist" };
+                    }
+
+                    product.Quantity += orderDetail.Quantity;
+                    _productRepository.Update(product);
+                }
+                await _productRepository.SaveChangesAsync();
+
 
                 return new ApiResponse
                 {
