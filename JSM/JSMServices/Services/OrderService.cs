@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using DataLayer.Entities;
 using JewelryStoreManagement;
 using JSMRepositories;
@@ -363,8 +363,7 @@ public class OrderService : IOrderService
             throw new Exception(e.Message);
         }
     }
-
-    public async Task<(ICollection<OrderByOrderIdViewModel>, ApiResponse)> GetOrdersByOrderId(string orderId)
+    public async Task<(OrderByOrderIdViewModel, ApiResponse)> GetOrdersByOrderId(string orderId)
     {
         var apiResponse = new ApiResponse();
         try
@@ -379,40 +378,40 @@ public class OrderService : IOrderService
                 apiResponse.Message = "No orders found for the specified OrderId.";
                 return (null, apiResponse);
             }
+
+            var order = filterOrder.First();
+
             var listOrderDetail = _orderDetailRepository.GetAll();
             var listCustomer = _customerRepository.GetAll();
             var listEmplyoee = _employeeRepository.GetAll();
             var listProduct = _productRepository.GetAll();
             var listTypePrice = _typePriceRepository.GetAll();
-            var ordersWithAllDetails = new List<OrderByOrderIdViewModel>();
 
-            foreach (var order in filterOrder)
+            var orderWithAllDetail = new OrderByOrderIdViewModel
             {
-                var orderWithAllDetail = new OrderByOrderIdViewModel
-                {
-                    OrderId = order.OrderId,
-                    CustomerId = order.CustomerId,
-                    EmployeeId = order.EmployeeId,
-                    OrderDate = order.OrderDate,
-                    Discount = order.Discount ?? 0,
-                    Type = order.Type,
-                    PromotionCode = order.PromotionCode ?? "",
-                    AccumulatedPoint = order.AccumulatedPoint ?? 0,
-                    CounterId = order.CounterId,
-                    PaymentId = order.PaymentId,
-                    OrderStatus = order.OrderStatus,
-                    OrderDetail = listOrderDetail
-                        .Where(od => od.OrderId == order.OrderId)
-                        .Select(od => new OrderDetailsViewModel
-                        {
-                            OrderDetailId = od.OrderDetailId,
-                            OrderId = od.OrderId,
-                            ProductId = od.ProductId,
-                            Quantity = od.Quantity,
-                            UnitPrice = od.UnitPrice,
-                            ManufactureCost = od.ManufactureCost,
-                            OrderDetailStatus = od.OrderDetailStatus,
-                            Products = listProduct
+                OrderId = order.OrderId,
+                CustomerId = order.CustomerId,
+                EmployeeId = order.EmployeeId,
+                OrderDate = order.OrderDate,
+                Discount = order.Discount ?? 0,
+                Type = order.Type,
+                PromotionCode = order.PromotionCode ?? "",
+                AccumulatedPoint = order.AccumulatedPoint ?? 0,
+                CounterId = order.CounterId,
+                PaymentId = order.PaymentId,
+                OrderStatus = order.OrderStatus,
+                OrderDetail = listOrderDetail
+                    .Where(od => od.OrderId == order.OrderId)
+                    .Select(od => new OrderDetailsViewModel
+                    {
+                        OrderDetailId = od.OrderDetailId,
+                        OrderId = od.OrderId,
+                        ProductId = od.ProductId,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice,
+                        ManufactureCost = od.ManufactureCost,
+                        OrderDetailStatus = od.OrderDetailStatus,
+                        Products = listProduct
                             .Where(p => p.ProductId == od.ProductId)
                             .Select(p => new ProductByOrderDetailViewModel
                             {
@@ -433,56 +432,51 @@ public class OrderService : IOrderService
                                 WeightUnit = p.WeightUnit,
                                 StonePrice = p.StonePrice,
                                 TypePrice = listTypePrice
-                                .Where(tp => tp.TypeId == p.TypeId)
-                                .Select(tp => new TypePricesViewModel
-                                {
-                                    TypeId = tp.TypeId,
-                                    TypeName = tp.TypeName,
-                                    BuyPricePerGram = tp.BuyPricePerGram,
-                                    SellPricePerGram = tp.SellPricePerGram,
-                                    DateUpdated = tp.DateUpdated,
-                                }).First(),
+                                    .Where(tp => tp.TypeId == p.TypeId)
+                                    .Select(tp => new TypePricesViewModel
+                                    {
+                                        TypeId = tp.TypeId,
+                                        TypeName = tp.TypeName,
+                                        BuyPricePerGram = tp.BuyPricePerGram,
+                                        SellPricePerGram = tp.SellPricePerGram,
+                                        DateUpdated = tp.DateUpdated,
+                                    }).First(),
                             }).First(),
-                        })
-                        .ToList(),
-                    Customer = listCustomer
-                        .Where(en => en.CustomerId == order.CustomerId)
-                        .Select(customer => new CustomerByOrderViewModel
-                        {
-                            CustomerId = customer.CustomerId,
-                            Name = customer.Name,
-                            Address = customer.Address,
-                            Phone = customer.Phone,
-                            AccumulatedPoint = customer.AccumulatedPoint,
-                            Email = customer.Email,
-                            CustomerGender = customer.CustomerGender
+                    }).ToList(),
+                Customer = listCustomer
+                    .Where(en => en.CustomerId == order.CustomerId)
+                    .Select(customer => new CustomerByOrderViewModel
+                    {
+                        CustomerId = customer.CustomerId,
+                        Name = customer.Name,
+                        Address = customer.Address,
+                        Phone = customer.Phone,
+                        AccumulatedPoint = customer.AccumulatedPoint,
+                        Email = customer.Email,
+                        CustomerGender = customer.CustomerGender
+                    })
+                    .First(),
+                Employee = listEmplyoee
+                    .Where(e => e.EmployeeId == order.EmployeeId)
+                    .Select(e => new EmployeeByOrderViewModel
+                    {
+                        EmployeeId = e.EmployeeId,
+                        Name = e.Name,
+                        Email = e.Email,
+                        Phone = e.Phone,
+                        EmployeeStatus = e.EmployeeStatus,
+                        Password = e.Password,
+                        EmployeeGender = e.EmployeeGender,
+                        IsLogin = e.IsLogin,
+                        ManagedBy = e.ManagedBy,
+                        CounterId = e.CounterId,
+                        RoleId = e.RoleId
+                    })
+                    .First()
+            };
 
-                        })
-                        .First(),
-                    Employee = listEmplyoee
-                        .Where(e => e.EmployeeId == order.EmployeeId)
-                        .Select(e => new EmployeeByOrderViewModel
-                        {
-                            EmployeeId = e.EmployeeId,
-                            Name = e.Name,
-                            Email = e.Email,
-                            Phone = e.Phone,
-                            EmployeeStatus = e.EmployeeStatus,
-                            Password = e.Password,
-                            EmployeeGender = e.EmployeeGender,
-                            IsLogin = e.IsLogin,
-                            ManagedBy = e.ManagedBy,
-                            CounterId = e.CounterId,
-                            RoleId = e.RoleId
-
-                        })
-                        .First()
-                };
-
-                ordersWithAllDetails.Add(orderWithAllDetail);
-            }
             apiResponse.IsSuccess = true;
-            return (ordersWithAllDetails, apiResponse);
+            return (orderWithAllDetail, apiResponse);
 
         }
         catch (Exception e)
@@ -492,6 +486,134 @@ public class OrderService : IOrderService
             return (null, apiResponse);
         }
     }
+    //public async Task<(ICollection<OrderByOrderIdViewModel>, ApiResponse)> GetOrdersByOrderId(string orderId)
+    //{
+    //    var apiResponse = new ApiResponse();
+    //    try
+    //    {
+    //        var listOrder = await _orderRepository.GetAllWithAsync();
+    //        var filterOrder = listOrder
+    //            .Where(o => o.OrderId == orderId)
+    //            .ToList();
+    //        if (!filterOrder.Any())
+    //        {
+    //            apiResponse.IsSuccess = false;
+    //            apiResponse.Message = "No orders found for the specified OrderId.";
+    //            return (null, apiResponse);
+    //        }
+    //        var listOrderDetail = _orderDetailRepository.GetAll();
+    //        var listCustomer = _customerRepository.GetAll();
+    //        var listEmplyoee = _employeeRepository.GetAll();
+    //        var listProduct = _productRepository.GetAll();
+    //        var listTypePrice = _typePriceRepository.GetAll();
+    //        var ordersWithAllDetails = new List<OrderByOrderIdViewModel>();
+
+    //        foreach (var order in filterOrder)
+    //        {
+    //            var orderWithAllDetail = new OrderByOrderIdViewModel
+    //            {
+    //                OrderId = order.OrderId,
+    //                CustomerId = order.CustomerId,
+    //                EmployeeId = order.EmployeeId,
+    //                OrderDate = order.OrderDate,
+    //                Discount = order.Discount ?? 0,
+    //                Type = order.Type,
+    //                PromotionCode = order.PromotionCode ?? "",
+    //                AccumulatedPoint = order.AccumulatedPoint ?? 0,
+    //                CounterId = order.CounterId,
+    //                PaymentId = order.PaymentId,
+    //                OrderStatus = order.OrderStatus,
+    //                OrderDetail = listOrderDetail
+    //                    .Where(od => od.OrderId == order.OrderId)
+    //                    .Select(od => new OrderDetailsViewModel
+    //                    {
+    //                        OrderDetailId = od.OrderDetailId,
+    //                        OrderId = od.OrderId,
+    //                        ProductId = od.ProductId,
+    //                        Quantity = od.Quantity,
+    //                        UnitPrice = od.UnitPrice,
+    //                        ManufactureCost = od.ManufactureCost,
+    //                        OrderDetailStatus = od.OrderDetailStatus,
+    //                        Products = listProduct
+    //                        .Where(p => p.ProductId == od.ProductId)
+    //                        .Select(p => new ProductByOrderDetailViewModel
+    //                        {
+    //                            ProductId = p.ProductId,
+    //                            Name = p.Name,
+    //                            Barcode = p.Barcode,
+    //                            ManufactureCost = p.ManufactureCost,
+    //                            Weight = p.ManufactureCost,
+    //                            Quantity = p.Quantity,
+    //                            Description = p.Description,
+    //                            CounterId = p.CounterId,
+    //                            TypeId = p.TypeId,
+    //                            Img = p.Img,
+    //                            CertificateUrl = p.CertificateUrl,
+    //                            ProductStatus = p.ProductStatus,
+    //                            Price = p.Price,
+    //                            MarkupRate = p.MarkupRate,
+    //                            WeightUnit = p.WeightUnit,
+    //                            StonePrice = p.StonePrice,
+    //                            TypePrice = listTypePrice
+    //                            .Where(tp => tp.TypeId == p.TypeId)
+    //                            .Select(tp => new TypePricesViewModel
+    //                            {
+    //                                TypeId = tp.TypeId,
+    //                                TypeName = tp.TypeName,
+    //                                BuyPricePerGram = tp.BuyPricePerGram,
+    //                                SellPricePerGram = tp.SellPricePerGram,
+    //                                DateUpdated = tp.DateUpdated,
+    //                            }).First(),
+    //                        }).First(),
+    //                    })
+    //                    .ToList(),
+    //                Customer = listCustomer
+    //                    .Where(en => en.CustomerId == order.CustomerId)
+    //                    .Select(customer => new CustomerByOrderViewModel
+    //                    {
+    //                        CustomerId = customer.CustomerId,
+    //                        Name = customer.Name,
+    //                        Address = customer.Address,
+    //                        Phone = customer.Phone,
+    //                        AccumulatedPoint = customer.AccumulatedPoint,
+    //                        Email = customer.Email,
+    //                        CustomerGender = customer.CustomerGender
+
+    //                    })
+    //                    .First(),
+    //                Employee = listEmplyoee
+    //                    .Where(e => e.EmployeeId == order.EmployeeId)
+    //                    .Select(e => new EmployeeByOrderViewModel
+    //                    {
+    //                        EmployeeId = e.EmployeeId,
+    //                        Name = e.Name,
+    //                        Email = e.Email,
+    //                        Phone = e.Phone,
+    //                        EmployeeStatus = e.EmployeeStatus,
+    //                        Password = e.Password,
+    //                        EmployeeGender = e.EmployeeGender,
+    //                        IsLogin = e.IsLogin,
+    //                        ManagedBy = e.ManagedBy,
+    //                        CounterId = e.CounterId,
+    //                        RoleId = e.RoleId
+
+    //                    })
+    //                    .First()
+    //            };
+
+    //            ordersWithAllDetails.Add(orderWithAllDetail);
+    //        }
+    //        apiResponse.IsSuccess = true;
+    //        return (ordersWithAllDetails, apiResponse);
+
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        apiResponse.IsSuccess = false;
+    //        apiResponse.Message = e.Message;
+    //        return (null, apiResponse);
+    //    }
+    //}
 
     public async Task<ICollection<Order>> GetOrderByEmployeeId(Guid employeeId)
     {

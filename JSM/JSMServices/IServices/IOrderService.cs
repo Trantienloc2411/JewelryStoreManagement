@@ -9,7 +9,8 @@ namespace JSMServices.IServices;
 public interface IOrderService
 {
     public Task<ICollection<OrderViewModel>> GetAllOrders();
-    public Task<(ICollection<OrderByOrderIdViewModel>, ApiResponse)> GetOrdersByOrderId(string orderId);
+    //public Task<(ICollection<OrderByOrderIdViewModel>, ApiResponse)> GetOrdersByOrderId(string orderId);
+    public Task<(OrderByOrderIdViewModel, ApiResponse)> GetOrdersByOrderId(string orderId);
     public Task<Order> GetOrderByOrderId(string orderCode);
     public Task<ICollection<OrderOrderDetailByCounterIdViewModel>> GetOrderOrderDetailByCounterId(int counterId);
     public Task<ICollection<OrderByCustomerIdViewModel>> GetOrderByCustomerId(Guid customerId);

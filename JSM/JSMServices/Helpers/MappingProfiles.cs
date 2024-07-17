@@ -67,7 +67,7 @@ public class MappingProfiles : Profile
         CreateMap<CustomerPolicyByCustomerId, CustomerPolicy>().ReverseMap();
         CreateMap<UpdateOrderStatusViewModel, Order>().ReverseMap();
         //CreateMap<OrderByOrderIdViewModel, Order>().ReverseMap();
-        CreateMap<(ICollection<OrderByOrderIdViewModel>, ApiResponse), ICollection<OrderByOrderIdViewModel>>()
+        CreateMap<(OrderByOrderIdViewModel, ApiResponse), OrderByOrderIdViewModel>()
             .ConvertUsing(src => src.Item1);
         CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
         CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
