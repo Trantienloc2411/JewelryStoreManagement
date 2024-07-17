@@ -34,7 +34,7 @@ public class PaymentController : Controller
             {
                 IsSuccess = false,
                 Data = null,
-                Message = "Something happen unexpectedly!"
+                Message = "Something happen unexpectedly!" + e.Message
             });
         }
     }

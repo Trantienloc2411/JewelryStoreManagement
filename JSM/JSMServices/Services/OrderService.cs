@@ -30,12 +30,13 @@ public class OrderService : IOrderService
     private readonly PromotionRepository _promotionRepository;
     private readonly CustomerPolicyRepository _customerPolicyRepository;
     private readonly IMapper _mapper;
+    private readonly WarrantyRepository _warrantyRepository;
 
     public OrderService(OrderRepository orderRepository, IMapper mapper,
         BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository
         , CounterRepository counterRepository, EmployeeRepository employeeRepository,
         CustomerRepository customerRepository, ProductRepository productRepository,
-        TypePriceRepository typePriceRepository, PromotionRepository promotionRepository, CustomerPolicyRepository customerPolicyRepository)
+        TypePriceRepository typePriceRepository, PromotionRepository promotionRepository, CustomerPolicyRepository customerPolicyRepository, IOrderDetailService orderDetailService, WarrantyRepository warrantyRepository)
     {
         _typePriceRepository = typePriceRepository;
         _counterRepository = counterRepository;
@@ -48,6 +49,7 @@ public class OrderService : IOrderService
         _productRepository = productRepository;
         _promotionRepository = promotionRepository;
         _customerPolicyRepository = customerPolicyRepository;
+        _warrantyRepository = warrantyRepository;
     }
 
     public async Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
@@ -184,6 +186,10 @@ public class OrderService : IOrderService
         {
             var order = new Order();
             var buyback = new BuyBack();
+            var orderDetail = await 
+                _orderDetailRepository.GetSingleWithAsync(c =>
+                    c.OrderDetailId.ToUpper() == viewModel.OrderDetailID.ToUpper());
+            var warranty = await _warrantyRepository.GetSingleWithAsync(c => c.OrderDetailId == viewModel.OrderDetailID);
 
             var getOrder = await _orderRepository.GetAllWithAsync();
             order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewModel.OrderId.ToLower());
@@ -222,7 +228,17 @@ public class OrderService : IOrderService
                 };
                 _buybackRepository.Add(buyback);
                 await _buybackRepository.SaveChangesAsync();
+                
+                
             }
+
+            orderDetail.OrderDetailStatus = OrderDetail.OrderDetailStatuses.BuyBack;
+            await _orderDetailRepository.UpdateWithAsync(orderDetail);
+            _orderDetailRepository.SaveChanges();
+            
+            _warrantyRepository.Remove(warranty);
+            _warrantyRepository.SaveChanges();
+            
             return order;
         }
         catch (Exception ex)
@@ -586,6 +602,22 @@ public class OrderService : IOrderService
                     Message = $"Update Successfully"
                 };
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<Order> GetBuyBackByOrderId(string orderId)
+    {
+        
+        try
+        {
+            var order = await _orderRepository.GetSingleWithIncludeAsync(e => e.OrderId.ToUpper() == orderId.ToUpper(),
+                e => e.BuyBack, e=> e.Customer, e => e.Employee);
+            return order;
         }
         catch (Exception e)
         {

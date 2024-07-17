@@ -11,7 +11,7 @@ namespace JSMServices.ViewModels.BuyBackViewModel
         public Guid CustomerId { get; set; }
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
-        
+        public string OrderDetailID { get; set; }
         public CreateBuyBackViewModel BuyBack { get; set; } 
 
     }

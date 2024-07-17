@@ -23,7 +23,7 @@ public class MappingProfiles : Profile
         CreateMap<LoginEmployeeViewModel, Employee>().ReverseMap();
         CreateMap<TypePrice, TypePrice>()
             .ForMember(dest => dest.Products, opt => opt.Ignore());
-
+        CreateMap<BuyBackByOrderId, Order>().ReverseMap().ForMember(dest => dest.BuyBack, opt => opt.Ignore());
         CreateMap<ProductViewById, Product>().ReverseMap()
             .ForMember(dest => dest.Counter, opt => opt.MapFrom(src => src.Counter));
         CreateMap<CustomerPolicyViewMode, CustomerPolicy>().ReverseMap()
@@ -71,5 +71,13 @@ public class MappingProfiles : Profile
             .ConvertUsing(src => src.Item1);
         CreateMap<DataLayer.Entities.Promotion, JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>().ReverseMap();
         CreateMap<ICollection<DataLayer.Entities.Promotion>, List<JSMServices.ViewModels.PromotionViewModel.PromotionViewModel>>().ReverseMap();
+        
+        CreateMap<Order, BuyBackByOrderId>()
+            .ForMember(dest => dest.BuyBack, opt => opt.MapFrom(src => src.BuyBack))
+            .ForMember(dest => dest.Customer, opt => opt.MapFrom(src => src.Customer))
+            .ForMember(dest => dest.Employee, opt => opt.MapFrom(src => src.Employee));
+
+        CreateMap<Customer, CustomerByOrderViewModel>();
+        CreateMap<Employee, EmployeeByOrderViewModel>();
     }
 }
