@@ -30,7 +30,8 @@ namespace DataLayer.Entities
         {
             Created,
             Paying,
-            Completed
+            Completed,
+            Cancelled
         }
 
         public enum Types
