@@ -27,13 +27,15 @@ public class OrderService : IOrderService
     private readonly CounterRepository _counterRepository;
     private readonly ProductRepository _productRepository;
     private readonly TypePriceRepository _typePriceRepository;
+    private readonly PromotionRepository _promotionRepository;
+    private readonly CustomerPolicyRepository _customerPolicyRepository;
     private readonly IMapper _mapper;
 
     public OrderService(OrderRepository orderRepository, IMapper mapper,
         BuybackRepository buybackRepository, OrderDetailRepository orderDetailRepository
         , CounterRepository counterRepository, EmployeeRepository employeeRepository,
         CustomerRepository customerRepository, ProductRepository productRepository,
-        TypePriceRepository typePriceRepository)
+        TypePriceRepository typePriceRepository, PromotionRepository promotionRepository, CustomerPolicyRepository customerPolicyRepository)
     {
         _typePriceRepository = typePriceRepository;
         _counterRepository = counterRepository;
@@ -44,6 +46,8 @@ public class OrderService : IOrderService
         _buybackRepository = buybackRepository;
         _orderDetailRepository = orderDetailRepository;
         _productRepository = productRepository;
+        _promotionRepository = promotionRepository;
+        _customerPolicyRepository = customerPolicyRepository;
     }
 
     public async Task<ApiResponse> CreateNewOrderSelling(CreateNewSellingViewModel viewmodel, ClaimsPrincipal claims)
@@ -56,6 +60,7 @@ public class OrderService : IOrderService
                 var orderDetail = new OrderDetail();
 
                 var getOrder = await _orderRepository.GetAllWithAsync();
+                var getPromotionCode = await _promotionRepository.GetAllWithAsync();
                 order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
                 if (order != null)
                 {
@@ -80,7 +85,7 @@ public class OrderService : IOrderService
                     };
                     if (!string.IsNullOrEmpty(viewmodel.PromotionCode))
                     {
-                        var checkPromotionCodeExisted = _orderRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
+                        var checkPromotionCodeExisted = await _promotionRepository.GetSingleWithAsync(c => c.PromotionCode.ToLower().Equals(viewmodel.PromotionCode.ToLower()));
                         if (checkPromotionCodeExisted == null)
                         {
                             return new ApiResponse { IsSuccess = false, Message = "PromotionCode does not exist" };
@@ -89,7 +94,7 @@ public class OrderService : IOrderService
 
                     if (viewmodel.CPId != Guid.Empty && viewmodel.CPId != null)
                     {
-                        var checkCustomerPolicyIdExisted = _orderRepository.GetSingleWithAsync(e => e.CPId.Equals(viewmodel.CPId));
+                        var checkCustomerPolicyIdExisted = await _customerPolicyRepository.GetSingleWithAsync(e => e.CPId.Equals(viewmodel.CPId));
                         if (checkCustomerPolicyIdExisted == null)
                         {
                             return new ApiResponse { IsSuccess = false, Message = "CustomerPolicyId does not exist" };
