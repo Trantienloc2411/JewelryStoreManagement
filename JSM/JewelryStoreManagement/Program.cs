@@ -171,7 +171,7 @@ namespace JewelryStoreManagement
             builder.Services.AddScoped<IWarrantyService, WarrantyService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
-            builder.Services.AddScoped<IPaymentService, PaymentServices>();
+
 
 
             var CORS_CONFIG = "_CORS_CONFIG";
