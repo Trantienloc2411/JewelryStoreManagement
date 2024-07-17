@@ -1,5 +1,7 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 #pragma warning disable
 namespace DataLayer
 {
@@ -493,10 +495,17 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;Include Error Detail=True");
+                //DeployDB do not change this
+                //optionsBuilder.UseNpgsql("Server=jss-dev.postgres.database.azure.com;Database=JSM;Port=5432;User Id=fams;Password=Jss12345;Ssl Mode=Require;Trust Server Certificate = true");
+                //
+                //LocalDb
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=JSM;Username=postgres;Password=24112003;Integrated Security=true;");
+                
             }
         }
 
+        
+        
 
 
 
