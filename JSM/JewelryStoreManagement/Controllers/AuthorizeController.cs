@@ -54,7 +54,7 @@ namespace JewelryStoreManagement.Controllers
                 issuer: "YourIssuer",
                 audience: "YourAudience",
                 claims: claimPrincipal.Claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: credentials);
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
