@@ -20,4 +20,5 @@ public interface IOrderService
     public Task<ApiResponse> UpdateOrderStatus(UpdateOrderStatusViewModel updateOrderStatusViewModel, string orderId);
 
     Task<Order> GetBuyBackByOrderId(string orderId);
+    public Task<ApiResponse> UndoPointQuantity(string orderId);
 }
