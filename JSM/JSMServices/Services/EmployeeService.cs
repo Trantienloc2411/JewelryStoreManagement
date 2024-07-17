@@ -3,7 +3,7 @@ using DataLayer.Entities;
 using JewelryStoreManagement.ViewModels;
 using JSMRepositories;
 using JSMServices.IServices;
-using MailKit.Net.Smtp;
+using MailKit.Net.Smtp; 
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

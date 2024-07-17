@@ -198,13 +198,13 @@ public class OrderService : IOrderService
                     OrderId = viewModel.OrderId,
                     CustomerId = viewModel.CustomerId,
                     EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
-                    OrderDate = DateTime.Now,
+                    OrderDate = DateTime.UtcNow,
                     Type = Order.Types.BuyBack,
                     CounterId = viewModel.CounterId,
                     OrderStatus = Order.OrderStatuses.Created,
                     PaymentId = 1,
                     AccumulatedPoint = 0,
-                    PromotionCode = "",
+                    PromotionCode = null,
                     Discount = 0
                 };
                 _orderRepository.Add(order);
