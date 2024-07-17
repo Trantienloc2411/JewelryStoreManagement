@@ -65,6 +65,7 @@ public class MappingProfiles : Profile
         CreateMap<OrderOrderDetailByCounterIdViewModel, OrderDetail>().ReverseMap();
         CreateMap<OrderByCustomerIdViewModel, Order>().ReverseMap();
         CreateMap<CustomerPolicyByCustomerId, CustomerPolicy>().ReverseMap();
+        CreateMap<UpdateOrderStatusViewModel, Order>().ReverseMap();
         //CreateMap<OrderByOrderIdViewModel, Order>().ReverseMap();
         CreateMap<(ICollection<OrderByOrderIdViewModel>, ApiResponse), ICollection<OrderByOrderIdViewModel>>()
             .ConvertUsing(src => src.Item1);

@@ -109,5 +109,15 @@ namespace JewelryStoreManagement.Controllers
                 return Ok("Create successfully");
             }
         }
+
+        [HttpPut]
+        [Route("UpdateOrderStatus")]
+        [Authorize]
+        public async Task<IActionResult> UpdateOrderStatus(
+        [FromBody] UpdateOrderStatusViewModel updateOrderStatusViewModel, string orderId)
+        {
+            var result = await _orderService.UpdateOrderStatus(updateOrderStatusViewModel, orderId);
+            return Ok(result);
+        }
     }
 }
