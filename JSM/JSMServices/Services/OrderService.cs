@@ -68,6 +68,11 @@ public class OrderService : IOrderService
                 }
                 else
                 {
+                    var customerPoint = await _customerRepository.GetSingleWithAsync(p => p.CustomerId == viewmodel.CustomerId);
+                    if (customerPoint == null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "Customer does not exist" };
+                    }
                     order = new Order
                     {
                         OrderId = viewmodel.OrderId,
@@ -108,6 +113,10 @@ public class OrderService : IOrderService
 
                     _orderRepository.Add(order);
                     await _orderRepository.SaveChangesAsync();
+
+                    customerPoint.AccumulatedPoint += viewmodel.AccumulatedPoint;
+                    _customerRepository.Update(customerPoint);
+                    await _customerRepository.SaveChangesAsync();
 
                     foreach (var detailViewModel in viewmodel.OrderDetail)
                     {
