@@ -119,13 +119,23 @@ namespace JewelryStoreManagement.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        [Route("UndoPointQuantity")]
+        [Authorize]
+        public async Task<IActionResult> UndoPointQuantity([FromQuery] string orderId)
+        {
+            var result = await _orderService.UndoPointQuantity(orderId);
+            return Ok(result);
+        }
+
+
         [HttpGet]
         [Route("GetBuyBackByOrderId")]
         [Authorize]
         public async Task<IActionResult> GetBuyBackOrderId(string orderId)
         {
             var order = await _orderService.GetBuyBackByOrderId(orderId);
-            var result =  _mapper.Map<BuyBackByOrderId>(order);
+            var result = _mapper.Map<BuyBackByOrderId>(order);
             return Ok(result);
         }
     }

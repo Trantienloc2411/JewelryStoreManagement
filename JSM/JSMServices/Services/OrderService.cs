@@ -195,7 +195,7 @@ public class OrderService : IOrderService
         {
             var order = new Order();
             var buyback = new BuyBack();
-            var orderDetail = await 
+            var orderDetail = await
                 _orderDetailRepository.GetSingleWithAsync(c =>
                     c.OrderDetailId.ToUpper() == viewModel.OrderDetailID.ToUpper());
             var warranty = await _warrantyRepository.GetSingleWithAsync(c => c.OrderDetailId == viewModel.OrderDetailID);
@@ -237,17 +237,17 @@ public class OrderService : IOrderService
                 };
                 _buybackRepository.Add(buyback);
                 await _buybackRepository.SaveChangesAsync();
-                
-                
+
+
             }
 
             orderDetail.OrderDetailStatus = OrderDetail.OrderDetailStatuses.BuyBack;
             await _orderDetailRepository.UpdateWithAsync(orderDetail);
             _orderDetailRepository.SaveChanges();
-            
+
             _warrantyRepository.Remove(warranty);
             _warrantyRepository.SaveChanges();
-            
+
             return order;
         }
         catch (Exception ex)
@@ -740,14 +740,75 @@ public class OrderService : IOrderService
             throw;
         }
     }
+    public async Task<ApiResponse> UndoPointQuantity(string orderId)
+    {
+        try
+        {
+            var getOrder = await _orderRepository.GetAllWithAsync();
+            var filterOrder = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == orderId.ToLower());
+            if (filterOrder == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Data = null,
+                    Message = "Update not successfully! Reload Page again!"
+                };
+            }
+            else
+            {
+                if (filterOrder.OrderStatus == Order.OrderStatuses.Cancelled)
+                {
+                    var customerPoint = await _customerRepository.GetSingleWithAsync(p => p.CustomerId == filterOrder.CustomerId);
+                    if (customerPoint == null)
+                    {
+                        return new ApiResponse { IsSuccess = false, Message = "Customer does not exist" };
+                    }
+                    int accumulatedPoint = filterOrder.AccumulatedPoint ?? 0;
+                    customerPoint.AccumulatedPoint -= accumulatedPoint;
+                    _customerRepository.Update(customerPoint);
+                    await _customerRepository.SaveChangesAsync();
+
+                    var orderDetails = (await _orderDetailRepository.GetAllWithAsync()).Where(d => d.OrderId == filterOrder.OrderId).ToList();
+                    var filterOrderDetail = orderDetails.FirstOrDefault(d => d.OrderId == filterOrder.OrderId);
+
+                    foreach (var orderDetail in orderDetails)
+                    {
+                        var product = await _productRepository.GetSingleWithAsync(p => p.ProductId == orderDetail.ProductId);
+                        if (product == null)
+                        {
+                            return new ApiResponse { IsSuccess = false, Message = "Product does not exist" };
+                        }
+
+                        product.Quantity += orderDetail.Quantity;
+                        _productRepository.Update(product);
+                    }
+                    await _productRepository.SaveChangesAsync();
+                }
+
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Message = "Update Successfully"
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
 
     public async Task<Order> GetBuyBackByOrderId(string orderId)
     {
-        
+
         try
         {
             var order = await _orderRepository.GetSingleWithIncludeAsync(e => e.OrderId.ToUpper() == orderId.ToUpper(),
-                e => e.BuyBack, e=> e.Customer, e => e.Employee);
+                e => e.BuyBack, e => e.Customer, e => e.Employee);
             return order;
         }
         catch (Exception e)
