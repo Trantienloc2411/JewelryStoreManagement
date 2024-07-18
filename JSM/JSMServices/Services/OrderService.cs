@@ -198,8 +198,7 @@ public class OrderService : IOrderService
             var orderDetail = await
                 _orderDetailRepository.GetSingleWithAsync(c =>
                     c.OrderDetailId.ToUpper() == viewModel.OrderDetailID.ToUpper());
-            var warranty = await _warrantyRepository.GetSingleWithAsync(c => c.OrderDetailId == viewModel.OrderDetailID);
-
+            
             var getOrder = await _orderRepository.GetAllWithAsync();
             order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewModel.OrderId.ToLower());
             if (order != null)
@@ -241,12 +240,14 @@ public class OrderService : IOrderService
 
             }
 
-            orderDetail.OrderDetailStatus = OrderDetail.OrderDetailStatuses.BuyBack;
-            await _orderDetailRepository.UpdateWithAsync(orderDetail);
-            _orderDetailRepository.SaveChanges();
-
-            _warrantyRepository.Remove(warranty);
-            _warrantyRepository.SaveChanges();
+            if (orderDetail.OrderDetailStatus != OrderDetail.OrderDetailStatuses.BuyBack)
+            {
+                orderDetail.OrderDetailStatus = OrderDetail.OrderDetailStatuses.BuyBack;
+                await _orderDetailRepository.UpdateWithAsync(orderDetail);
+                _orderDetailRepository.SaveChanges();
+            }
+            
+            
 
             return order;
         }
