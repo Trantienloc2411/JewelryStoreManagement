@@ -181,7 +181,7 @@ public class EmployeeService : IEmployeeService
                     account.Password = HashedPassword(newPassword);
                     account.IsLogin = true;
                     await _employeeRepository.UpdateWithAsync(account);
-                    //SendEmail(email,account.Name,newPassword);
+                    SendEmail(email,account.Name,newPassword);
                     return account;
                 }
             }
@@ -331,7 +331,7 @@ public class EmployeeService : IEmployeeService
                     await _employeeRepository.UpdateWithAsync(employee);
                     _employeeRepository.SaveChanges();
 
-                    SendEmail(employee.Email, employee.Name, employee.Password);
+                    SendEmail(employee.Email, employee.Name, newPassword);
 
                     //SendEmail(employee.Email, employee.Name,employee.Password);
 
