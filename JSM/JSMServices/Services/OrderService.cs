@@ -435,7 +435,7 @@ public class OrderService : IOrderService
                                 Name = p.Name,
                                 Barcode = p.Barcode,
                                 ManufactureCost = p.ManufactureCost,
-                                Weight = p.ManufactureCost,
+                                Weight = p.Weight,
                                 Quantity = p.Quantity,
                                 Description = p.Description,
                                 CounterId = p.CounterId,
