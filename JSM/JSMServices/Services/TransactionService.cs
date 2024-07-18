@@ -40,7 +40,7 @@ namespace JSMServices.Services
 
 			        transaction.CustomerId = customerId;
 			        transaction.GiftId = giftId;
-			        transaction.TransactionDateTime = DateTime.Now;
+			        transaction.TransactionDateTime = DateTime.UtcNow;
 			        transaction.PointMinus = giftExchange.PointRequired;
 
 			        _transactionRepository.Add(transaction);
@@ -60,7 +60,7 @@ namespace JSMServices.Services
         {
 	        try
 	        {
-		        return await _transactionRepository.GetAllWithAsync();
+		        return await _transactionRepository.GetAllWithIncludeAsync(e => true, e => e.Customer, e => e.Gift);
 	        }
 	        catch (Exception e)
 	        {

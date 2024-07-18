@@ -51,10 +51,11 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
+                var password = GenerateRandomString(8);
                 _mapper.Map(registerEmployeeViewModel, employee);
                 employee.EmployeeId = new Guid();
                 employee.IsLogin = false;
-                employee.Password = HashedPassword(GenerateRandomString(8));
+                employee.Password = HashedPassword(password);
                 string roleCurrent = user.FindFirst("Role").Value;
                 int roleWhoCreated = Int32.Parse(roleCurrent);
                 if (roleWhoCreated == 1)
@@ -76,7 +77,7 @@ public class EmployeeService : IEmployeeService
                 if (entityEntry.State == EntityState.Added)
                 {
                     await _employeeRepository.SaveChangesAsync();
-                    SendEmail(employee.Email, employee.Name, employee.Password);
+                    SendEmail(employee.Email, employee.Name, password);
                     return "";
                 }
             }
@@ -170,7 +171,7 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                if (account.Password != oldPassword)
+                if (BCrypt.Net.BCrypt.Verify(oldPassword,account.Password))
                 {
                     account.Password = "";
                     return account;
@@ -333,7 +334,7 @@ public class EmployeeService : IEmployeeService
 
                     SendEmail(employee.Email, employee.Name, newPassword);
 
-                    //SendEmail(employee.Email, employee.Name,employee.Password);
+                    SendEmail(employee.Email, employee.Name,newPassword);
 
                     return "";
                 }
