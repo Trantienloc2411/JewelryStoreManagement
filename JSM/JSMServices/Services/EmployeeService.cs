@@ -331,7 +331,7 @@ public class EmployeeService : IEmployeeService
                     await _employeeRepository.UpdateWithAsync(employee);
                     _employeeRepository.SaveChanges();
 
-                    SendEmail(employee.Email, employee.Name, employee.Password);
+                    SendEmail(employee.Email, employee.Name, newPassword);
 
                     //SendEmail(employee.Email, employee.Name,employee.Password);
 
