@@ -1,5 +1,7 @@
-﻿using JSMServices.IServices;
+﻿using AutoMapper;
+using JSMServices.IServices;
 using JSMServices.ViewModels.APIResponseViewModel;
+using JSMServices.ViewModels.TransactionViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JewelryStoreManagement.Controllers;
@@ -9,10 +11,12 @@ namespace JewelryStoreManagement.Controllers;
 public class TransactionController : Controller
 {
     private readonly ITransactionService _transaction;
+    private readonly IMapper _mapper;
 
-    public TransactionController(ITransactionService transaction) 
+    public TransactionController(ITransactionService transaction, IMapper mapper)
     {
         _transaction = transaction;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -21,7 +25,9 @@ public class TransactionController : Controller
     public async Task<IActionResult> GetAllTransaction()
     {
         var transactions = await _transaction.GetAllTransactions();
-        return Ok(transactions);
+        
+        var result = _mapper.Map<ICollection<GetAllTransaction>>(transactions);
+        return Ok(result);
     }
 
     [HttpGet]

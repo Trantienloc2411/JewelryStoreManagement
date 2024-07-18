@@ -98,7 +98,7 @@ public class EmployeeService : IEmployeeService
 
     private static string GenerateRandomString(int length)
     {
-        const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|\\;:,.<>/?";
+        const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var chars = new char[length];
         for (int i = 0; i < length; i++)
         {
@@ -171,7 +171,8 @@ public class EmployeeService : IEmployeeService
             }
             else
             {
-                if (BCrypt.Net.BCrypt.Verify(oldPassword,account.Password))
+                bool isCorrect = BCrypt.Net.BCrypt.Verify(oldPassword, account.Password);
+                if (!isCorrect)
                 {
                     account.Password = "";
                     return account;
@@ -179,7 +180,7 @@ public class EmployeeService : IEmployeeService
                 else
                 {
 
-                    account.Password = HashedPassword(newPassword);
+                    account.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
                     account.IsLogin = true;
                     await _employeeRepository.UpdateWithAsync(account);
                     SendEmail(email,account.Name,newPassword);

@@ -10,6 +10,7 @@ using JSMServices.ViewModels.GiftViewModel;
 using JSMServices.ViewModels.OrderViewModel;
 using JSMServices.ViewModels.ProductViewModel;
 using JSMServices.ViewModels.PromotionViewModel;
+using JSMServices.ViewModels.TransactionViewModel;
 using JSMServices.ViewModels.TypePriceViewModel;
 using JSMServices.ViewModels.WarrantyViewModel;
 
@@ -79,5 +80,9 @@ public class MappingProfiles : Profile
 
         CreateMap<Customer, CustomerByOrderViewModel>();
         CreateMap<Employee, EmployeeByOrderViewModel>();
+        
+        CreateMap<Transactions, GetAllTransaction>().ReverseMap();
+        
+
     }
 }
