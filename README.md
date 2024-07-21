@@ -48,5 +48,6 @@ Advanced Inventory Features: Advanced inventory management features such as auto
 
 ## Specification Document
 - View Doument : [Documentation](https://docs.google.com/document/d/1psM3yRrP_dnpYRPpzy3S5bYv80SJStBA/edit?usp=sharing&rtpof=true&sd=true)
+- Figma : [Figma](https://www.figma.com/design/2Q8QEwKPyA53mcSjazc6G8/Design-SWD392-(Copy)?t=0CS3AgO2JP0HrYBh-1)
 
 
