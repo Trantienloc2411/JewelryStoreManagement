@@ -1,5 +1,6 @@
 # Jewelry Store Management (JSM)
 ## (APIs version)
+[![Build and deploy ASP.Net Core app to Azure Web App - jss-api](https://github.com/Trantienloc2411/JewelryStoreManagement/actions/workflows/main_jss-api.yml/badge.svg)](https://github.com/Trantienloc2411/JewelryStoreManagement/actions/workflows/main_jss-api.yml)
 
 ## Project Information
 - Project name: Jewellery Sales System At The Store
