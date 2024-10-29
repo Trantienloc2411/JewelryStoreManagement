@@ -22,7 +22,6 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetAllProducts")]
-        [Authorize]
         public async Task<IActionResult> GetAllProducts()
         {
             var listProduct = await _productService.GetAllProducts();
