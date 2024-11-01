@@ -23,7 +23,7 @@ public class PromotionController : Controller
 
     [HttpPost]
     [Route("AddPromotion")]
-    [Authorize]
+     
     public Task<IActionResult> AddNewPromotion(CreatePromotionViewModel viewModel)
     {
         string errorMessage;
@@ -112,7 +112,7 @@ public class PromotionController : Controller
     
     
     [HttpDelete]
-    [Authorize]
+     
     [Route("DeletePromotion/{promotionCode}")]
     public Task<IActionResult> DeletePromotion(string promotionCode)
     {
@@ -144,7 +144,7 @@ public class PromotionController : Controller
     #endregion
 
     [HttpGet]
-    [Authorize]
+     
     [Route("GetAllPromotion")]
     public async Task<IActionResult> GetAllPromotions()
     {
@@ -168,7 +168,7 @@ public class PromotionController : Controller
     }
 
     [HttpGet]
-    [Authorize]
+     
     [Route("GetPromotion/{promotionCode}")]
     public async Task<IActionResult> GetPromotion(string promotionCode)
     {

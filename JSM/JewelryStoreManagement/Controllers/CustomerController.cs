@@ -21,7 +21,7 @@ public class CustomerController : Controller
 
     [HttpGet]
     [Route("GetAllCustomers")]
-    [Authorize]
+     
     public async Task<IActionResult> GetAllCustomers()
     {
         var listCustomer = await _customerService.GetAllCustomers();
@@ -29,7 +29,7 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
-    [Authorize]
+     
     [Route("GetCustomerById/{customerId}")]
     public async Task<IActionResult> GetCustomerById(Guid customerId)
     {
@@ -39,7 +39,7 @@ public class CustomerController : Controller
 
     [HttpPost]
     [Route("AddCustomer")]
-    [Authorize]
+     
     public async Task<IActionResult> AddCustomer(AddCustomerViewModel viewModel)
     {
         if (viewModel.Name == null)
@@ -138,7 +138,7 @@ public class CustomerController : Controller
     
     [HttpPut]
     [Route("UpdateCustomer")]
-    [Authorize]
+     
     public async Task<IActionResult> UpdateCustomer (Guid customerId,AddCustomerViewModel viewModel)
     {
         var updateCustomer = await _customerService.UpdateCustomer(customerId,viewModel);
@@ -186,7 +186,7 @@ public class CustomerController : Controller
     }
     [HttpGet]
     [Route("GetCustomerByPhone/{phoneNumber}")]
-    [Authorize]
+     
     public async Task<IActionResult> GetCustomerByPhone(string phoneNumber)
     {
         try

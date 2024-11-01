@@ -21,7 +21,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetAllCustomerPolicies")]
-        [Authorize]
+         
         public async Task<IActionResult> GetAllCustomerPolicies()
         {
             var listCP = await _customerPolicyService.GetAllCustomerPolicies();
@@ -31,7 +31,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetCustomerPolicyByCustomerId")]
-        [Authorize]
+         
         public async Task<IActionResult> GetOrderByCustomerId(Guid customerId)
         {
             var listOrder = await _customerPolicyService.GetAllCustomerPolicyByCustomerId(customerId);
@@ -41,7 +41,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPut]
         [Route("UpdateCustomerPolicy")]
-        [Authorize]
+         
         public async Task<IActionResult> UpdateInformationCustomerPolicy(
         [FromBody] UpdateCustomerPolicyViewModel updateCustomerPolicyViewModel, Guid CPId)
         {
@@ -51,7 +51,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPut]
         [Route("UpdatePolicyStatus")]
-        [Authorize]
+         
         public async Task<IActionResult> UpdatePolicyStatus(Guid CPId)
         {
             var result = await _customerPolicyService.UpdatePolicyStatus(CPId);
@@ -59,7 +59,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+         
         [Route("CreateCustomerPolicy")]
         public async Task<IActionResult> CreateCustomerPolicy([FromBody] CreateRequestCustomerPolicyViewModel viewModel)
         {
@@ -75,7 +75,7 @@ namespace JewelryStoreManagement.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+         
         [Route("ApproveCustomerPolicy")]
         public async Task<IActionResult> ApproveCustomerPolicy(Guid Cpid)
         {
@@ -93,7 +93,7 @@ namespace JewelryStoreManagement.Controllers
 
 
         [HttpPut]
-        [Authorize]
+         
         [Route("DenyCustomerPolicy")]
         public async Task<IActionResult> DenyCustomerPolicy(Guid Cpid)
         {

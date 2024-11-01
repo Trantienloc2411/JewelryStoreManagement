@@ -18,12 +18,13 @@ namespace JewelryStoreManagement.Controllers
     {
         private readonly IEmployeeService _employeeServices;
         private readonly IRefreshHandlerService _refreshHandler;
+        private readonly ICustomerService _customerService;
 
         //private readonly IRefreshHandler refresh;
 
-        public AuthorizeController(IEmployeeService employeeServices, IRefreshHandlerService refreshHandler)
+        public AuthorizeController(IEmployeeService employeeServices, IRefreshHandlerService refreshHandler, ICustomerService customerService)
         {
-
+            _customerService = customerService;
             _employeeServices = employeeServices;
             _refreshHandler = refreshHandler;
         }
@@ -176,11 +177,11 @@ namespace JewelryStoreManagement.Controllers
 
         #region Login
         [HttpPost]
-        [Route("Login")]
+        [Route("LoginEmployee")]
         public async Task<IActionResult> Login(string email, string password)
         {
             var employee = await _employeeServices.GetEmployeeByEmail(email);
-
+            
             if (employee == null)
             {
                 return BadRequest(new APIResponse
@@ -211,6 +212,75 @@ namespace JewelryStoreManagement.Controllers
                     _refreshHandler.ResetRefreshToken();
                     var token = GenerateToken(employee, null);
                     return Ok(token);
+                }
+                else
+                {
+                    return BadRequest(new APIResponse
+                    {
+                        Success = false,
+                        Message = "Status Code:401 Unauthorized | Invalid email or password",
+                        data = null
+                    });
+                }
+            }
+
+
+
+        }
+        #endregion
+        
+        //==============================================================================================================//
+        
+        
+        
+        
+        
+        
+        
+        
+        #region LoginCustomer
+        [HttpPost]
+        [Route("LoginCustomer")]
+        public async Task<IActionResult> LoginCustomer(string email, string password)
+        {
+            var customers = await _customerService.GetAllCustomers();
+            
+            var customer = customers.FirstOrDefault(x => x.Email == email);
+            if (customer == null)
+            {
+                return BadRequest(new APIResponse
+                {
+                    Success = false,
+                    Message = "Invalid email or password",
+                    data = null
+                });
+            }
+            /*else if(employee.EmployeeStatus == Employee.EmployeeStatuses.Inactive)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Your account temporary inactive in a while! Contact Admin ASAP!",
+                    Data = null
+                });
+            }*/
+            else
+            {
+                if (BCrypt.Net.BCrypt.Verify(password, customer.Password))
+                {
+                    /*var rfTkexisted = _refreshHandler.GetRefreshTokenByEmployeeId(employee.EmployeeId.ToString());
+                    if (rfTkexisted != null)
+                    {
+                        _refreshHandler.RemoveAllRefreshToken();
+                    }
+                    _refreshHandler.ResetRefreshToken();
+                    var token = GenerateToken(employee, null);*/
+                    return Ok(new APIResponse
+                    {
+                        Success = true,
+                        Message = "Login successful",
+                        data = null
+                    });
                 }
                 else
                 {

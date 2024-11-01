@@ -115,6 +115,12 @@ namespace DataLayer
                 RoleId = 4,
                 RoleName = "Super Admin"
             });
+            
+            modelBuilder.Entity<Role>().HasData(new Role
+                        {
+                            RoleId = 5,
+                            RoleName = "Customer"
+                        }); 
 
             modelBuilder.Entity<Counter>().HasData(new Counter
             {

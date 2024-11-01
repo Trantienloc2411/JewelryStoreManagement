@@ -18,7 +18,7 @@ public class WarrantyController : Controller
 
     [HttpGet]
     [Route("GetAllWarranty")]
-    [Authorize]
+     
     public async Task<IActionResult> GetAllWarranties()
     {
         var result = await _service.GetAllWarranty();
@@ -27,7 +27,7 @@ public class WarrantyController : Controller
 
     [HttpGet]
     [Route("GetWarrantyById/{warrantyId}")]
-    [Authorize]
+     
     public async Task<IActionResult> GetWarrantyByWarrantyId(Guid warrantyId)
     {
         var result = await _service.GetWarrantyById(warrantyId);
@@ -44,7 +44,7 @@ public class WarrantyController : Controller
 
     [HttpPut]
     [Route("UpdateWarrantyDate")]
-    [Authorize]
+     
     public async Task<IActionResult> UpdateWarrantyDate([FromBody] UpdateWarrantyViewModel viewModel)
     {
         var result = await _service.UpdateWarrantyDate(viewModel);
@@ -60,7 +60,7 @@ public class WarrantyController : Controller
 
     [HttpPost]
     [Route("CreateNewWarranty")]
-    [Authorize]
+     
     public async Task<IActionResult> CreateWarranty([FromBody] CreateWarrantyViewModel viewModel)
     {
         var result = await _service.CreateWarranty(viewModel);

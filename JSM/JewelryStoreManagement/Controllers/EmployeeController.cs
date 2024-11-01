@@ -21,7 +21,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    [Route("AddNewEmployee")]        [Authorize]
+    [Route("AddNewEmployee")]         
     public async Task<IActionResult> AddEmployee(RegisterEmployeeViewModel registerEmployeeViewModel)
     {
         var user = HttpContext.User;
@@ -49,7 +49,7 @@ public class EmployeeController : Controller
     }
 
     [HttpGet]
-    [Route("GetAllEmployee")]        [Authorize]
+    [Route("GetAllEmployee")]         
     public async Task<IActionResult> GetAllEmployee()
     {
         var listUser = await _employeeService.GetAllEmployee();
@@ -68,7 +68,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPut]
-    [Route("UpdatePassword")]        [Authorize]
+    [Route("UpdatePassword")]         
     public async Task<IActionResult> UpdatePasswordEmployeeAccount(string email, string oldPassword, string newPassword)
     {
         var account = await _employeeService.UpdatePasswordEmployeeAccount(email, oldPassword, newPassword);
@@ -85,7 +85,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPut]
-    [Route("UpdateStatus")]        [Authorize]
+    [Route("UpdateStatus")]         
     public async Task<IActionResult> UpdateStatusEmployeeAccount(Guid uid)
     {
         string result = await _employeeService.UpdateStatusEmployeeAccount(uid);
@@ -102,7 +102,7 @@ public class EmployeeController : Controller
     }
 
     [HttpDelete]
-    [Route("DeleteEmployee")]        [Authorize]
+    [Route("DeleteEmployee")]         
     public async Task<IActionResult> DeleteEmployeeAccount(Guid id)
     {
         string result = await _employeeService.DeleteEmployeeAccount(id);
@@ -120,7 +120,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPut]
-    [Route("UpdateEmployee")]        [Authorize]
+    [Route("UpdateEmployee")]         
     public async Task<IActionResult> UpdateInformationEmployee(
         [FromBody] UpdateInformationViewModel updateInformationViewModel)
     {
@@ -138,7 +138,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    [Authorize]
+     
     [Route("ResetPassword/{employeeId}")]
     public async Task<IActionResult> ResetPasswordEmployee(Guid employeeId)
     {

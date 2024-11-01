@@ -120,6 +120,7 @@ public class CustomerService : ICustomerService
             else
             {
                 var newCustomer = _mapper.Map(customerViewModel, customer);
+                newCustomer.Password = BCrypt.Net.BCrypt.HashPassword(newCustomer.Password);
                 _customerRepository.Add(newCustomer);
                 _customerRepository.SaveChanges();
                 return newCustomer;

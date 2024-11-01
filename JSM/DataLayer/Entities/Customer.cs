@@ -20,6 +20,11 @@ namespace DataLayer.Entities
         [AllowNull]
         [MaxLength(255)]
         public string? Email { get; set; }
+        [AllowNull]
+        [MaxLength(150)]
+        
+        public string? Password {get;set;}
+        
         
         //public string? Password { get; set; }
         

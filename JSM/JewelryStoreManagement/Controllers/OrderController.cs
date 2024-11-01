@@ -21,7 +21,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetAllOrders")]
-        [Authorize]
+         
         public async Task<IActionResult> GetAllOrders()
         {
             var listOrder = await _orderService.GetAllOrders();
@@ -31,7 +31,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetOrdersByOrderId")]
-        [Authorize]
+         
         public async Task<IActionResult> GetOrdersByOrderId(string orderId)
         {
             var (order, apiResponse) = await _orderService.GetOrdersByOrderId(orderId);
@@ -77,7 +77,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPost]
         [Route("AddNewBuyBack")]
-        [Authorize]
+         
         public async Task<IActionResult> AddNewBuyBack([FromBody] CreateNewBuyBackViewModel viewModel)
         {
             var user = HttpContext.User;
@@ -94,7 +94,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPost]
         [Route("AddNewSelling")]
-        [Authorize]
+         
         public async Task<IActionResult> AddNewSelling(CreateNewSellingViewModel viewModel)
         {
             var user = HttpContext.User;
@@ -111,7 +111,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPut]
         [Route("UpdateOrderStatus")]
-        [Authorize]
+         
         public async Task<IActionResult> UpdateOrderStatus(
         [FromBody] UpdateOrderStatusViewModel updateOrderStatusViewModel, string orderId)
         {
@@ -121,7 +121,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpPut]
         [Route("UndoPointQuantity")]
-        [Authorize]
+         
         public async Task<IActionResult> UndoPointQuantity([FromQuery] string orderId)
         {
             var result = await _orderService.UndoPointQuantity(orderId);
@@ -131,7 +131,7 @@ namespace JewelryStoreManagement.Controllers
 
         [HttpGet]
         [Route("GetBuyBackByOrderId")]
-        [Authorize]
+         
         public async Task<IActionResult> GetBuyBackOrderId(string orderId)
         {
             var order = await _orderService.GetBuyBackByOrderId(orderId);

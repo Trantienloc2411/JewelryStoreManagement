@@ -21,7 +21,7 @@ public class TransactionController : Controller
 
     [HttpGet]
     [Route("GetAllTransaction")]
-    //[Authorize]
+    // 
     public async Task<IActionResult> GetAllTransaction()
     {
         var transactions = await _transaction.GetAllTransactions();
@@ -53,7 +53,7 @@ public class TransactionController : Controller
 
     [HttpPost]
     [Route("ExchangeGiftUser")]
-    //[Authorize]
+    // 
     public async Task<IActionResult> ExchangeGiftUser(Guid customerId, Guid giftId)
     {
         var result = await _transaction.ExchangeGiftUser(customerId, giftId);

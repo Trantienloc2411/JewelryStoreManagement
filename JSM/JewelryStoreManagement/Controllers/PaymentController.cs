@@ -16,7 +16,7 @@ public class PaymentController : Controller
         _paymentService = paymentService;
     }
     
-    [Authorize]
+     
     [HttpPost]
     [Route("CreatePayment")]
     public async Task<IActionResult> CreatePaymentLink(PaymentRequestLinkViewModel body)
@@ -40,7 +40,7 @@ public class PaymentController : Controller
     }
     
     
-    [Authorize]
+     
     [HttpGet]
     [Route("GetOrder/{orderId}")]
     public async Task<IActionResult> CreatePaymentLink(string orderId)
@@ -64,7 +64,7 @@ public class PaymentController : Controller
     }
     
     
-    [Authorize]
+     
     [HttpGet]
     [Route("CancelOrder/{orderId}")]
     public async Task<IActionResult> CancelOrder(string orderId)
