@@ -22,7 +22,7 @@ namespace DataLayer.Entities
         public string? Email { get; set; }
         [AllowNull]
         [MaxLength(150)]
-        
+        [JsonIgnore]
         public string? Password {get;set;}
         
         

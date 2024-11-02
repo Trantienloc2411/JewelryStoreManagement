@@ -279,7 +279,7 @@ namespace JewelryStoreManagement.Controllers
                     {
                         Success = true,
                         Message = "Login successful",
-                        data = null
+                        data = customer
                     });
                 }
                 else
