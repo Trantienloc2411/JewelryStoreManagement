@@ -60,16 +60,17 @@ public class OrderService : IOrderService
             {
                 var order = new Order();
                 var orderDetail = new OrderDetail();
+                var employee = _employeeRepository.GetAll().First();
 
                 var getOrder = await _orderRepository.GetAllWithAsync();
                 var getPromotionCode = await _promotionRepository.GetAllWithAsync();
-                order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
-                if (order != null)
-                {
-                    return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
-                }
-                else
-                {
+                //order = getOrder.FirstOrDefault(c => c.OrderId.ToLower() == viewmodel.OrderId.ToLower());
+                //if (order != null)
+                //{
+                //    return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
+                //}
+                //else
+                //{
                     var customerPoint = await _customerRepository.GetSingleWithAsync(p => p.CustomerId == viewmodel.CustomerId);
                     if (customerPoint == null)
                     {
@@ -77,9 +78,10 @@ public class OrderService : IOrderService
                     }
                     order = new Order
                     {
-                        OrderId = viewmodel.OrderId,
+                        OrderId = GenerateRandomString(32),
                         CustomerId = viewmodel.CustomerId,
-                        EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                        EmployeeId = //Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                                        employee.EmployeeId,
                         OrderDate = DateTime.Now,
                         Discount = viewmodel.Discount,
                         Type = Order.Types.Selling,
@@ -135,7 +137,7 @@ public class OrderService : IOrderService
                         {
                             OrderDetailId = GenerateRandomString(8),
                             ProductId = detailViewModel.ProductId,
-                            OrderId = viewmodel.OrderId,
+                            OrderId = order.OrderId,
                             Quantity = detailViewModel.Quantity,
                             UnitPrice = detailViewModel.UnitPrice,
                             ManufactureCost = detailViewModel.ManufactureCost
@@ -149,7 +151,7 @@ public class OrderService : IOrderService
                         await _productRepository.SaveChangesAsync();
                     }
 
-                }
+                //}
                 transaction.Complete();
                 return new ApiResponse { IsSuccess = true, Data = new List<object> { order } };
             }
@@ -195,6 +197,7 @@ public class OrderService : IOrderService
         {
             var order = new Order();
             var buyback = new BuyBack();
+            var employee = _employeeRepository.GetAll().First();
             var orderDetail = await
                 _orderDetailRepository.GetSingleWithAsync(c =>
                     c.OrderDetailId.ToUpper() == viewModel.OrderDetailID.ToUpper());
@@ -211,7 +214,8 @@ public class OrderService : IOrderService
                 {
                     OrderId = viewModel.OrderId,
                     CustomerId = viewModel.CustomerId,
-                    EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                    //EmployeeId = Guid.Parse(claims.FindFirst("EmployeeId").Value),
+                    EmployeeId = employee.EmployeeId,
                     OrderDate = DateTime.UtcNow,
                     Type = Order.Types.BuyBack,
                     CounterId = viewModel.CounterId,
@@ -325,7 +329,7 @@ public class OrderService : IOrderService
             var customerName = _customerRepository.GetAll();
             var counterName = _counterRepository.GetAll();
             var ordersWithNames = new List<OrderViewModel>();
-
+            var orderDetails = _orderDetailRepository.GetAll();
             foreach (var order in listOrder)
             {
                 var orderWithNames = new OrderViewModel
@@ -341,6 +345,7 @@ public class OrderService : IOrderService
                     CounterId = order.CounterId,
                     PaymentId = order.PaymentId,
                     OrderStatus = order.OrderStatus,
+                    Total = orderDetails.Where(c => c.OrderId == order.OrderId).Sum(c => (int) c.UnitPrice * c.Quantity),
                     Employee = employeeName
                         .Where(en => en.EmployeeId == order.EmployeeId)
                         .Select(od => new EmployeeNameViewModel

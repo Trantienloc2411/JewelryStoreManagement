@@ -138,5 +138,11 @@ namespace JewelryStoreManagement.Controllers
             var result = _mapper.Map<BuyBackByOrderId>(order);
             return Ok(result);
         }
+
+
+
+
     }
+
+    
 }

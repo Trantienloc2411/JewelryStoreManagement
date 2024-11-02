@@ -4,7 +4,6 @@ namespace JSMServices.ViewModels.OrderViewModel
 {
     public class CreateNewSellingViewModel
     {
-        public string OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public double Discount { get; set; }
         public string? PromotionCode { get; set; }

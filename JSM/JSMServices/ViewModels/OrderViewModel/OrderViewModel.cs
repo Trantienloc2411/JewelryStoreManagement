@@ -17,6 +17,7 @@ namespace JSMServices.ViewModels.OrderViewModel
         public int AccumulatedPoint { get; set; }
         public int CounterId { get; set; }
         public int PaymentId { get; set; }
+        public int? Total {get;set;}
 
         public OrderStatuses OrderStatus { get; set; }
 
