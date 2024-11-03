@@ -105,7 +105,8 @@ namespace JewelryStoreManagement.Controllers
             }
             else
             {
-                return Ok("Create successfully");
+                return Ok(new { message = "Create successfully" });
+
             }
         }
 
